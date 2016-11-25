@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     'www',
     'django_forms_bootstrap',
     'blog',
+    'disqus',
+    'django.contrib.sites',
+    'tinymce',
+    'emoticons',
 ]
 
 MIDDLEWARE = [

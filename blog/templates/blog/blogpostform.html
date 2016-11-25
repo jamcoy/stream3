@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load bootstrap_tags %}
+    <h1>Add a post</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %} <!-- security measure to prevent Cross Site Request Forgery. -->
+        {{ form | as_bootstrap }}
+        <button type="submit" class=" btn btn- btn-info">Save</button>
+    </form>
+{% endblock %}

@@ -20,7 +20,8 @@ import settings
 urlpatterns = [  # don't terminate with a $ when using includes
     url(r'^admin/', admin.site.urls),
     url(r'^', include('www.urls')),
-    url(r'^accounts/', include('accounts.urls'))
+    url(r'^accounts/', include('accounts.urls')),
+    url(r'^blog/', include('blog.urls')),
 ]
 
 if settings.DEBUG:

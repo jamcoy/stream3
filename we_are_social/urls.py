@@ -19,6 +19,7 @@ import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^', include('www.urls'))
 ]
 
 if settings.DEBUG:

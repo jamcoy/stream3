@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="stylesheet" href="{% static "css/blog.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
     <link rel="stylesheet" href="{% static "css/font-awesome-4.7.0/css/font-awesome.css" %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/cerulean/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
@@ -21,8 +22,8 @@
             <li><a href="/">Home</a></li>
             <li><a href="/forum/">Forum</a></li>
             <li><a href="/blog/">Blog</a></li>
-            <li><a href="/pages/about/">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contact/">Contact</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'profile' %}">Profile</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
@@ -50,9 +51,24 @@
         {% endblock %}
     </div>
     <hr>
-    <div class="footer">
-        <p>Jamcoy</p>
-    </div>
+    <footer class="col-12">
+        <div class="container">
+            <table>
+                <tr>
+                    <td>
+                        <a href="/terms/">Privacy</a>&nbsp;|
+                        <a href="/terms/">Terms</a>&nbsp;|
+                        <a href="https://jamcoy.com">Site by jamcoy &copy; 2016</a>
+                    </td>
+                    <td>
+                        <img src="{% static "img/FB-f-Logo__blue_29.png" %}" alt="Facebook"/>
+                        <img src="{% static "img/Instagram-logo_29.png" %}" alt="Instagram"/>
+                        <img src="{% static "img/Twitter_logo_blue_32.png" %}" alt="Twitter"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </footer>
 </div>
 </body>
 

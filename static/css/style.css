@@ -1,0 +1,23 @@
+footer table {
+    width: 100%;
+}
+
+footer td {
+    width: 50%;
+}
+
+footer td:first-child {
+    text-align: left;
+}
+
+footer td:last-child {
+    text-align: right;
+}
+
+footer table img {
+    padding-left: 15px;
+}
+
+footer a{
+    color: #444444;
+}

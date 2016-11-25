@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-ROOT_URLCONF = 'we_are_social.urls'
+ROOT_URLCONF = 'stream_3.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'we_are_social.wsgi.application'
+WSGI_APPLICATION = 'stream_3.wsgi.application'
 
 
 # Database

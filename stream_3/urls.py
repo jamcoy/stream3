@@ -22,6 +22,7 @@ urlpatterns = [  # don't terminate with a $ when using includes
     url(r'^', include('www.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^blog/', include('blog.urls')),
+    url(r'^forum/', include('forum.urls')),
 ]
 
 if settings.DEBUG:

@@ -29,6 +29,8 @@ ALLOWED_HOSTS = []
 
 INTERNAL_IPS = ('127.0.0.1',)
 
+SITE_ID = 1
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'tinymce',
     'emoticons',
+    'forum',
 ]
 
 MIDDLEWARE = [
@@ -148,3 +151,8 @@ STATICFILES_DIRS = (
 
 STRIPE_PUBLISHABLE = os.getenv('STRIPE_PUBLISHABLE', 'publishable key')
 STRIPE_SECRET = os.getenv('STRIPE_SECRET', 'secret key')
+
+
+# tinymce settings
+
+TINYMCE_JS_ROOT = os.path.join(BASE_DIR, "static", 'js', 'tinymce', 'tinymce.min.js')

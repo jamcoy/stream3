@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'accounts',
     'www',
+    'django_forms_bootstrap',
 ]
 
 MIDDLEWARE = [
@@ -106,6 +107,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.EmailAuth',
+)
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -128,3 +137,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
    os.path.join(BASE_DIR, "static"),
 )
+
+
+# Stripe
+
+STRIPE_PUBLISHABLE = os.getenv('STRIPE_PUBLISHABLE', 'publishable key')
+STRIPE_SECRET = os.getenv('STRIPE_SECRET', 'secret key')

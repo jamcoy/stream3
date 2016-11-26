@@ -3,20 +3,10 @@
     <div class="">
         <h4 class="">Enter your registration to add a new car</h4>
     </div>
-    {% if not car_details %}
-        <form action="/cars/add_car/" method="POST">
-        {% csrf_token %}
-            <label for="your_reg"></label>
-            <input class="uk-rear-plate" id="your_reg" type="text" name="your_reg" value="">
-            <input class="btn btn-primary" type="submit" value="Submit">
-        </form>
-    {% else %}
-        <p class="uk-rear-plate">{{ car_details.yourReg }}</p>
-    {% endif %}
-        <div class="">
-            <p>Your registration is used only to obtain correct vehicle information from a 3rd party. It is not retained on our system.</p>
-        </div>
-    <div>
-        {% include "cars/add_car_details.html" %}
-    </div>
+    <form action="/cars/add_car/" method="POST">
+    {% csrf_token %}
+        <label for="your_reg"></label>
+        <input class="uk-rear-plate" id="your_reg" type="text" name="your_reg" value="">
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
 {% endblock %}

@@ -19,13 +19,13 @@ def add_car(request):
         # check whether it's valid:
         if form.is_valid():
             url = "https://dvlasearch.appspot.com/DvlaSearch?apikey=DvlaSearchDemoAccount&licencePlate="
-            print form.cleaned_data['your_reg']
             page = urlopen(url + form.cleaned_data['your_reg'])
             car_details = json.loads(page.read())
             car_details['yourReg'] = form.cleaned_data['your_reg']
+            request.session['full_car_details'] = car_details
             check = True  # expand upon this!
             if check:
-                return render(request, "cars/add_car.html", {'car_details': car_details})
+                return render(request, "cars/add_car_details.html", {'car_details': car_details})
             else:
                 # generate an error
                 pass
@@ -34,4 +34,18 @@ def add_car(request):
     else:
         form = PlateForm()
 
-    return render(request, 'cars/add_car.html', {'form': form})
+    return render(request, 'cars/add_car.html', {'form': form})  # should this be indented?
+
+
+@login_required()
+def add_car_details(request):
+    if request.method == 'POST':
+        print request.session['full_car_details']
+        request.session['full_car_details'] = ""
+        return render(request, "cars/cars.html")
+
+    # if a GET (or any other method) we'll go back to the original form
+    else:
+        form = PlateForm()
+
+    return render(request, 'cars/add_car.html', {'form': form})  # should this be indented?

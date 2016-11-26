@@ -20,10 +20,10 @@
     <div class="masthead">
         <ul class="nav nav-pills pull-right">
             <li><a href="/">Home</a></li>
+            <li><a href="/stats/">MPG Stats</a></li>
             <li><a href="/forum/">Forum</a></li>
             <li><a href="/blog/">Blog</a></li>
-            <li><a href="/about/">About</a></li>
-            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/cars/">My Cars</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'profile' %}">Profile</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
@@ -58,6 +58,8 @@
                     <td>
                         <a href="/terms/">Privacy</a>&nbsp;|
                         <a href="/terms/">Terms</a>&nbsp;|
+                        <a href="/contact/">Contact</a>&nbsp;|
+                        <a href="/about/">About</a>&nbsp;|
                         <a href="https://jamcoy.com">Site by jamcoy &copy; 2016</a>
                     </td>
                     <td>

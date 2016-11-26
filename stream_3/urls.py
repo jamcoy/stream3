@@ -23,6 +23,7 @@ urlpatterns = [  # don't terminate with a $ when using includes
     url(r'^accounts/', include('accounts.urls')),
     url(r'^blog/', include('blog.urls')),
     url(r'^forum/', include('forum.urls')),
+    url(r'^cars/', include('cars.urls')),
 ]
 
 if settings.DEBUG:

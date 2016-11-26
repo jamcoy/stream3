@@ -2,13 +2,16 @@ from django.shortcuts import render
 from urllib2 import urlopen
 from .forms import PlateForm
 import json
+from django.contrib.auth.decorators import login_required
 
 
+@login_required()
 def cars(request):
     return render(request, 'cars/cars.html')
 
 
-def add_car(request, ):
+@login_required()
+def add_car(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:

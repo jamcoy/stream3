@@ -24,6 +24,7 @@ urlpatterns = [  # don't terminate with a $ when using includes
     url(r'^blog/', include('blog.urls')),
     url(r'^forum/', include('forum.urls')),
     url(r'^cars/', include('cars.urls')),
+    url(r'^stats/', include('stats.urls')),
 ]
 
 if settings.DEBUG:

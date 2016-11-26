@@ -41,17 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'accounts',
-    'www',
     'django_forms_bootstrap',
-    'blog',
     'disqus',
     'django.contrib.sites',
     'tinymce',
     'emoticons',
-    'forum',
+    'accounts',
+    'blog',
     'cars',
+    'forum',
     'stats',
+    'www',
 ]
 
 MIDDLEWARE = [

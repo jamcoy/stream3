@@ -12,6 +12,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from models import User
+from www import views as www_views
 
 
 stripe.api_key = settings.STRIPE_SECRET
@@ -65,7 +66,7 @@ def register(request):
     return render(request, 'accounts/register.html', args)
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/accounts/login/')
 def profile(request):
     return render(request, 'accounts/profile.html')
 
@@ -77,7 +78,7 @@ def cancel_subscription(request):
         customer.cancel_subscription(at_period_end=True)
     except Exception, e:
         messages.error(request, e)
-    return redirect('profile')
+    return redirect('/accounts/profile')
 
 
 def login(request):
@@ -109,7 +110,7 @@ def login(request):
 def logout(request):
     auth.logout(request)
     messages.success(request, 'You have successfully logged out')
-    return redirect(reverse('index'))
+    return redirect(reverse(www_views.index))
 
 
 @csrf_exempt

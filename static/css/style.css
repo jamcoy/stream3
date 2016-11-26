@@ -1,3 +1,5 @@
+/* footer start */
+
 footer table {
     width: 100%;
 }
@@ -21,3 +23,53 @@ footer table img {
 footer a{
     color: #444444;
 }
+
+/* footer end */
+
+
+/* Cars start */
+
+.bigStatsTable{
+    width: 100%;
+}
+
+.bigStatsTbody{
+    width: 100%;
+}
+
+.statHeadings{
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    padding-top: 16px;
+    padding-bottom: 6px;
+}
+
+.statDetails{
+    font-size: 50px;
+    font-weight: bold;
+    font-stretch: condensed;
+    color: purple;
+}
+
+.statUnits{
+    font-size: large;
+    font-weight: bold;
+    font-stretch: condensed;
+    margin-left: 4px;
+}
+
+.carDetailButtons span{
+    font-size: x-large;
+}
+
+.carHeading h1{
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.tableSpacer {
+    border-bottom-style: none;
+    width: 30px;
+}
+
+/* Cars end */

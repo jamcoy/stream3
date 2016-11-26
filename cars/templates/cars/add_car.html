@@ -3,62 +3,20 @@
     <div class="">
         <h4 class="">Enter your registration to add a new car</h4>
     </div>
-    <div class="">
-        <input class="uk-rear-plate" type="text" id="TBD">
-    </div>
-    <!-- if -->
+    {% if not car_details %}
+        <form action="/cars/add_car/" method="POST">
+        {% csrf_token %}
+            <label for="your_reg"></label>
+            <input class="uk-rear-plate" id="your_reg" type="text" name="your_reg" value="">
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    {% else %}
+        <p class="uk-rear-plate">{{ car_details.yourReg }}</p>
+    {% endif %}
+        <div class="">
+            <p>Your registration is used only to obtain correct vehicle information from a 3rd party. It is not retained on our system.</p>
+        </div>
     <div>
-        <table class="table table-striped table-hover ">
-            <tbody>
-            <tr>
-                <td>Make</td>
-                <td>
-                    <!-- if checkCarDetails2.make -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary submitConfirmedCar">Yes, this is my car!</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        </div>
-                    <!-- else -->
-                        Loading...
-                    <!-- end if -->
-                </td>
-            </tr>
-            <tr>
-                <td>Model</td>
-                <td>[Insert Model]</td>
-            </tr>
-            <tr>
-                <td>Colour</td>
-                <td>[Insert Colour]</td>
-            </tr>
-            <tr>
-                <td>Manufactured</td>
-                <td>[Insert Year of Manufacture]</td>
-            </tr>
-            <tr>
-                <td>Engine size</td>
-                <td>[Insert CC]</td>
-            </tr>
-            <tr>
-                <td>Transmission</td>
-                <td>[Insert Transmission]</td>
-            </tr>
-            <tr>
-                <td>Fuel type</td>
-                <td>[Insert Fuel type]</td>
-            </tr>
-            <tr>
-                <td>Doors</td>
-                <td>[Insert number of doors]</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="modal-body">
-        <p>Your registration is used only to obtain correct vehicle information. It is not retained on our system.</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary submitCarReg">Submit</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        {% include "cars/add_car_details.html" %}
     </div>
 {% endblock %}

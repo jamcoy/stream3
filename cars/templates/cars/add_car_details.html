@@ -1,0 +1,45 @@
+{% if car_details %}
+    <div>
+        <h4 class="">Please confirm this is your car:</h4>
+        <table class="table table-striped table-hover ">
+            <tbody>
+            <tr>
+                <td>Make</td>
+                <td>{{ car_details.make }}</td>
+            </tr>
+            <tr>
+                <td>Model</td>
+                <td>{{ car_details.model }}</td>
+            </tr>
+            <tr>
+                <td>Colour</td>
+                <td>{{ car_details.make }}</td>
+            </tr>
+            <tr>
+                <td>Manufactured</td>
+                <td>{{ car_details.yearOfManufacture }}</td>
+            </tr>
+            <tr>
+                <td>Engine size</td>
+                <td>{{ car_details.cylinderCapacity }}</td>
+            </tr>
+            <tr>
+                <td>Transmission</td>
+                <td>{{ car_details.transmission }}</td>
+            </tr>
+            <tr>
+                <td>Fuel type</td>
+                <td>{{ car_details.fuelType }}</td>
+            </tr>
+            <tr>
+                <td>Doors</td>
+                <td>{{ car_details.numberOfDoors }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary submitConfirmedCar">Yes, this is my car!</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Reset</button>
+        </div>
+    </div>
+{% endif %}

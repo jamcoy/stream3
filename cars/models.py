@@ -23,7 +23,7 @@ class Car(models.Model):
     economy_latest = models.DecimalField(max_digits=6, decimal_places=2, null=True)  # "Need two refuels to calculate"
     fuel_price_average = models.DecimalField(max_digits=6, decimal_places=2, null=True)  # "Need two refuels to calculate"  litrePriceAverage
     price_per_mile_average = models.DecimalField(max_digits=6, decimal_places=2, null=True)  # "Need two refuels to calculate"
-    dateAdded = models.DateTimeField(auto_now_add=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.make + " " + self.model + " " + self.year_of_manufacture

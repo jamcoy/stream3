@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from urllib2 import urlopen
 from .forms import PlateForm
 import json
@@ -7,10 +7,16 @@ from .models import Car
 from django.core.urlresolvers import reverse
 
 
+def list_cars(request):  # temporarily redirects to users 1st car
+    cars = Car.objects.all()
+    return redirect('/cars/1/')
+
 
 @login_required()
-def cars(request):
-    return render(request, 'cars/cars.html')
+def cars(request, car_id):
+    car_detail = get_object_or_404(Car, pk=car_id)
+    cars = Car.objects.all()
+    return render(request, 'cars/cars.html', {'car_detail': car_detail, 'cars': cars})
 
 
 @login_required()

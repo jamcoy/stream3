@@ -3,7 +3,7 @@
 
     <div class="row">
         <div class="col-md-7 carHeading">
-            <h1>[selected car title]</h1>
+            <h1>{{ car_detail.make }} {{ car_detail.model }}</h1>
         </div>
         <div class="col-md-5 text-right carDetailButtons">
             <!--http://glyphicons.com/ for more glyphicons-->
@@ -14,9 +14,11 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <!-- start loop / repeater -->
-                    <li class="switchCar"><a href="#" name="___VARIABLE___">[Insert make] [Insert model]</a></li>
-                    <!-- end loop / repeater -->
+                    <li class="addCarModal"><a href="/cars">Detailed list</a></li>
+                    <li role="separator" class="divider"></li>
+                    {% for car in cars %}
+                    <li class="switchCar"><a href="/cars/{{ car.id }}" name="___VARIABLE___">{{ car.make }} {{ car.model }}</a></li>
+                    {%  endfor %}
                     <li role="separator" class="divider"></li>
                     <li class="addCarModal"><a href="/cars/add_car/">Add new car</a></li>
                 </ul>

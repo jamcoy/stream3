@@ -3,6 +3,7 @@ from urllib2 import urlopen
 from .forms import PlateForm
 import json
 from django.contrib.auth.decorators import login_required
+from .models import Car
 
 
 @login_required()
@@ -40,8 +41,24 @@ def add_car(request):
 @login_required()
 def add_car_details(request):
     if request.method == 'POST':
-        print request.session['full_car_details']
-        request.session['full_car_details'] = ""
+        car_details = request.session['full_car_details']
+        request.session['full_car_details'] = ""  # necessary to clear??
+        # validation not required here - user cannot edit anything - just confirming right vehicle
+        c = Car(user=request.user,
+                make=car_details['make'],
+                model=car_details['model'],
+                colour=car_details['colour'],
+                year_of_manufacture=car_details['yearOfManufacture'],
+                cylinder_capacity=car_details['cylinderCapacity'],
+                transmission=car_details['transmission'],
+                fuel_type=car_details['fuelType'],
+                co2=car_details['co2Emissions'],
+                doors=car_details['numberOfDoors'],
+                total_fuel_litres=0,
+                total_fuel_expenditure=0,
+                total_mileage_tracked=0,
+                refuels=0)
+        c.save()
         return render(request, "cars/cars.html")
 
     # if a GET (or any other method) we'll go back to the original form

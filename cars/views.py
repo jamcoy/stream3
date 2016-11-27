@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from urllib2 import urlopen
 from .forms import PlateForm
 import json
 from django.contrib.auth.decorators import login_required
 from .models import Car
-from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+
 
 
 @login_required()
@@ -60,10 +61,9 @@ def add_car_details(request):
                 total_mileage_tracked=0,
                 refuels=0)
         c.save()
-        # return redirect("cars/cars.html")  # add parameter to show new car
-        # return redirect(reverse('/cars'))
-        #  return redirect(reverse('thread', args={thread.pk}))
-        return HttpResponseRedirect('/cars')
+        return redirect('/cars')  # add parameter to show new car
+        # http: // stackoverflow.com / questions / 12671649 / redirect - to - index - page - after - submiting - form - in -django  # 12671778
+        # http://stackoverflow.com/questions/40411012/best-practice-help-to-redirect-in-django-after-form-submit
 
     # if a GET (or any other method) we'll go back to the original form
     else:

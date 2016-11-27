@@ -4,18 +4,23 @@ from .forms import PlateForm
 import json
 from django.contrib.auth.decorators import login_required
 from .models import Car
+from django.conf import settings
 from django.core.urlresolvers import reverse
 
 
-def list_cars(request):  # temporarily redirects to users 1st car
-    cars = Car.objects.all()
-    return redirect('/cars/1/')
+def list_cars(request):
+    if Car.objects.filter(user_id=request.user):
+        first_car = Car.objects.filter(user_id=request.user)[:1].get()
+        return redirect(cars, first_car.pk)  # for the moment it redirects to user's 1st car
+    else:  # if user has no cars, send them to the add car form
+        form = PlateForm()
+        return render(request, 'cars/add_car.html', {'form': form})
 
 
 @login_required()
 def cars(request, car_id):
-    car_detail = get_object_or_404(Car, pk=car_id)
-    cars = Car.objects.all()
+    car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    cars = Car.objects.filter(user_id=request.user)
     return render(request, 'cars/cars.html', {'car_detail': car_detail, 'cars': cars})
 
 

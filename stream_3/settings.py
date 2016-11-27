@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'stats',
     'www',
 ]
-
+# Should this also have SessionMiddleware and AuthenticationMiddleware???
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

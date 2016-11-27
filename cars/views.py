@@ -4,6 +4,7 @@ from .forms import PlateForm
 import json
 from django.contrib.auth.decorators import login_required
 from .models import Car
+from django.http import HttpResponseRedirect
 
 
 @login_required()
@@ -59,7 +60,10 @@ def add_car_details(request):
                 total_mileage_tracked=0,
                 refuels=0)
         c.save()
-        return render(request, "cars/cars.html")
+        # return redirect("cars/cars.html")  # add parameter to show new car
+        # return redirect(reverse('/cars'))
+        #  return redirect(reverse('thread', args={thread.pk}))
+        return HttpResponseRedirect('/cars')
 
     # if a GET (or any other method) we'll go back to the original form
     else:

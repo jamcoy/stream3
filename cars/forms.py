@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.core.exceptions import ValidationError
 
 
 class PlateForm(forms.Form):
@@ -19,3 +20,15 @@ class RefuelForm(forms.Form):
     full_tank = forms.ChoiceField(choices=FULL_TANK_CHOICES,
                                   widget=forms.RadioSelect(),
                                   required=True)
+
+    def __init__(self, *args, **kwargs):
+        self.mileage_validation = kwargs.pop('mileage_validation')
+        super(RefuelForm, self).__init__(*args, **kwargs)
+
+    def clean_mileage(self):
+        mileage = self.cleaned_data['mileage']
+        if mileage < self.mileage_validation:
+            raise ValidationError(
+                "That mileage is no higher than your last refuel (" + str(self.mileage_validation) + ")"
+            )
+        return mileage

@@ -14,7 +14,7 @@ def list_cars(request):
         return redirect(cars, first_car.pk)  # for the moment it redirects to user's 1st car
     else:  # if user has no cars, send them to the add car form
         form = PlateForm()
-        return render(request, 'cars/add_car.html', {'form': form})
+        return render(request, 'cars/add_car.html', {'form': form})  # maybe shouldn't be indented
 
 
 @login_required()
@@ -45,7 +45,7 @@ def add_car(request):
                 pass
     else:  # if a GET (or any other method) we'll create a blank form
         form = PlateForm()
-        return render(request, 'cars/add_car.html', {'form': form})
+        return render(request, 'cars/add_car.html', {'form': form})  # maybe shouldn't be indented
 
 
 @login_required()
@@ -73,7 +73,7 @@ def add_car_details(request):
         return redirect(cars, latest_car.pk)
     else:
         form = PlateForm()
-        return render(request, 'cars/add_car.html', {'form': form})
+        return render(request, 'cars/add_car.html', {'form': form})  # maybe shouldn't be indented
 
 
 @login_required()
@@ -84,25 +84,33 @@ def delete_car(request, car_id):
         messages.success(request, "Your car was deleted!")
         return redirect(list_cars)  # would be better to return to list instead once available
     else:  # ask user to confirm deleting car
-        return render(request, 'cars/delete_car.html', {'car_detail': car})
+        return render(request, 'cars/delete_car.html', {'car_detail': car})  # maybe shouldn't be indented
 
 
 @login_required()
 def refuel_car(request, car_id):
     car = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    previous_mileage = car.total_mileage_tracked
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = RefuelForm(request.POST)
+        form = RefuelForm(request.POST, mileage_validation=previous_mileage)
         # check whether it's valid:
         if form.is_valid():
             check = True  # expand upon this!
             if check:
-                # do stuff here!
+                print form.cleaned_data['date']
+                print form.cleaned_data['mileage']
+                print form.cleaned_data['litres']
+                print form.cleaned_data['price']
+                print form.cleaned_data['full_tank']
                 messages.success(request, "Your car was refueled!")
                 return redirect(list_cars)  # would be better to return to list instead once available
             else:
                 # generate an error
                 pass
+        else:  # form not valid
+            messages.error(request, "Please correct the highlighted fields")
     else:   # if a GET (or any other method) we'll create a blank form
-        form = RefuelForm()
-        return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})
+        form = RefuelForm(mileage_validation=previous_mileage)
+
+    return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})

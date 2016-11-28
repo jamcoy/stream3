@@ -37,7 +37,7 @@ def add_car(request):
             car_details = json.loads(page.read())
             car_details['yourReg'] = form.cleaned_data['your_reg']
             request.session['full_car_details'] = car_details
-            check = True  # expand upon this!
+            check = True  # expand upon this (checking what comes back from API)
             if check:
                 return render(request, "cars/add_car_details.html", {'car_details': car_details})
             else:
@@ -96,18 +96,13 @@ def refuel_car(request, car_id):
         form = RefuelForm(request.POST, mileage_validation=previous_mileage)
         # check whether it's valid:
         if form.is_valid():
-            check = True  # expand upon this!
-            if check:
-                print form.cleaned_data['date']
-                print form.cleaned_data['mileage']
-                print form.cleaned_data['litres']
-                print form.cleaned_data['price']
-                print form.cleaned_data['full_tank']
-                messages.success(request, "Your car was refueled!")
-                return redirect(list_cars)  # would be better to return to list instead once available
-            else:
-                # generate an error
-                pass
+            print form.cleaned_data['date']
+            print form.cleaned_data['mileage']
+            print form.cleaned_data['litres']
+            print form.cleaned_data['price']
+            print form.cleaned_data['full_tank']
+            messages.success(request, "Your car was refueled!")
+            return redirect(list_cars)  # would be better to return to list instead once available
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")
     else:   # if a GET (or any other method) we'll create a blank form

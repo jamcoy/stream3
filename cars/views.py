@@ -43,12 +43,10 @@ def add_car(request):
             else:
                 # generate an error
                 pass
-
     # if a GET (or any other method) we'll create a blank form
     else:
         form = PlateForm()
-
-    return render(request, 'cars/add_car.html', {'form': form})  # should this be indented?
+        return render(request, 'cars/add_car.html', {'form': form})
 
 
 @login_required()
@@ -74,12 +72,10 @@ def add_car_details(request):
         c.save()
         latest_car = Car.objects.latest('date_added')  # django is asynchronous, so save() has completed
         return redirect(cars, latest_car.pk)
-
     # if a GET (or any other method) we'll go back to the original form
     else:
         form = PlateForm()
-
-    return render(request, 'cars/add_car.html', {'form': form})  # should this be indented?
+        return render(request, 'cars/add_car.html', {'form': form})
 
 
 @login_required()

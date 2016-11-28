@@ -5,8 +5,7 @@
     </div>
     <form action="/cars/add_car/" method="POST">
     {% csrf_token %}
-        <label for="your_reg"></label>
-        <input class="uk-rear-plate" id="your_reg" type="text" name="your_reg" value="">
+         {{ form }}
         <input class="btn btn-primary" type="submit" value="Submit">
     </form>
 {% endblock %}

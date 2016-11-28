@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^add_car/$', views.add_car),
     url(r'^add_car_details/$', views.add_car_details),
     url(r'^delete_car/(?P<car_id>\d+)/$', views.delete_car),
+    url(r'^refuel_car/(?P<car_id>\d+)/$', views.refuel_car),
 ]

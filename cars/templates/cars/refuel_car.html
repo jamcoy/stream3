@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+{% load static %}
+{% block content %}
+    <div>
+        <h4>
+            Enter refueling details for {{ car_detail.make }} {{ car_detail.model }}
+            <img src="{% static "img/fuelPump.png" %}" alt="Fuel pump"/>
+        </h4>
+        <form action="/cars/refuel_car/{{ car_detail.id }}/" method="POST">
+            {% csrf_token %}
+            {{ form|as_bootstrap }}
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+        <form action="/cars/{{ car_detail.id }}/" method="GET">
+            <input class="btn btn-default" type="submit" value="Cancel">
+        </form>
+    </div>
+{% endblock %}
+
+

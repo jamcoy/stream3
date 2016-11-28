@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from urllib2 import urlopen
-from .forms import PlateForm
+from .forms import PlateForm, RefuelForm
 import json
 from django.contrib.auth.decorators import login_required
 from .models import Car
@@ -43,8 +43,7 @@ def add_car(request):
             else:
                 # generate an error
                 pass
-    # if a GET (or any other method) we'll create a blank form
-    else:
+    else:  # if a GET (or any other method) we'll create a blank form
         form = PlateForm()
         return render(request, 'cars/add_car.html', {'form': form})
 
@@ -72,7 +71,6 @@ def add_car_details(request):
         c.save()
         latest_car = Car.objects.latest('date_added')  # django is asynchronous, so save() has completed
         return redirect(cars, latest_car.pk)
-    # if a GET (or any other method) we'll go back to the original form
     else:
         form = PlateForm()
         return render(request, 'cars/add_car.html', {'form': form})
@@ -80,10 +78,31 @@ def add_car_details(request):
 
 @login_required()
 def delete_car(request, car_id):
-    car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
-    if request.method == 'POST':
-        car_detail.delete()
+    car = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    if request.method == 'POST':  # user has confirmed deleting car
+        car.delete()
         messages.success(request, "Your car was deleted!")
         return redirect(list_cars)  # would be better to return to list instead once available
-    else:
-        return render(request, 'cars/delete_car.html', {'car_detail': car_detail})
+    else:  # ask user to confirm deleting car
+        return render(request, 'cars/delete_car.html', {'car_detail': car})
+
+
+@login_required()
+def refuel_car(request, car_id):
+    car = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = RefuelForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            check = True  # expand upon this!
+            if check:
+                # do stuff here!
+                messages.success(request, "Your car was refueled!")
+                return redirect(list_cars)  # would be better to return to list instead once available
+            else:
+                # generate an error
+                pass
+    else:   # if a GET (or any other method) we'll create a blank form
+        form = RefuelForm()
+        return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})

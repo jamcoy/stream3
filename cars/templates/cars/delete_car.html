@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div>
+        <h4>
+            Permanently remove {{ car_detail.make }} {{ car_detail.model }}?
+            <img src="{% static "img/deleteCar.png" %}" alt="Quayside warning sign"/>
+        </h4>
+    </div>
+    <form action="/cars/delete_car/{{ car_detail.id }}/" method="POST">
+        {% csrf_token %}
+        <input class="btn btn-danger" type="submit" value="Remove">
+        <button type="button" class="btn btn-default">Cancel</button>
+    </form>
+{% endblock %}

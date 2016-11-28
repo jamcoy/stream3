@@ -4,6 +4,7 @@ from .forms import PlateForm
 import json
 from django.contrib.auth.decorators import login_required
 from .models import Car
+from django.contrib import messages
 
 
 @login_required()
@@ -71,7 +72,7 @@ def add_car_details(request):
                 total_mileage_tracked=0,
                 refuels=0)
         c.save()
-        latest_car = Car.objects.latest('date_added')
+        latest_car = Car.objects.latest('date_added')  # django is asynchronous, so save() has completed
         return redirect(cars, latest_car.pk)
 
     # if a GET (or any other method) we'll go back to the original form
@@ -79,3 +80,14 @@ def add_car_details(request):
         form = PlateForm()
 
     return render(request, 'cars/add_car.html', {'form': form})  # should this be indented?
+
+
+@login_required()
+def delete_car(request, car_id):
+    car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    if request.method == 'POST':
+        car_detail.delete()
+        messages.success(request, "Your car was deleted!")
+        return redirect(list_cars)  # would be better to return to list instead once available
+    else:
+        return render(request, 'cars/delete_car.html', {'car_detail': car_detail})

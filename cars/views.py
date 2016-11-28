@@ -104,5 +104,5 @@ def refuel_car(request, car_id):
                 # generate an error
                 pass
     else:   # if a GET (or any other method) we'll create a blank form
-        form = RefuelForm()
+        form = RefuelForm(initial={'date': 'Today'})
         return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})

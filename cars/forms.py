@@ -11,8 +11,11 @@ class PlateForm(forms.Form):
 class RefuelForm(forms.Form):
     FULL_TANK_CHOICES = [(True, 'Full tank'),
                          (False, 'Partial refill')]
-    date = forms.CharField(label='Date')
-    mileage = forms.CharField(label='Total mileage')
-    litres = forms.CharField(label='Litres of fuel')
-    price = forms.CharField(label='Price paid (£)')
-    full_tank = forms.ChoiceField(choices=FULL_TANK_CHOICES, widget=forms.RadioSelect())
+    date = forms.CharField(label='Date',
+                           initial='Today')
+    mileage = forms.DecimalField(label='Total mileage')
+    litres = forms.DecimalField(label='Litres of fuel', min_value=0.1, max_value=500)
+    price = forms.DecimalField(label='Price paid (£)', min_value=0.01, max_value=750)
+    full_tank = forms.ChoiceField(choices=FULL_TANK_CHOICES,
+                                  widget=forms.RadioSelect(),
+                                  required=True)

@@ -46,7 +46,9 @@
         <form action="/cars/add_car_details/" method="POST">
         {% csrf_token %}
             <input class="btn btn-primary" type="submit" value="Yes, this is my car!">
-            <button type="button" class="btn btn-warning">Reset</button>
+        </form>
+        <form action="/cars/add_car/" method="GET">
+            <input class="btn btn-default" type="submit" value="Cancel">
         </form>
 
     </div>

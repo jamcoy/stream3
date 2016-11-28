@@ -10,6 +10,8 @@
     <form action="/cars/delete_car/{{ car_detail.id }}/" method="POST">
         {% csrf_token %}
         <input class="btn btn-danger" type="submit" value="Remove">
-        <button type="button" class="btn btn-default">Cancel</button>
+    </form>
+    <form action="/cars/{{ car_detail.id }}/" method="GET">
+        <input class="btn btn-default" type="submit" value="Cancel">
     </form>
 {% endblock %}

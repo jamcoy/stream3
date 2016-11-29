@@ -86,16 +86,16 @@
                     <tr>
                         <td class="statHeadings">Economy</td>
                         <td class="tableSpacer"></td>
-                        <td class="statHeadings">Tracked miles</td>
+                        <td class="statHeadings">Tracked mileage</td>
                     </tr>
                     <tr>
                         <td>
-                            <span class="statDetails">{{ car_detail.economy_average }}</span>
+                            <span class="statDetails">{{ car_statistic.economy }}</span>
                             <span class="statUnits">mpg</span>
                         </td>
                         <td class="tableSpacer"></td>
                         <td>
-                            <span class="statDetails">{{ car_detail.mileage_tracked }}</span>
+                            <span class="statDetails">{{ car_statistic.miles }}</span>
                             <span class="statUnits">miles</span>
                         </td>
                     </tr>
@@ -106,12 +106,12 @@
                     </tr>
                     <tr>
                         <td>
-                            <span class="statDetails">{{ car_detail.fuel_litres_tracked }}</span>
+                            <span class="statDetails">{{ car_statistic.fuel }}</span>
                             <span class="statUnits">litres</span>
                         </td>
                         <td class="tableSpacer"></td>
                         <td>
-                            <span class="statDetails">{{ car_detail.price_per_mile_average }}</span>
+                            <span class="statDetails">{{ car_statistic.ppm }}</span>
                             <span class="statUnits">p / mile</span>
                         </td>
                     </tr>
@@ -122,12 +122,12 @@
                     </tr>
                     <tr>
                         <td>
-                            <span class="statDetails">£{{ car_detail.fuel_expenditure_tracked }}</span>
+                            <span class="statDetails">£{{ car_statistic.expenditure }}</span>
                             <span class="statUnits"></span>
                         </td>
                         <td class="tableSpacer"></td>
                         <td>
-                            <span class="statDetails">{{ car_detail.fuel_price_average }}</span>
+                            <span class="statDetails">{{ car_statistic.fuel_cost }}</span>
                             <span class="statUnits">p / litre</span>
                         </td>
                     </tr>

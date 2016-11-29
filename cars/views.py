@@ -3,7 +3,7 @@ from urllib2 import urlopen
 from .forms import PlateForm, RefuelForm
 import json
 from django.contrib.auth.decorators import login_required
-from .models import Car
+from .models import Car, Refuel
 from django.contrib import messages
 from decimal import *
 
@@ -21,8 +21,74 @@ def list_cars(request):
 @login_required()
 def cars(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    refuel_count = Refuel.objects.filter(car_id=car_id).count()
+    car_statistic = {}
+
+    # new car
+    if refuel_count == 0:
+        car_statistic['economy'] = "TBD"
+        car_statistic['miles'] = "TBD"
+        car_statistic['fuel'] = "TBD"
+        car_statistic['ppm'] = "TBD"
+        car_statistic['expenditure'] = "TBD"
+        car_statistic['fuel_cost'] = "TBD"
+        messages.success(request, "Data will start to become available after your first \
+                                   refuel.  For best results, fill your tank.")
+
+    # first refuel
+    elif refuel_count == 1:
+        first_refuel = Refuel.objects.filter(car_id=car_id)[:1].get()
+        car_statistic['economy'] = "TBD"
+        car_statistic['miles'] = "TBD"
+        car_statistic['fuel'] = "TBD"
+        car_statistic['ppm'] = "TBD"
+        car_statistic['expenditure'] = first_refuel.price
+        car_statistic['fuel_cost'] = "TBD"
+        messages.success(request, "The remaining fields will show information after your second refuel.  For best \
+                                   results, fill your tank.")
+    # subsequent refuels
+    else:
+        latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
+
+        # full tank, no missed refuels
+        if latest_refuel.full_tank and not latest_refuel.missed_refuels:
+            # calculate economy
+            total_fuel = 0
+            total_mileage = 0
+            total_cost = 0
+            all_refuels = Refuel.objects.filter(car_id=car_id, valid_for_calculations=True)
+            for refuel in all_refuels:
+                total_fuel += refuel.litres
+                total_mileage += refuel.mileage
+                total_cost += refuel.price
+            car_statistic['economy'] = round(total_mileage / (total_fuel / Decimal(4.545454)), 2)
+            car_statistic['miles'] = int(total_mileage)
+            car_statistic['fuel'] = round(total_fuel, 1)
+            car_statistic['expenditure'] = round(total_cost, 2)
+            car_statistic['ppm'] = round((total_cost / total_mileage) * 100, 1)
+            car_statistic['fuel_cost'] = round(((total_cost * 100) / total_fuel), 1)
+            print len(all_refuels)
+            # latest_refuel.mileage
+            messages.success(request, "Good user!")
+
+        # Not a full tank
+        elif not latest_refuel.full_tank and not latest_refuel.missed_refuels:
+            messages.warning(request, "Your last refuel was not a full tank. Data will not be updated until your next \
+                                       full-tank refuel, but will continue to contribute to your overall figures.")
+
+        # missed logging a refuel
+        elif latest_refuel.full_tank and latest_refuel.missed_refuels:
+            messages.warning(request, "Due to missing one or more refuels, tracking is paused until your next refuel.")
+
+        # not a full tank AND missed logging a refuel
+        else:
+            messages.warning(request, "Due to missing one or more refuels, tracking is paused until your next refuel. \
+                                       Filling your tank will give the best results.")
+
     cars_list = Car.objects.filter(user_id=request.user)
-    return render(request, 'cars/cars.html', {'car_detail': car_detail, 'cars_list': cars_list})
+    return render(request, 'cars/cars.html', {'car_detail': car_detail,
+                                              'cars_list': cars_list,
+                                              'car_statistic': car_statistic})
 
 
 @login_required()
@@ -71,7 +137,7 @@ def add_car_details(request):
                 co2=car_details['co2Emissions'],
                 doors=car_details['numberOfDoors'])
         c.save()
-        latest_car = Car.objects.latest('date_added')  # django is asynchronous, so save() has completed
+        latest_car = Car.objects.filter(user_id=request.user).latest('date_added')  # django is asynchronous, so save() has completed
         return redirect(cars, latest_car.pk)
     else:
         form = PlateForm()
@@ -94,15 +160,11 @@ def refuel_car(request, car_id):
     car = get_object_or_404(Car, pk=car_id, user_id=request.user)
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = RefuelForm(request.POST, mileage_validation=car.mileage_total)
+        form = RefuelForm(request.POST, mileage_validation=car.odometer)
         # check whether it's valid:
         if form.is_valid():
-            print form.cleaned_data['date']
-            print form.cleaned_data['mileage']
-            print form.cleaned_data['litres']
-            print form.cleaned_data['price']
-            print form.cleaned_data['full_tank']
-            car.refuels += 1
+            '''
+                car.refuels += 1
 
             if car.refuels == 1:  # first refill
                 car.mileage_initial = form.cleaned_data['mileage']
@@ -131,16 +193,42 @@ def refuel_car(request, car_id):
                     car.economy_latest = None
 
                 car.save()
+                '''
 
-            if form.cleaned_data['full_tank']:
-                messages.success(request, "Your car was refueled")
+            valid = False
+            if Refuel.objects.filter(car_id=car_id).count() == 0:
+                mileage = 0
             else:
-                messages.success(request, "Your car was refueled.  Fill the tank for better results.")
+                mileage = form.cleaned_data['mileage'] - car.odometer
+                valid = True
 
+            # record refuel data with calculated mileage
+            r = Refuel(user=request.user,
+                       car=car,
+                       mileage=mileage,
+                       date_time_added=form.cleaned_data['date'],
+                       litres=form.cleaned_data['litres'],
+                       price=form.cleaned_data['price'],
+                       full_tank=form.cleaned_data['full_tank'],
+                       missed_refuels=form.cleaned_data['missed_refuels'],
+                       valid_for_calculations=valid)
+            r.save()
+
+            # update car's odometer reading
+            car.odometer = form.cleaned_data['mileage']
+            car.save()
+
+            message = "Your car was refueled."
+            if form.cleaned_data['full_tank'] == "False":  # String because can't get django radio to play with bools
+                message += " Fill the tank for better results."
+            if form.cleaned_data['missed_refuels'] == "True":  # String cos can't get django radio to play with bools
+                message += " Tracking paused until next refuel due to missed refuel."
+            messages.success(request, message)
             return redirect(list_cars)  # would be better to return to list instead once available
+
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")
     else:   # if a GET (or any other method) we'll create a blank form
-        form = RefuelForm(mileage_validation=car.mileage_total)
+        form = RefuelForm(mileage_validation=car.odometer)
 
     return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})

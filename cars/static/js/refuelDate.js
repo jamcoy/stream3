@@ -1,16 +1,16 @@
 $(document).ready(function(){
     $("#id_date").on('focus', function () {
-        var todaysDate = moment().format("DD\/MM\/YYYY");
         $('#id_date').daterangepicker({
+            "timePicker": true,
+            "timePicker24Hour": true,
+            "timePickerIncrement": 15,
             "singleDatePicker": true,
             "autoApply": true,
             "locale": {
-                "format": "DD/MM/YYYY"
+                "format": "dddd DD/MM/YYYY HH:mm"
             },
             "linkedCalendars": false,
-            "startDate": todaysDate
-        }, function (start, end, label) {
-            var newVar = moment(start).toJSON();
+            "startDate": moment()
         });
     });
 });

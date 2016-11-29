@@ -22,11 +22,10 @@ def list_cars(request):
 def cars(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
-    valid_refuel_count = Refuel.objects.filter(car_id=car_id, valid_for_calculations=True).count()
     car_statistic = {}
 
     # new car
-    if refuel_count == 0 and valid_refuel_count == 0:
+    if refuel_count == 0:
         car_statistic['economy'] = "TBD"
         car_statistic['miles'] = "TBD"
         car_statistic['fuel'] = "TBD"
@@ -37,7 +36,7 @@ def cars(request, car_id):
                                    fill your tank.")
 
     # first refuel (cars added to the system with an odometer reading skip this step)
-    elif refuel_count == 1 and valid_refuel_count == 0:
+    elif refuel_count == 1:
         first_refuel = Refuel.objects.filter(car_id=car_id)[:1].get()
         car_statistic['economy'] = "TBD"
         car_statistic['miles'] = "TBD"
@@ -170,9 +169,6 @@ def refuel_car(request, car_id):
             # this refuel is not valid for economy calculations
             if Refuel.objects.filter(car_id=car_id).count() == 0 and car.odometer is None:
                 mileage = None
-            elif form.cleaned_data['missed_refuels']:
-                mileage = None
-                refuel_valid_for_calcs = False
             else:
                 mileage = form.cleaned_data['mileage'] - car.odometer
                 refuel_valid_for_calcs = True

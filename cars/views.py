@@ -52,7 +52,6 @@ def cars(request, car_id):
 
         # full tank, no missed refuels
         if latest_refuel.full_tank and not latest_refuel.missed_refuels:
-            # calculate economy
             total_fuel = 0
             total_mileage = 0
             total_cost = 0
@@ -61,15 +60,12 @@ def cars(request, car_id):
                 total_fuel += refuel.litres
                 total_mileage += refuel.mileage
                 total_cost += refuel.price
-            car_statistic['economy'] = round(total_mileage / (total_fuel / Decimal(4.545454)), 2)
-            car_statistic['miles'] = int(total_mileage)
-            car_statistic['fuel'] = round(total_fuel, 1)
-            car_statistic['expenditure'] = round(total_cost, 2)
+            car_statistic['economy'] = round(total_mileage / (total_fuel / Decimal(4.545454)), 1)
+            car_statistic['miles'] = Decimal(total_mileage).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN)
+            car_statistic['fuel'] = Decimal(total_fuel).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN)
+            car_statistic['expenditure'] = Decimal(total_cost).quantize(Decimal('.01'), rounding=ROUND_HALF_EVEN)
             car_statistic['ppm'] = round((total_cost / total_mileage) * 100, 1)
             car_statistic['fuel_cost'] = round(((total_cost * 100) / total_fuel), 1)
-            print len(all_refuels)
-            # latest_refuel.mileage
-            messages.success(request, "Good user!")
 
         # Not a full tank
         elif not latest_refuel.full_tank and not latest_refuel.missed_refuels:
@@ -163,44 +159,12 @@ def refuel_car(request, car_id):
         form = RefuelForm(request.POST, mileage_validation=car.odometer)
         # check whether it's valid:
         if form.is_valid():
-            '''
-                car.refuels += 1
-
-            if car.refuels == 1:  # first refill
-                car.mileage_initial = form.cleaned_data['mileage']
-                car.mileage_total = form.cleaned_data['mileage']
-                car.fuel_litres_initial = form.cleaned_data['litres']
-                car.fuel_litres_tracked = form.cleaned_data['litres']
-                car.fuel_expenditure_initial = form.cleaned_data['price']
-                car.fuel_expenditure_tracked = form.cleaned_data['price']
-                car.save()
-
-            else:  # all subsequent refills
-                car.mileage_previous = car.mileage_total
-                car.mileage_total = form.cleaned_data['mileage']
-                car.fuel_litres_tracked += form.cleaned_data['litres']
-                car.fuel_expenditure_tracked += form.cleaned_data['price']
-                car.mileage_tracked = car.mileage_total - car.mileage_initial
-                car.economy_average = car.mileage_tracked \
-                                      / ((car.fuel_litres_tracked - car.fuel_litres_initial) / Decimal(4.545454))
-                car.price_per_mile_average = car.mileage_tracked / car.fuel_expenditure_tracked
-                car.fuel_price_average = (car.fuel_expenditure_tracked / car.fuel_litres_tracked) * 100
-
-                if form.cleaned_data['full_tank']:
-                    car.economy_latest = (form.cleaned_data['mileage'] - car.mileage_previous) \
-                                         / (form.cleaned_data['litres'] / Decimal(4.545454))
-                else:
-                    car.economy_latest = None
-
-                car.save()
-                '''
-
-            valid = False
+            valid_for_calcs = False
             if Refuel.objects.filter(car_id=car_id).count() == 0:
                 mileage = 0
             else:
                 mileage = form.cleaned_data['mileage'] - car.odometer
-                valid = True
+                valid_for_calcs = True
 
             # record refuel data with calculated mileage
             r = Refuel(user=request.user,
@@ -211,7 +175,7 @@ def refuel_car(request, car_id):
                        price=form.cleaned_data['price'],
                        full_tank=form.cleaned_data['full_tank'],
                        missed_refuels=form.cleaned_data['missed_refuels'],
-                       valid_for_calculations=valid)
+                       valid_for_calculations=valid_for_calcs)
             r.save()
 
             # update car's odometer reading

@@ -22,21 +22,22 @@ def list_cars(request):
 def cars(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
+    valid_refuel_count = Refuel.objects.filter(car_id=car_id, valid_for_calculations=True).count()
     car_statistic = {}
 
     # new car
-    if refuel_count == 0:
+    if refuel_count == 0 and valid_refuel_count == 0:
         car_statistic['economy'] = "TBD"
         car_statistic['miles'] = "TBD"
         car_statistic['fuel'] = "TBD"
         car_statistic['ppm'] = "TBD"
         car_statistic['expenditure'] = "TBD"
         car_statistic['fuel_cost'] = "TBD"
-        messages.success(request, "Data will start to become available after your first \
-                                   refuel.  For best results, fill your tank.")
+        messages.success(request, "Data will start to become available after your first refuel.  For best results, \
+                                   fill your tank.")
 
-    # first refuel
-    elif refuel_count == 1:
+    # first refuel (cars added to the system with an odometer reading skip this step)
+    elif refuel_count == 1 and valid_refuel_count == 0:
         first_refuel = Refuel.objects.filter(car_id=car_id)[:1].get()
         car_statistic['economy'] = "TBD"
         car_statistic['miles'] = "TBD"
@@ -44,7 +45,7 @@ def cars(request, car_id):
         car_statistic['ppm'] = "TBD"
         car_statistic['expenditure'] = first_refuel.price
         car_statistic['fuel_cost'] = "TBD"
-        messages.success(request, "The remaining fields will show information after your second refuel.  For best \
+        messages.success(request, "The remaining fields will show information after another refuel.  For best \
                                    results, fill your tank.")
     # subsequent refuels
     else:
@@ -124,7 +125,7 @@ def add_car_details(request):
         # total_mileage and previous_mileage deliberately omitted
         # the car owner will never see the model / sub_model split, but it will be used when browsing mpg data
         model = car_details['model'].split(' ', 1)[0]
-        sub_model = car_details['model'].split(' ', 1)[1]
+        sub_model = car_details['model'].split(' ', 1)[1]  # doesn't work for cars with no sub model!
         c = Car(user=request.user,
                 make=car_details['make'],
                 model=model,
@@ -139,6 +140,7 @@ def add_car_details(request):
         c.save()
         latest_car = Car.objects.filter(user_id=request.user).latest('date_added')  # django is asynchronous, so save() has completed
         return redirect(cars, latest_car.pk)
+
     else:
         form = PlateForm()
         return render(request, 'cars/add_car.html', {'form': form})  # maybe shouldn't be indented
@@ -163,12 +165,17 @@ def refuel_car(request, car_id):
         form = RefuelForm(request.POST, mileage_validation=car.odometer)
         # check whether it's valid:
         if form.is_valid():
-            valid_for_calcs = False
-            if Refuel.objects.filter(car_id=car_id).count() == 0:
-                mileage = 0
+            refuel_valid_for_calcs = False
+            # refueling a new car for the first time that wasn't added to the system with an odometer reading
+            # this refuel is not valid for economy calculations
+            if Refuel.objects.filter(car_id=car_id).count() == 0 and car.odometer is None:
+                mileage = None
+            elif form.cleaned_data['missed_refuels']:
+                mileage = None
+                refuel_valid_for_calcs = False
             else:
                 mileage = form.cleaned_data['mileage'] - car.odometer
-                valid_for_calcs = True
+                refuel_valid_for_calcs = True
 
             # record refuel data with calculated mileage
             r = Refuel(user=request.user,
@@ -179,20 +186,14 @@ def refuel_car(request, car_id):
                        price=form.cleaned_data['price'],
                        full_tank=form.cleaned_data['full_tank'],
                        missed_refuels=form.cleaned_data['missed_refuels'],
-                       valid_for_calculations=valid_for_calcs)
+                       valid_for_calculations=refuel_valid_for_calcs)
             r.save()
 
             # update car's odometer reading
             car.odometer = form.cleaned_data['mileage']
             car.save()
 
-            message = "Your car was refueled."
-            if form.cleaned_data['full_tank'] == "False":  # String because can't get django radio to play with bools
-                message += " Fill the tank for better results."
-            if form.cleaned_data['missed_refuels'] == "True":  # String cos can't get django radio to play with bools
-                message += " Tracking paused until next refuel due to missed refuel."
-            messages.success(request, message)
-            return redirect(list_cars)  # would be better to return to list instead once available
+            return redirect(cars, car.pk)
 
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")

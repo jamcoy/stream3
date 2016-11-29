@@ -7,7 +7,7 @@ from django.conf import settings
 class Car(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     date_added = models.DateTimeField(auto_now_add=True)
-    odometer = models.DecimalField(max_digits=10, decimal_places=2, null=True)  # mileage
+    odometer = models.DecimalField(max_digits=10, decimal_places=1, null=True)  # mileage
     exclude_from_collation = models.BooleanField(default=False)
     exclude_from_collation_reason = models.CharField(max_length=30, null=True)
 
@@ -32,7 +32,7 @@ class Refuel(models.Model):
     car = models.ForeignKey(Car)
     date_time_added = models.DateTimeField(auto_now_add=True)
     litres = models.DecimalField(max_digits=10, decimal_places=2)
-    mileage = models.DecimalField(max_digits=6, decimal_places=2)
+    mileage = models.DecimalField(max_digits=6, decimal_places=1)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     full_tank = models.BooleanField()
     missed_refuels = models.BooleanField()

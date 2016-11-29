@@ -63,10 +63,12 @@ def cars(request, car_id):
             car_statistic['economy'] = round(total_mileage / (total_fuel / Decimal(4.545454)), 1)
             car_statistic['miles'] = Decimal(total_mileage).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN)
             car_statistic['fuel'] = Decimal(total_fuel).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN)
-            car_statistic['expenditure'] = Decimal(total_cost).quantize(Decimal('.01'), rounding=ROUND_HALF_EVEN)
             car_statistic['ppm'] = round((total_cost / total_mileage) * 100, 1)
             car_statistic['fuel_cost'] = round(((total_cost * 100) / total_fuel), 1)
-
+            if total_cost < 1000:
+                car_statistic['expenditure'] = Decimal(total_cost).quantize(Decimal('.01'), rounding=ROUND_HALF_EVEN)
+            else:
+                car_statistic['expenditure'] = Decimal(total_cost).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN)
         # Not a full tank
         elif not latest_refuel.full_tank and not latest_refuel.missed_refuels:
             messages.warning(request, "Your last refuel was not a full tank. Data will not be updated until your next \

@@ -16,7 +16,7 @@ class Car(models.Model):
     fuel_type = models.CharField(max_length=10)
     co2 = models.CharField(max_length=10)
     doors = models.CharField(max_length=10)
-    fuel_litres_initial = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelLitres
+    fuel_litres_initial = models.DecimalField(max_digits=10, decimal_places=2, null=True)  # fuelLitres
     fuel_litres_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelLitres
     fuel_expenditure_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelExpenditure
     mileage_initial = models.DecimalField(max_digits=10, decimal_places=2, null=True)

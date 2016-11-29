@@ -93,7 +93,7 @@ def refuel_car(request, car_id):
     car = get_object_or_404(Car, pk=car_id, user_id=request.user)
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = RefuelForm(request.POST, mileage_validation=car.total_mileage)
+        form = RefuelForm(request.POST, mileage_validation=car.mileage_total)
         # check whether it's valid:
         if form.is_valid():
             print form.cleaned_data['date']
@@ -106,6 +106,6 @@ def refuel_car(request, car_id):
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")
     else:   # if a GET (or any other method) we'll create a blank form
-        form = RefuelForm(mileage_validation=car.total_mileage)
+        form = RefuelForm(mileage_validation=car.mileage_total)
 
     return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})

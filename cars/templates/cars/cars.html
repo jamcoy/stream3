@@ -89,9 +89,15 @@
                         <td class="statHeadings">Tracked miles</td>
                     </tr>
                     <tr>
-                        <td><span class="statDetails">44.7</span><span class="statUnits">mpg</span></td>
+                        <td>
+                            <span class="statDetails">{{ car_detail.economy_average }}</span>
+                            <span class="statUnits">mpg</span>
+                        </td>
                         <td class="tableSpacer"></td>
-                        <td><span class="statDetails">81524</span><span class="statUnits">miles</span></td>
+                        <td>
+                            <span class="statDetails">{{ car_detail.mileage_tracked }}</span>
+                            <span class="statUnits">miles</span>
+                        </td>
                     </tr>
                     <tr>
                         <td class="statHeadings">Fuel used</td>
@@ -99,9 +105,15 @@
                         <td class="statHeadings">Ave. mileage cost</td>
                     </tr>
                     <tr>
-                        <td><span class="statDetails">542</span><span class="statUnits">litres</span></td>
+                        <td>
+                            <span class="statDetails">{{ car_detail.fuel_litres_tracked }}</span>
+                            <span class="statUnits">litres</span>
+                        </td>
                         <td class="tableSpacer"></td>
-                        <td><span class="statDetails">13.3</span><span class="statUnits">p / mile</span></td>
+                        <td>
+                            <span class="statDetails">{{ car_detail.price_per_mile_average }}</span>
+                            <span class="statUnits">p / mile</span>
+                        </td>
                     </tr>
                     <tr>
                         <td class="statHeadings">Expenditure</td>
@@ -109,9 +121,15 @@
                         <td class="statHeadings">Ave. fuel cost</td>
                     </tr>
                     <tr>
-                        <td><span class="statDetails">£714.55</span><span class="statUnits"></span></td>
+                        <td>
+                            <span class="statDetails">£{{ car_detail.fuel_expenditure_tracked }}</span>
+                            <span class="statUnits"></span>
+                        </td>
                         <td class="tableSpacer"></td>
-                        <td><span class="statDetails">120.4</span><span class="statUnits">p / litre</span></td>
+                        <td>
+                            <span class="statDetails">{{ car_detail.fuel_price_average }}</span>
+                            <span class="statUnits">p / litre</span>
+                        </td>
                     </tr>
                 </tbody>
             </table>

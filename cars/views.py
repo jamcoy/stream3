@@ -5,6 +5,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from .models import Car
 from django.contrib import messages
+from decimal import *
 
 
 @login_required()
@@ -101,7 +102,41 @@ def refuel_car(request, car_id):
             print form.cleaned_data['litres']
             print form.cleaned_data['price']
             print form.cleaned_data['full_tank']
-            messages.success(request, "Your car was refueled!")
+            car.refuels += 1
+
+            if car.refuels == 1:  # first refill
+                car.mileage_initial = form.cleaned_data['mileage']
+                car.mileage_total = form.cleaned_data['mileage']
+                car.fuel_litres_initial = form.cleaned_data['litres']
+                car.fuel_litres_tracked = form.cleaned_data['litres']
+                car.fuel_expenditure_initial = form.cleaned_data['price']
+                car.fuel_expenditure_tracked = form.cleaned_data['price']
+                car.save()
+
+            else:  # all subsequent refills
+                car.mileage_previous = car.mileage_total
+                car.mileage_total = form.cleaned_data['mileage']
+                car.fuel_litres_tracked += form.cleaned_data['litres']
+                car.fuel_expenditure_tracked += form.cleaned_data['price']
+                car.mileage_tracked = car.mileage_total - car.mileage_initial
+                car.economy_average = car.mileage_tracked \
+                                      / ((car.fuel_litres_tracked - car.fuel_litres_initial) / Decimal(4.545454))
+                car.price_per_mile_average = car.mileage_tracked / car.fuel_expenditure_tracked
+                car.fuel_price_average = (car.fuel_expenditure_tracked / car.fuel_litres_tracked) * 100
+
+                if form.cleaned_data['full_tank']:
+                    car.economy_latest = (form.cleaned_data['mileage'] - car.mileage_previous) \
+                                         / (form.cleaned_data['litres'] / Decimal(4.545454))
+                else:
+                    car.economy_latest = None
+
+                car.save()
+
+            if form.cleaned_data['full_tank']:
+                messages.success(request, "Your car was refueled")
+            else:
+                messages.success(request, "Your car was refueled.  Fill the tank for better results.")
+
             return redirect(list_cars)  # would be better to return to list instead once available
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")

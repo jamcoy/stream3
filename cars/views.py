@@ -54,9 +54,14 @@ def add_car_details(request):
         car_details = request.session['full_car_details']
         request.session['full_car_details'] = ""  # necessary to clear??
         # validation not required here - user cannot edit anything - just confirming right vehicle
+        # total_mileage and previous_mileage deliberately omitted
+        # the car owner will never see the model / sub_model split, but it will be used when browsing mpg data
+        model = car_details['model'].split(' ', 1)[0]
+        sub_model = car_details['model'].split(' ', 1)[1]
         c = Car(user=request.user,
                 make=car_details['make'],
-                model=car_details['model'],
+                model=model,
+                sub_model=sub_model,
                 colour=car_details['colour'],
                 year_of_manufacture=car_details['yearOfManufacture'],
                 cylinder_capacity=car_details['cylinderCapacity'],
@@ -90,10 +95,9 @@ def delete_car(request, car_id):
 @login_required()
 def refuel_car(request, car_id):
     car = get_object_or_404(Car, pk=car_id, user_id=request.user)
-    previous_mileage = car.total_mileage_tracked
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = RefuelForm(request.POST, mileage_validation=previous_mileage)
+        form = RefuelForm(request.POST, mileage_validation=car.total_mileage)
         # check whether it's valid:
         if form.is_valid():
             print form.cleaned_data['date']
@@ -106,6 +110,6 @@ def refuel_car(request, car_id):
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")
     else:   # if a GET (or any other method) we'll create a blank form
-        form = RefuelForm(mileage_validation=previous_mileage)
+        form = RefuelForm(mileage_validation=car.total_mileage)
 
     return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})

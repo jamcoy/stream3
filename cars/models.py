@@ -8,7 +8,7 @@ class Car(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     make = models.CharField(max_length=30)
     model = models.CharField(max_length=30)
-    sub_model = models.CharField(max_length=30)
+    sub_model = models.CharField(max_length=30, null=True)
     colour = models.CharField(max_length=20)
     year_of_manufacture = models.CharField(max_length=10)
     cylinder_capacity = models.CharField(max_length=10)
@@ -19,8 +19,8 @@ class Car(models.Model):
     total_fuel_litres = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelLitres
     total_fuel_expenditure = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelExpenditure
     total_mileage_tracked = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # mileageTracked
-    total_mileage = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # mileage
-    previous_mileage = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_mileage = models.DecimalField(max_digits=10, decimal_places=2, null=True)  # mileage
+    previous_mileage = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     refuels = models.IntegerField(default=0)
     economy_average = models.DecimalField(max_digits=6, decimal_places=2, null=True)  # "Need two refuels to calculate"
     economy_latest = models.DecimalField(max_digits=6, decimal_places=2, null=True)  # "Need two refuels to calculate"

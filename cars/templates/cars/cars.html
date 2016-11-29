@@ -3,7 +3,7 @@
 
     <div class="row">
         <div class="col-md-7 carHeading">
-            <h1>{{ car_detail.make }} {{ car_detail.model }}</h1>
+            <h1>{{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}</h1>
         </div>
         <div class="col-md-5 text-right carDetailButtons">
             <!--http://glyphicons.com/ for more glyphicons-->
@@ -17,7 +17,9 @@
                     <li class="addCarModal"><a href="/cars">Detailed list</a></li>
                     <li role="separator" class="divider"></li>
                     {% for car in cars_list %}
-                        <li class="switchCar"><a href="/cars/{{ car.id }}">{{ car.make }} {{ car.model }}</a></li>
+                        <li class="switchCar">
+                            <a href="/cars/{{ car.id }}">{{ car.make }} {{ car.model }} {{ car.sub_model }}</a>
+                        </li>
                     {%  endfor %}
                     <li role="separator" class="divider"></li>
                     <li class="addCarModal"><a href="/cars/add_car/">Add new car</a></li>

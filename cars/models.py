@@ -16,10 +16,12 @@ class Car(models.Model):
     fuel_type = models.CharField(max_length=10)
     co2 = models.CharField(max_length=10)
     doors = models.CharField(max_length=10)
-    total_fuel_litres = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelLitres
-    total_fuel_expenditure = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelExpenditure
-    total_mileage_tracked = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # mileageTracked
-    total_mileage = models.DecimalField(max_digits=10, decimal_places=2, null=True)  # mileage
+    fuel_litres_initial = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelLitres
+    fuel_litres_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelLitres
+    fuel_expenditure_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # fuelExpenditure
+    mileage_initial = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    mileage_total = models.DecimalField(max_digits=10, decimal_places=2, null=True)  # mileage
+    mileage_tracked = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # mileageTracked
     previous_mileage = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     refuels = models.IntegerField(default=0)
     economy_average = models.DecimalField(max_digits=6, decimal_places=2, null=True)  # "Need two refuels to calculate"

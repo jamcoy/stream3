@@ -68,11 +68,7 @@ def add_car_details(request):
                 transmission=car_details['transmission'],
                 fuel_type=car_details['fuelType'],
                 co2=car_details['co2Emissions'],
-                doors=car_details['numberOfDoors'],
-                total_fuel_litres=0,
-                total_fuel_expenditure=0,
-                total_mileage_tracked=0,
-                refuels=0)
+                doors=car_details['numberOfDoors'])
         c.save()
         latest_car = Car.objects.latest('date_added')  # django is asynchronous, so save() has completed
         return redirect(cars, latest_car.pk)

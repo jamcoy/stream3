@@ -47,10 +47,8 @@ def cars(request, car_id):
         latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
         all_refuels = Refuel.objects.filter(car_id=car_id, valid_for_calculations=True).order_by('-date_time_added')
 
-        # Not a full tank - filter query further
-        if not latest_refuel.full_tank and not latest_refuel.missed_refuels:
-            messages.warning(request, "Your last refuel was not a full tank. Data will not be updated until your next \
-                                           full-tank refuel, but will continue to contribute to your overall figures.")
+        # Latest refuel not a full tank - filter query further
+        if not latest_refuel.full_tank:
             # remove latest refuels until hitting the 1st full tank
             i = 0
             for refuel in all_refuels:
@@ -61,12 +59,17 @@ def cars(request, car_id):
             print ("Latest not a full tank")
             print all_refuels
 
-        # missed logging a refuel - filter query further
+        # not a full tank, but didn't miss a refuel - update message
+        if not latest_refuel.full_tank and not latest_refuel.missed_refuels:
+            messages.warning(request, "Your last refuel was not a full tank. Data will not be updated until your next \
+                                       full-tank refuel, but will continue to contribute to your overall figures.")
+
+        # missed logging a refuel, but was a full tank - update message
         elif latest_refuel.full_tank and latest_refuel.missed_refuels:
             messages.warning(request,
                              "Due to missing one or more refuels, tracking is paused until your next refuel.")
 
-        # not a full tank AND missed logging a refuel - filter query further
+        # not a full tank and missed logging a refuel - update message
         elif not latest_refuel.full_tank and latest_refuel.missed_refuels:
             messages.warning(request, "Due to missing one or more refuels, tracking is paused until your next refuel. \
                                        Filling your tank will give the best results.")
@@ -80,6 +83,7 @@ def cars(request, car_id):
             total_fuel += refuel.litres
             total_mileage += refuel.mileage
             total_cost += refuel.price
+
         car_statistic['economy'] = round(total_mileage / (total_fuel / Decimal(4.545454)), 1)
         car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'),
                                                                                rounding=ROUND_HALF_EVEN))

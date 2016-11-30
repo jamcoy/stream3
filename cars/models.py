@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models
 from django.conf import settings
 
@@ -24,7 +24,11 @@ class Car(models.Model):
     doors = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.make + " " + self.model + " " + self.sub_model + " " + self.year_of_manufacture
+        return self.make + " " \
+             + self.model + " " \
+             + self.sub_model \
+             + " " \
+             + self.year_of_manufacture
 
 
 class Refuel(models.Model):
@@ -39,4 +43,16 @@ class Refuel(models.Model):
     valid_for_calculations = models.BooleanField()
 
     def __str__(self):
-        return str(self.date_time_added) + " " + str(self.litres) + " " + str(self.price)
+        if self.valid_for_calculations:
+            valid = "Valid"
+        else:
+            valid = "Invalid"
+        if self.full_tank:
+            tank = "Full tank"
+        else:
+            tank = "Partial refuel"
+        return str(self.date_time_added) + ", " \
+             + str(self.litres) + " litres, £" \
+             + str(self.price) + ", " \
+             + valid + ", " \
+             + tank

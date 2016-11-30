@@ -46,56 +46,63 @@ def cars(request, car_id):
         car_statistic['fuel_cost'] = "TBD"
         messages.success(request, "The remaining fields will show information after another refuel.  For best \
                                    results, fill your tank.")
+
     # subsequent refuels
     else:
         latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
+        all_refuels = Refuel.objects.filter(car_id=car_id, valid_for_calculations=True).order_by('-date_time_added')
+
+        # filter query further #
 
         # full tank, no missed refuels
         if latest_refuel.full_tank and not latest_refuel.missed_refuels:
-            total_fuel = 0
-            total_mileage = 0
-            total_cost = 0
-            all_refuels = Refuel.objects.filter(car_id=car_id, valid_for_calculations=True)
-            for refuel in all_refuels:
-                total_fuel += refuel.litres
-                total_mileage += refuel.mileage
-                total_cost += refuel.price
-            car_statistic['economy'] = round(total_mileage / (total_fuel / Decimal(4.545454)), 1)
-            car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'),
-                                                                                   rounding=ROUND_HALF_EVEN))
-            car_statistic['fuel'] = "{:,}".format(Decimal(total_fuel).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN))
-            car_statistic['ppm'] = round((total_cost / total_mileage) * 100, 1)
-            car_statistic['fuel_cost'] = round(((total_cost * 100) / total_fuel), 1)
-            if total_cost < 1000:
-                car_statistic['expenditure'] = Decimal(total_cost).quantize(Decimal('.01'), rounding=ROUND_HALF_EVEN)
-            else:
-                car_statistic['expenditure'] = "{:,}".format(Decimal(total_cost).quantize(Decimal('1'),
-                                                                                          rounding=ROUND_HALF_EVEN))
+            print("All good")
+            print all_refuels
+
         # Not a full tank
         elif not latest_refuel.full_tank and not latest_refuel.missed_refuels:
             messages.warning(request, "Your last refuel was not a full tank. Data will not be updated until your next \
-                                       full-tank refuel, but will continue to contribute to your overall figures.")
-            total_fuel = 0
-            total_mileage = 0
-            total_cost = 0
-            # Get all valid refuels sorted by data and then remove all the latest ones until hitting the 1st full tank
-            all_refuels = Refuel.objects.filter(car_id=car_id, valid_for_calculations=True).order_by('-date_time_added')
+                                           full-tank refuel, but will continue to contribute to your overall figures.")
+            # remove latest refuels until hitting the 1st full tank
             i = 0
             for refuel in all_refuels:
                 if not refuel.full_tank:
                     i += 1
                     all_refuels = all_refuels[i:]
                     break
+            print ("Latest not a full tank")
             print all_refuels
 
         # missed logging a refuel
         elif latest_refuel.full_tank and latest_refuel.missed_refuels:
-            messages.warning(request, "Due to missing one or more refuels, tracking is paused until your next refuel.")
+            messages.warning(request,
+                             "Due to missing one or more refuels, tracking is paused until your next refuel.")
 
         # not a full tank AND missed logging a refuel
         else:
             messages.warning(request, "Due to missing one or more refuels, tracking is paused until your next refuel. \
                                        Filling your tank will give the best results.")
+
+        # show the data
+        total_fuel = 0
+        total_mileage = 0
+        total_cost = 0
+
+        for refuel in all_refuels:
+            total_fuel += refuel.litres
+            total_mileage += refuel.mileage
+            total_cost += refuel.price
+        car_statistic['economy'] = round(total_mileage / (total_fuel / Decimal(4.545454)), 1)
+        car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'),
+                                                                               rounding=ROUND_HALF_EVEN))
+        car_statistic['fuel'] = "{:,}".format(Decimal(total_fuel).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN))
+        car_statistic['ppm'] = round((total_cost / total_mileage) * 100, 1)
+        car_statistic['fuel_cost'] = round(((total_cost * 100) / total_fuel), 1)
+        if total_cost < 1000:
+            car_statistic['expenditure'] = Decimal(total_cost).quantize(Decimal('.01'), rounding=ROUND_HALF_EVEN)
+        else:
+            car_statistic['expenditure'] = "{:,}".format(Decimal(total_cost).quantize(Decimal('1'),
+                                                                                      rounding=ROUND_HALF_EVEN))
 
     cars_list = Car.objects.filter(user_id=request.user)
     return render(request, 'cars/cars.html', {'car_detail': car_detail,

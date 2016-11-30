@@ -40,37 +40,27 @@ def cars(request, car_id):
                     i += 1
                     all_refuels = all_refuels[i:]
                     break
+        # sum up quantities
         for refuel in all_refuels:
             total_fuel += refuel.litres
             total_mileage += refuel.mileage
             total_cost += refuel.price
 
-    # new cars
-    if refuel_count == 0:
+    # new cars or no valid refuel data that can be displayed
+    if refuel_count == 0 or len(all_refuels) == 0:
         car_statistic['economy'] = "TBD"
         car_statistic['miles'] = "TBD"
         car_statistic['fuel'] = "TBD"
         car_statistic['ppm'] = "TBD"
         car_statistic['fuel_cost'] = "TBD"
         car_statistic['expenditure'] = "TBD"
-        if car_detail.odometer is not None:
+        if refuel_count == 0 and car_detail.odometer is not None:
             messages.success(request, "Data will start to become available after your first valid full-tank refuel.")
+        elif refuel_count > 0:
+            messages.success(request, "Another full tank refuel is required to show some results. Partial refuels \
+                                       will contribute to later results.")
         else:
             messages.success(request, "Data will start to become available after two full-tank refuels.")
-
-    # no valid refuel data that can be displayed (other than expenditure if first tank a full tank)
-    elif len(all_refuels) == 0:
-        car_statistic['economy'] = "TBD"
-        car_statistic['miles'] = "TBD"
-        car_statistic['fuel'] = "TBD"
-        car_statistic['ppm'] = "TBD"
-        car_statistic['fuel_cost'] = "TBD"
-        if total_cost > 0:
-            car_statistic['expenditure'] = total_cost
-        else:
-            car_statistic['expenditure'] = "TBD"
-        messages.success(request, "Another full tank refuel is required to show some results. Partial refuels \
-                                   will contribute to later results.")
 
     # All other refuels
     else:

@@ -36,11 +36,13 @@ def cars(request, car_id):
             # remove latest refuels until hitting the 1st full tank
             i = 0
             for refuel in all_refuels:
-                if not refuel.full_tank:
+                if refuel.full_tank:
+                    break
+                else:
                     i += 1
                     all_refuels = all_refuels[i:]
-                    break
         # sum up quantities
+        print len(all_refuels), all_refuels
         for refuel in all_refuels:
             total_fuel += refuel.litres
             total_mileage += refuel.mileage
@@ -78,6 +80,7 @@ def cars(request, car_id):
             messages.warning(request, "Due to missing one or more refuels, tracking is paused until your next refuel. \
                                        Filling your tank will give the best results.")
 
+        # prepare the figures
         car_statistic['economy'] = round(total_mileage / (total_fuel / Decimal(4.545454)), 1)
         car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'),
                                                                                rounding=ROUND_HALF_EVEN))

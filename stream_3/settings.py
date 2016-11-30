@@ -158,3 +158,8 @@ STRIPE_SECRET = os.getenv('STRIPE_SECRET', 'secret key')
 # tinymce settings
 
 TINYMCE_JS_ROOT = os.path.join(BASE_DIR, "static", 'js', 'tinymce', 'tinymce.min.js')
+
+
+# Disqus
+
+DISQUS_WEBSITE_SHORTNAME = 'mybootcampblog'

@@ -170,23 +170,33 @@ def delete_car(request, car_id):
 @login_required()
 def refuel_car(request, car_id):
     car = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    # set whether or not we're working with a new car (i.e no refuels yet)
+    new_car = False
+    if Refuel.objects.filter(car_id=car_id).count() == 0:
+        new_car = True
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = RefuelForm(request.POST, mileage_validation=car.odometer)
+        form = RefuelForm(request.POST, mileage_validation=car.odometer, new_car=new_car)
         # check if form is valid
         if form.is_valid():
-            # check if this refuel event is valid to be included in economy calculations. Set to false if not:
 
             # refueling a new car for the first time that wasn't added to the system with an odometer reading
-            if Refuel.objects.filter(car_id=car_id).count() == 0 and car.odometer is None:
+            if new_car and car.odometer is None:
                 mileage = None
                 refuel_valid_for_calculations = False
+                missed_refuels = True  # obviously no record of any previous refuels
+
+            # not a new car, but user has reported missing a refuel. Mark this refuel invalid for economy calculations.
             elif form.cleaned_data['missed_refuels'] == "True":
                 mileage = None
                 refuel_valid_for_calculations = False
+                missed_refuels = True
+
+            # Normal refuel. Calculate mileage covered and mark as valid for refuel calculations
             else:
                 mileage = form.cleaned_data['mileage'] - car.odometer
                 refuel_valid_for_calculations = True
+                missed_refuels = False
 
             # record refuel data with calculated mileage
             r = Refuel(user=request.user,
@@ -196,7 +206,7 @@ def refuel_car(request, car_id):
                        litres=form.cleaned_data['litres'],
                        price=form.cleaned_data['price'],
                        full_tank=form.cleaned_data['full_tank'],
-                       missed_refuels=form.cleaned_data['missed_refuels'],
+                       missed_refuels=missed_refuels,
                        valid_for_calculations=refuel_valid_for_calculations)
             r.save()
 
@@ -209,6 +219,6 @@ def refuel_car(request, car_id):
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")
     else:   # if a GET (or any other method) we'll create a blank form
-        form = RefuelForm(mileage_validation=car.odometer)
+        form = RefuelForm(mileage_validation=car.odometer, new_car=new_car)
 
     return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})

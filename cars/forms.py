@@ -12,8 +12,6 @@ class PlateForm(forms.Form):
 class RefuelForm(forms.Form):
     FULL_TANK_CHOICES = [(True, 'Yes, I filled the tank'),
                          (False, 'No, I partially filled the tank')]
-    MISSED_PREVIOUS_REFILL = [(False, 'No refuels missed'),
-                              (True, 'Yes, I forgot to log a refuel')]
     date = forms.CharField(label='Date and Time',
                            initial='Now')
     mileage = forms.DecimalField(label='Total mileage')
@@ -23,14 +21,17 @@ class RefuelForm(forms.Form):
                                   choices=FULL_TANK_CHOICES,
                                   widget=forms.RadioSelect(),
                                   required=True)
-    missed_refuels = forms.ChoiceField(label="Did you miss any previous refuels?",
-                                       choices=MISSED_PREVIOUS_REFILL,
-                                       widget=forms.RadioSelect(),
-                                       required=True)
 
     def __init__(self, *args, **kwargs):
         self.mileage_validation = kwargs.pop('mileage_validation')
+        new_car = kwargs.pop('new_car')
         super(RefuelForm, self).__init__(*args, **kwargs)
+        if new_car is not True:  # why has django changed my boolean to a string
+            self.fields['missed_refuels'] = forms.ChoiceField(label="Did you miss any previous refuels?",
+                                                              choices=[(False, 'No refuels missed'),
+                                                                       (True, 'Yes, I forgot to log a refuel')],
+                                                              widget=forms.RadioSelect(),
+                                                              required=True)
 
     def clean_mileage(self):
         mileage = self.cleaned_data['mileage']

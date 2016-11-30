@@ -26,8 +26,8 @@ class RefuelForm(forms.Form):
         self.mileage_validation = kwargs.pop('mileage_validation')
         new_car = kwargs.pop('new_car')
         super(RefuelForm, self).__init__(*args, **kwargs)
-        if new_car is not True:  # why has django changed my boolean to a string
-            self.fields['missed_refuels'] = forms.ChoiceField(label="Did you miss any previous refuels?",
+        if new_car is not True:
+            self.fields['missed_refuels'] = forms.ChoiceField(label="Did you miss logging a previous refuel?",
                                                               choices=[(False, 'No refuels missed'),
                                                                        (True, 'Yes, I forgot to log a refuel')],
                                                               widget=forms.RadioSelect(),

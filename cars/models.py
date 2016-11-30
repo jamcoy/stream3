@@ -44,15 +44,15 @@ class Refuel(models.Model):
 
     def __str__(self):
         if self.valid_for_calculations:
-            valid = "Valid"
+            valid = "Valid for calculations"
         else:
-            valid = "Invalid"
+            valid = "Not valid for calculations"
         if self.full_tank:
             tank = "Full tank"
         else:
             tank = "Partial refuel"
         return str(self.date_time_added) + ", " \
-             + str(self.litres) + " litres, £" \
-             + str(self.price) + ", " \
+             + str(self.litres) + " litres, " \
+             + str(self.price) + " GBP, " \
              + valid + ", " \
              + tank

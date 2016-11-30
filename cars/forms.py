@@ -31,10 +31,10 @@ class RefuelForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.mileage_validation = kwargs.pop('mileage_validation')
-        new_car = kwargs.pop('new_car')
+        skip_question = kwargs.pop('skip_missed_refuel_question')
         super(RefuelForm, self).__init__(*args, **kwargs)
-        # only show the question about missing a refuel if it's not a new car
-        if new_car is not True:
+        # only show the question about missing a refuel if it's not a new car, or not a new car with an odometer reading
+        if skip_question is not True:
             self.fields['missed_refuels'] = forms.ChoiceField(label="Did you miss logging a previous refuel?",
                                                               choices=[(True, 'Yes. I forgot to log a refuel.'),
                                                                        (False, 'No refuels missed.')],

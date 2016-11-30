@@ -23,31 +23,15 @@ def cars(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
     car_statistic = {}
-
-    # new cars
-    if refuel_count < 2:
-        car_statistic['economy'] = "TBD"
-        car_statistic['miles'] = "TBD"
-        car_statistic['fuel'] = "TBD"
-        car_statistic['ppm'] = "TBD"
-        car_statistic['fuel_cost'] = "TBD"
-        if refuel_count == 0:
-            car_statistic['expenditure'] = "TBD"
-            messages.success(request, "Data will start to become available after your first refuel.  For best results, \
-                                       fill your tank.")
-        # first refuel (cars added to the system with an odometer reading should skip this step)
-        elif refuel_count == 1:
-            first_refuel = Refuel.objects.filter(car_id=car_id)[:1].get()
-            car_statistic['expenditure'] = first_refuel.price
-            messages.success(request, "The remaining fields will show information after another refuel.  For best \
-                                   results, fill your tank.")
-
-    # subsequent refuels
-    else:
+    latest_refuel = []
+    all_refuels = []
+    total_fuel = 0
+    total_mileage = 0
+    total_cost = 0
+    if refuel_count > 0:
         latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
         all_refuels = Refuel.objects.filter(car_id=car_id, valid_for_calculations=True).order_by('-date_time_added')
-
-        # Latest refuel not a full tank - filter query further
+        # If latest refuel not a full tank - filter query further
         if not latest_refuel.full_tank:
             # remove latest refuels until hitting the 1st full tank
             i = 0
@@ -56,9 +40,40 @@ def cars(request, car_id):
                     i += 1
                     all_refuels = all_refuels[i:]
                     break
-            print ("Latest not a full tank")
-            print all_refuels
+        for refuel in all_refuels:
+            total_fuel += refuel.litres
+            total_mileage += refuel.mileage
+            total_cost += refuel.price
 
+    # new cars
+    if refuel_count == 0:
+        car_statistic['economy'] = "TBD"
+        car_statistic['miles'] = "TBD"
+        car_statistic['fuel'] = "TBD"
+        car_statistic['ppm'] = "TBD"
+        car_statistic['fuel_cost'] = "TBD"
+        car_statistic['expenditure'] = "TBD"
+        if car_detail.odometer is not None:
+            messages.success(request, "Data will start to become available after your first valid full-tank refuel.")
+        else:
+            messages.success(request, "Data will start to become available after two full-tank refuels.")
+
+    # no valid refuel data that can be displayed (other than expenditure if first tank a full tank)
+    elif len(all_refuels) == 0:
+        car_statistic['economy'] = "TBD"
+        car_statistic['miles'] = "TBD"
+        car_statistic['fuel'] = "TBD"
+        car_statistic['ppm'] = "TBD"
+        car_statistic['fuel_cost'] = "TBD"
+        if total_cost > 0:
+            car_statistic['expenditure'] = total_cost
+        else:
+            car_statistic['expenditure'] = "TBD"
+        messages.success(request, "Another full tank refuel is required to show some results. Partial refuels \
+                                   will contribute to later results.")
+
+    # All other refuels
+    else:
         # not a full tank, but didn't miss a refuel - update message
         if not latest_refuel.full_tank and not latest_refuel.missed_refuels:
             messages.warning(request, "Your last refuel was not a full tank. Data will not be updated until your next \
@@ -66,23 +81,12 @@ def cars(request, car_id):
 
         # missed logging a refuel, but was a full tank - update message
         elif latest_refuel.full_tank and latest_refuel.missed_refuels:
-            messages.warning(request,
-                             "Due to missing one or more refuels, tracking is paused until your next refuel.")
+            messages.warning(request, "Due to missing one or more refuels, tracking is paused until your next refuel.")
 
         # not a full tank and missed logging a refuel - update message
         elif not latest_refuel.full_tank and latest_refuel.missed_refuels:
             messages.warning(request, "Due to missing one or more refuels, tracking is paused until your next refuel. \
                                        Filling your tank will give the best results.")
-
-        # show the data
-        total_fuel = 0
-        total_mileage = 0
-        total_cost = 0
-
-        for refuel in all_refuels:
-            total_fuel += refuel.litres
-            total_mileage += refuel.mileage
-            total_cost += refuel.price
 
         car_statistic['economy'] = round(total_mileage / (total_fuel / Decimal(4.545454)), 1)
         car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'),
@@ -174,21 +178,32 @@ def delete_car(request, car_id):
 @login_required()
 def refuel_car(request, car_id):
     car = get_object_or_404(Car, pk=car_id, user_id=request.user)
-    # set whether or not we're working with a new car (i.e no refuels yet)
+
+    # set whether or not we're working with a new car (and whether or not it has an odo reading)
     new_car = False
+    new_car_no_odometer = False
     if Refuel.objects.filter(car_id=car_id).count() == 0:
         new_car = True
+        if car.odometer is None:
+            new_car_no_odometer = True
+
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = RefuelForm(request.POST, mileage_validation=car.odometer, new_car=new_car)
+        form = RefuelForm(request.POST, mileage_validation=car.odometer,
+                          skip_missed_refuel_question=new_car_no_odometer)
         # check if form is valid
         if form.is_valid():
 
             # refueling a new car for the first time that wasn't added to the system with an odometer reading
-            if new_car and car.odometer is None:
+            if new_car_no_odometer:
                 mileage = None
                 refuel_valid_for_calculations = False
                 missed_refuels = True  # obviously no record of any previous refuels
+
+            elif new_car:  # with odometer reading
+                mileage = form.cleaned_data['mileage'] - car.odometer
+                refuel_valid_for_calculations = True
+                missed_refuels = False
 
             # not a new car, but user has reported missing a refuel. Mark this refuel invalid for economy calculations.
             elif form.cleaned_data['missed_refuels'] == "True":
@@ -223,6 +238,6 @@ def refuel_car(request, car_id):
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")
     else:   # if a GET (or any other method) we'll create a blank form
-        form = RefuelForm(mileage_validation=car.odometer, new_car=new_car)
+        form = RefuelForm(mileage_validation=car.odometer, skip_missed_refuel_question=new_car_no_odometer)
 
     return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})

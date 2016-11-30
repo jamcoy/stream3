@@ -24,27 +24,22 @@ def cars(request, car_id):
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
     car_statistic = {}
 
-    # new car
-    if refuel_count == 0:
+    # new cars
+    if refuel_count < 2:
         car_statistic['economy'] = "TBD"
         car_statistic['miles'] = "TBD"
         car_statistic['fuel'] = "TBD"
         car_statistic['ppm'] = "TBD"
-        car_statistic['expenditure'] = "TBD"
         car_statistic['fuel_cost'] = "TBD"
-        messages.success(request, "Data will start to become available after your first refuel.  For best results, \
-                                   fill your tank.")
-
-    # first refuel (cars added to the system with an odometer reading skip this step)
-    elif refuel_count == 1:
-        first_refuel = Refuel.objects.filter(car_id=car_id)[:1].get()
-        car_statistic['economy'] = "TBD"
-        car_statistic['miles'] = "TBD"
-        car_statistic['fuel'] = "TBD"
-        car_statistic['ppm'] = "TBD"
-        car_statistic['expenditure'] = first_refuel.price
-        car_statistic['fuel_cost'] = "TBD"
-        messages.success(request, "The remaining fields will show information after another refuel.  For best \
+        if refuel_count == 0:
+            car_statistic['expenditure'] = "TBD"
+            messages.success(request, "Data will start to become available after your first refuel.  For best results, \
+                                       fill your tank.")
+        # first refuel (cars added to the system with an odometer reading should skip this step)
+        elif refuel_count == 1:
+            first_refuel = Refuel.objects.filter(car_id=car_id)[:1].get()
+            car_statistic['expenditure'] = first_refuel.price
+            messages.success(request, "The remaining fields will show information after another refuel.  For best \
                                    results, fill your tank.")
 
     # subsequent refuels
@@ -52,15 +47,8 @@ def cars(request, car_id):
         latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
         all_refuels = Refuel.objects.filter(car_id=car_id, valid_for_calculations=True).order_by('-date_time_added')
 
-        # filter query further #
-
-        # full tank, no missed refuels
-        if latest_refuel.full_tank and not latest_refuel.missed_refuels:
-            print("All good")
-            print all_refuels
-
-        # Not a full tank
-        elif not latest_refuel.full_tank and not latest_refuel.missed_refuels:
+        # Not a full tank - filter query further
+        if not latest_refuel.full_tank and not latest_refuel.missed_refuels:
             messages.warning(request, "Your last refuel was not a full tank. Data will not be updated until your next \
                                            full-tank refuel, but will continue to contribute to your overall figures.")
             # remove latest refuels until hitting the 1st full tank
@@ -73,13 +61,13 @@ def cars(request, car_id):
             print ("Latest not a full tank")
             print all_refuels
 
-        # missed logging a refuel
+        # missed logging a refuel - filter query further
         elif latest_refuel.full_tank and latest_refuel.missed_refuels:
             messages.warning(request,
                              "Due to missing one or more refuels, tracking is paused until your next refuel.")
 
-        # not a full tank AND missed logging a refuel
-        else:
+        # not a full tank AND missed logging a refuel - filter query further
+        elif not latest_refuel.full_tank and latest_refuel.missed_refuels:
             messages.warning(request, "Due to missing one or more refuels, tracking is paused until your next refuel. \
                                        Filling your tank will give the best results.")
 

@@ -10,15 +10,14 @@ class PlateForm(forms.Form):
 
 
 class RefuelForm(forms.Form):
-    FULL_TANK_CHOICES = [(True, 'Yes, I filled the tank'),
-                         (False, 'No, I partially filled the tank')]
     date = forms.CharField(label='Date and Time',
                            initial='Now')
     mileage = forms.DecimalField(label='Total mileage')
     litres = forms.DecimalField(label='Litres of fuel', min_value=0.1, max_value=500)
     price = forms.DecimalField(label='Price paid (£)', min_value=0.01, max_value=750)
     full_tank = forms.ChoiceField(label="Did you fill the tank?",
-                                  choices=FULL_TANK_CHOICES,
+                                  choices=[(True, 'Yes. I filled the tank.'),
+                                           (False, 'No. I partially filled the tank.')],
                                   widget=forms.RadioSelect(),
                                   required=True)
 
@@ -26,10 +25,11 @@ class RefuelForm(forms.Form):
         self.mileage_validation = kwargs.pop('mileage_validation')
         new_car = kwargs.pop('new_car')
         super(RefuelForm, self).__init__(*args, **kwargs)
+        # only show the question about missing a refuel if it's not a new car
         if new_car is not True:
             self.fields['missed_refuels'] = forms.ChoiceField(label="Did you miss logging a previous refuel?",
-                                                              choices=[(False, 'No refuels missed'),
-                                                                       (True, 'Yes, I forgot to log a refuel')],
+                                                              choices=[(True, 'Yes. I forgot to log a refuel.'),
+                                                                       (False, 'No refuels missed.')],
                                                               widget=forms.RadioSelect(),
                                                               required=True)
 

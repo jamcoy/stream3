@@ -9,6 +9,14 @@ class PlateForm(forms.Form):
                                widget=forms.TextInput(attrs={'class': 'uk-rear-plate'}))
 
 
+class OdometerForm(forms.Form):
+    odo_reading = forms.DecimalField(label='Current odometer reading \
+                                            (supplying a reading now will give quicker results but is not required)',
+                                     min_value=0,
+                                     max_value=10000000,
+                                     required=False)
+
+
 class RefuelForm(forms.Form):
     date = forms.CharField(label='Date and Time',
                            initial='Now')

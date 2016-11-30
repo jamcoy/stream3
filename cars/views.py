@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from urllib2 import urlopen
-from .forms import PlateForm, RefuelForm
+from .forms import PlateForm, RefuelForm, OdometerForm
 import json
 from django.contrib.auth.decorators import login_required
 from .models import Car, Refuel
@@ -117,7 +117,8 @@ def add_car(request):
             request.session['full_car_details'] = car_details
             check = True  # expand upon this (checking what comes back from API)
             if check:
-                return render(request, "cars/add_car_details.html", {'car_details': car_details})
+                odo_form = OdometerForm(request.GET)
+                return render(request, "cars/add_car_details.html", {'car_details': car_details, 'form': odo_form})
             else:
                 # generate an error
                 pass
@@ -129,27 +130,30 @@ def add_car(request):
 @login_required()
 def add_car_details(request):
     if request.method == 'POST':
-        car_details = request.session['full_car_details']
-        request.session['full_car_details'] = ""  # necessary to clear??
-        # validation not required here - user cannot edit anything - just confirming right vehicle
-        # total_mileage and previous_mileage deliberately omitted
-        # the car owner will never see the model / sub_model split, but it will be used when browsing mpg data
-        model = car_details['model'].split(' ', 1)[0]
-        sub_model = car_details['model'].split(' ', 1)[1]  # doesn't work for cars with no sub model!
-        c = Car(user=request.user,
-                make=car_details['make'],
-                model=model,
-                sub_model=sub_model,
-                colour=car_details['colour'],
-                year_of_manufacture=car_details['yearOfManufacture'],
-                cylinder_capacity=car_details['cylinderCapacity'],
-                transmission=car_details['transmission'],
-                fuel_type=car_details['fuelType'],
-                co2=car_details['co2Emissions'],
-                doors=car_details['numberOfDoors'])
-        c.save()
-        latest_car = Car.objects.filter(user_id=request.user).latest('date_added')  # django is asynchronous, so save() has completed
-        return redirect(cars, latest_car.pk)
+        form = OdometerForm(request.POST)
+        if form.is_valid():
+            car_details = request.session['full_car_details']  # pass to next form using session variable
+            request.session['full_car_details'] = ""  # necessary to clear??
+            # validation not required here - user cannot edit anything - just confirming right vehicle
+            # total_mileage and previous_mileage deliberately omitted
+            # the car owner will never see the model / sub_model split, but it will be used when browsing mpg data
+            model = car_details['model'].split(' ', 1)[0]
+            sub_model = car_details['model'].split(' ', 1)[1]  # doesn't work for cars with no sub model!
+            c = Car(user=request.user,
+                    make=car_details['make'],
+                    model=model,
+                    sub_model=sub_model,
+                    colour=car_details['colour'],
+                    year_of_manufacture=car_details['yearOfManufacture'],
+                    cylinder_capacity=car_details['cylinderCapacity'],
+                    transmission=car_details['transmission'],
+                    fuel_type=car_details['fuelType'],
+                    co2=car_details['co2Emissions'],
+                    doors=car_details['numberOfDoors'],
+                    odometer=form.cleaned_data['odo_reading'])
+            c.save()
+            latest_car = Car.objects.filter(user_id=request.user).latest('date_added')  # django is asynchronous, so save() has completed
+            return redirect(cars, latest_car.pk)
 
     else:
         form = PlateForm()

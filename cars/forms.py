@@ -10,23 +10,33 @@ class PlateForm(forms.Form):
 
 
 class RefuelForm(forms.Form):
-    date = forms.CharField(label='Date and Time',
-                           initial='Now')
-    odometer = forms.DecimalField(label='Total mileage')
-    litres = forms.DecimalField(label='Litres of fuel', min_value=0.1, max_value=500)
-    price = forms.DecimalField(label='Price paid (£)', min_value=0.01, max_value=750)
-    full_tank = forms.ChoiceField(label="Did you fill the tank?",
-                                  choices=[(True, 'Yes. I filled the tank.'),
-                                           (False, 'No. I partially filled the tank.')],
-                                  widget=forms.RadioSelect(),
-                                  required=True)
+    date = forms.CharField(label='Date and Time', initial='Now')
 
     def __init__(self, *args, **kwargs):
         self.odometer_validation = kwargs.pop('odometer_validation')
         new_car = kwargs.pop('skip_missed_refuel_question')
         super(RefuelForm, self).__init__(*args, **kwargs)
         # only show the question about missing a refuel if it's not a new car
-        if not new_car:
+        if new_car:
+            self.fields['odometer'] = forms.DecimalField(label="Total mileage (This is your vehicle's total mileage, \
+                                                                not your journey mileage)")
+            self.fields['full_tank'] = forms.ChoiceField(label="Did you fill the tank? (Full-tank refuels will give \
+                                                                quicker results)",
+                                                         choices=[(True, 'Yes. I filled the tank.'),
+                                                                  (False, 'No. I partially filled the tank.')],
+                                                         widget=forms.RadioSelect(),
+                                                         required=True)
+
+        else:
+            self.fields['odometer'] = forms.DecimalField(label='Total mileage')
+            self.fields['litres'] = forms.DecimalField(label='Litres of fuel', min_value=0.1, max_value=500)
+            self.fields['price'] = forms.DecimalField(label='Price paid (£)', min_value=0.01, max_value=750)
+            self.fields['full_tank'] = forms.ChoiceField(label="Did you fill the tank?",
+                                                         choices=[(True, 'Yes. I filled the tank.'),
+                                                                  (False, 'No. I partially filled the tank.')],
+                                                         widget=forms.RadioSelect(),
+                                                         required=True)
+
             self.fields['missed_refuels'] = forms.ChoiceField(label="Did you miss logging a previous refuel?",
                                                               choices=[(True, 'Yes. I forgot to log a refuel.'),
                                                                        (False, 'No refuels missed.')],

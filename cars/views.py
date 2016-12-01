@@ -245,4 +245,4 @@ def refuel_car(request, car_id):
     else:   # if a GET (or any other method) we'll create a blank form
         form = RefuelForm(odometer_validation=odometer_validation, skip_missed_refuel_question=new_car)
 
-    return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car})
+    return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car, 'new_car': new_car})

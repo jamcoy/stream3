@@ -8,6 +8,15 @@
             Enter refueling details for {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}
             <img src="{% static "img/fuelPump.png" %}" alt="Fuel pump"/>
         </h4>
+        {% if new_car %}
+            <h3>This is your first refuel</h3>
+            <p>Only limited information is needed on your first refuel to set a baseline for calculating your economy
+               figures.</p>
+            <p>Future refuels will also require the quantity of fuel (in litres) and
+               and the price paid.</p>
+            <p>You will also be asked to declare if you've forgotten to log any refuels. Please be honest, or you will
+               skew your results!</p>
+        {% endif %}
         <form action="/cars/refuel_car/{{ car_detail.id }}/" method="POST">
             {% csrf_token %}
             {{ form|as_bootstrap }}

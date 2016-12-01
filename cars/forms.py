@@ -16,6 +16,7 @@ class RefuelForm(forms.Form):
         self.odometer_validation = kwargs.pop('odometer_validation')
         self.date_validation = kwargs.pop('date_validation')
         new_car = kwargs.pop('skip_missed_refuel_question')
+        self.new_car = new_car
         super(RefuelForm, self).__init__(*args, **kwargs)
         self.fields['date'] = forms.DateTimeField(label='Date and Time', initial=timezone.now())
         if new_car:
@@ -54,9 +55,9 @@ class RefuelForm(forms.Form):
 
     def clean_date(self):
         date = self.cleaned_data['date']
-        print date, self.date_validation
-        if date < self.date_validation:
-            raise ValidationError(
-                "That pre-dates your last refuel (" + str(self.date_validation) + ")"
-            )
-        return date
+        if not self.new_car:
+            if date < self.date_validation:
+                raise ValidationError(
+                    "That pre-dates your last refuel (" + str(self.date_validation)[:19] + ")"
+                )
+            return date

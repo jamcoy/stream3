@@ -34,7 +34,7 @@ def cars(request, car_id):
         car_statistic['fuel_cost'] = "TBD"
         car_statistic['expenditure'] = "TBD"
 
-        messages.success(request, "Tracking will start after your first full tank refuel.  Data will be available \
+        messages.success(request, "Tracking starts after your first full tank refuel.  Data will be available \
                                    following your second full tank refuel.")
 
     # all other cars
@@ -226,6 +226,8 @@ def refuel_car(request, car_id):
             # refueling a new car for the first time
             if refuel_count == 0:
                 form.cleaned_data['missed_refuels'] = True  # obviously no record of any previous refuels
+                form.cleaned_data['litres'] = 0
+                form.cleaned_data['price'] = 0
 
             # record refuel data with calculated mileage
             r = Refuel(user=request.user,

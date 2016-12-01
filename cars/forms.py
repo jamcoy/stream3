@@ -20,7 +20,7 @@ class OdometerForm(forms.Form):
 class RefuelForm(forms.Form):
     date = forms.CharField(label='Date and Time',
                            initial='Now')
-    mileage = forms.DecimalField(label='Total mileage')
+    odometer = forms.DecimalField(label='Total mileage')
     litres = forms.DecimalField(label='Litres of fuel', min_value=0.1, max_value=500)
     price = forms.DecimalField(label='Price paid (£)', min_value=0.01, max_value=750)
     full_tank = forms.ChoiceField(label="Did you fill the tank?",
@@ -30,21 +30,21 @@ class RefuelForm(forms.Form):
                                   required=True)
 
     def __init__(self, *args, **kwargs):
-        self.mileage_validation = kwargs.pop('mileage_validation')
+        self.odometer_validation = kwargs.pop('odometer_validation')
         skip_question = kwargs.pop('skip_missed_refuel_question')
         super(RefuelForm, self).__init__(*args, **kwargs)
         # only show the question about missing a refuel if it's not a new car, or not a new car with an odometer reading
-        if skip_question is not True:
+        if skip_question:
             self.fields['missed_refuels'] = forms.ChoiceField(label="Did you miss logging a previous refuel?",
                                                               choices=[(True, 'Yes. I forgot to log a refuel.'),
                                                                        (False, 'No refuels missed.')],
                                                               widget=forms.RadioSelect(),
                                                               required=True)
 
-    def clean_mileage(self):
-        mileage = self.cleaned_data['mileage']
-        if mileage < self.mileage_validation:
+    def clean_odometer(self):
+        odometer = self.cleaned_data['odometer']
+        if odometer < self.odometer_validation:
             raise ValidationError(
-                "That mileage is no higher than your last refuel (" + str(self.mileage_validation) + ")"
+                "That mileage is no higher than your last reading (" + str(self.odometer_validation) + ")"
             )
-        return mileage
+        return odometer

@@ -96,14 +96,15 @@ def cars(request, car_id):
             car_statistic['economy'] = round(total_mileage / (total_litres / Decimal(4.545454)), 1)
             car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'),
                                                                                    rounding=ROUND_HALF_EVEN))
-            car_statistic['fuel'] = "{:,}".format(Decimal(total_litres).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN))
+            car_statistic['fuel'] = "{:,}".format(Decimal(total_litres).quantize(Decimal('1'),
+                                                                                 rounding=ROUND_HALF_EVEN))
             car_statistic['ppm'] = round((total_price / total_mileage) * 100, 1)
             car_statistic['fuel_cost'] = round(((total_price * 100) / total_litres), 1)
             if total_price < 1000:
                 car_statistic['expenditure'] = Decimal(total_price).quantize(Decimal('.01'), rounding=ROUND_HALF_EVEN)
             else:
                 car_statistic['expenditure'] = "{:,}".format(Decimal(total_price).quantize(Decimal('1'),
-                                                                                          rounding=ROUND_HALF_EVEN))
+                                                                                           rounding=ROUND_HALF_EVEN))
 
             # tracking resumed
             if latest_refuel.full_tank and not latest_refuel.missed_refuels and previous_refuel.missed_refuels \
@@ -184,7 +185,7 @@ def add_car_details(request):
                 co2=car_details['co2Emissions'],
                 doors=car_details['numberOfDoors'])
         c.save()
-        latest_car = Car.objects.filter(user_id=request.user).latest('date_added')  # django is asynchronous, so save() has completed
+        latest_car = Car.objects.filter(user_id=request.user).latest('date_added')  # django is asynchronous
         return redirect(cars, latest_car.pk)
 
     else:

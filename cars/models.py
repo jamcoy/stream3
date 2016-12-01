@@ -7,7 +7,6 @@ from django.conf import settings
 class Car(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     date_added = models.DateTimeField(auto_now_add=True)
-    odometer_initial = models.DecimalField(max_digits=10, decimal_places=1, null=True)  # mileage
     exclude_from_collation = models.BooleanField(default=False)
     exclude_from_collation_reason = models.CharField(max_length=30, null=True)
 

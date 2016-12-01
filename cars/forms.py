@@ -9,14 +9,6 @@ class PlateForm(forms.Form):
                                widget=forms.TextInput(attrs={'class': 'uk-rear-plate'}))
 
 
-class OdometerForm(forms.Form):
-    odo_reading = forms.DecimalField(label='Current odometer reading \
-                                            (supplying a reading now will give quicker results but is not required)',
-                                     min_value=0,
-                                     max_value=10000000,
-                                     required=False)
-
-
 class RefuelForm(forms.Form):
     date = forms.CharField(label='Date and Time',
                            initial='Now')
@@ -31,10 +23,10 @@ class RefuelForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.odometer_validation = kwargs.pop('odometer_validation')
-        skip_question = kwargs.pop('skip_missed_refuel_question')
+        new_car = kwargs.pop('skip_missed_refuel_question')
         super(RefuelForm, self).__init__(*args, **kwargs)
-        # only show the question about missing a refuel if it's not a new car, or not a new car with an odometer reading
-        if skip_question:
+        # only show the question about missing a refuel if it's not a new car
+        if not new_car:
             self.fields['missed_refuels'] = forms.ChoiceField(label="Did you miss logging a previous refuel?",
                                                               choices=[(True, 'Yes. I forgot to log a refuel.'),
                                                                        (False, 'No refuels missed.')],

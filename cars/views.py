@@ -24,7 +24,21 @@ def cars(request, car_id):
     car_statistic = {}
 
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
-    if refuel_count > 1:
+
+    # new cars
+    if refuel_count < 2:
+        car_statistic['economy'] = "TBD"
+        car_statistic['miles'] = "TBD"
+        car_statistic['fuel'] = "TBD"
+        car_statistic['ppm'] = "TBD"
+        car_statistic['fuel_cost'] = "TBD"
+        car_statistic['expenditure'] = "TBD"
+
+        messages.success(request, "Tracking will start after your first full tank refuel.  Data will be available \
+                                   following your second full tank refuel.")
+
+    # all other cars
+    else:
         all_refuels = Refuel.objects.filter(car_id=car_id).order_by('date_time_added')
         latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
 
@@ -36,6 +50,8 @@ def cars(request, car_id):
         part_price = 0
         start_mileage = 0
         found_start_point = False
+        previous_refuel = []  # used in subsequent message to user
+        i = 0
 
         for refuel in all_refuels:
 
@@ -47,38 +63,33 @@ def cars(request, car_id):
                 if refuel.full_tank:
                     start_mileage = refuel.odometer
                     found_start_point = True
-                    print refuel, " RESET AND START POINT"
                 # not valid start point
                 else:
                     found_start_point = False
-                print refuel, " RESET"
 
             # valid start point
             elif refuel.full_tank and found_start_point is False:
                 start_mileage = refuel.odometer
                 found_start_point = True
-                print refuel, " START POINT"
 
-            # part tanks
+            # part filled tanks
             elif refuel.full_tank is False:
                 # only include a part tank that follows a valid start point
                 if found_start_point:
                     part_litres += refuel.litres
                     part_price += refuel.litres
-                    print refuel, " PART TANK INCLUDED"
-                else:
-                    print refuel, " PART TANK IGNORED"
 
             # valid end point (and next start point)
             else:
                 total_litres += part_litres + refuel.litres
                 total_price += part_price + refuel.price
                 total_mileage += refuel.odometer - start_mileage
-                # This becomes our next start point
-                start_mileage = refuel.odometer
                 part_litres = 0
                 part_price = 0
-                print refuel, " END POINT, NEXT START POINT"
+                start_mileage = refuel.odometer
+                previous_refuel = all_refuels[i - 1]
+
+            i += 1
 
         # prepare the figures
         if total_litres > 0 and total_mileage > 0 and total_price > 0:
@@ -94,11 +105,15 @@ def cars(request, car_id):
                 car_statistic['expenditure'] = "{:,}".format(Decimal(total_price).quantize(Decimal('1'),
                                                                                           rounding=ROUND_HALF_EVEN))
 
+            # tracking resumed
+            if latest_refuel.full_tank and not latest_refuel.missed_refuels and previous_refuel.missed_refuels:
+                messages.warning(request, "Tracking resumed after missing previous refuel(s).")
+
             # not a full tank, but didn't miss a refuel - update message
             if not latest_refuel.full_tank and not latest_refuel.missed_refuels:
-                messages.warning(request, "Your last refuel was not a full tank. Data will not be updated until your next \
-                                           full-tank refuel, but will continue to contribute to your overall figures, \
-                                           so long as you don't miss logging any refuels.")
+                messages.warning(request, "Your last refuel was not a full tank. Displayed data will not be updated \
+                                           until your next full-tank refuel.  Partial refuels will contribute to your \
+                                           overall data, so long as you haven't missed logging any refuels.")
 
             # missed logging a refuel
             elif latest_refuel.missed_refuels:
@@ -115,18 +130,6 @@ def cars(request, car_id):
             car_statistic['expenditure'] = "TBD"
 
             messages.success(request, "You MUST complete at least TWO FULL TANK refuels to get some results!")
-
-
-    # new cars
-    else:
-        car_statistic['economy'] = "TBD"
-        car_statistic['miles'] = "TBD"
-        car_statistic['fuel'] = "TBD"
-        car_statistic['ppm'] = "TBD"
-        car_statistic['fuel_cost'] = "TBD"
-        car_statistic['expenditure'] = "TBD"
-
-        messages.success(request, "Data will be available once you've logged two full tank refuels.")
 
     cars_list = Car.objects.filter(user_id=request.user)
     return render(request, 'cars/cars.html', {'car_detail': car_detail,

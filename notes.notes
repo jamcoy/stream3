@@ -1,0 +1,111 @@
+Some free test plates:
+MT09HRD NISSAN NOTE ACENTA
+MT09NKS VW TIGUAN SE TDI 4MOTION 140
+FH51KPX NISSAN PRIMERA
+FH51DPU TOYOTA RAV4 NRG VVTI
+FH51YAA TOYOTA RAV4 GX VVTI
+FH51UGX MAZDA 626 GXI SE D
+MT09HAA PORSCHE BOXSTER S S-A
+MT09UGX FORD S-MAX ZETEC TDCI
+MT09YAA FORD FOCUS ZETEC 100
+
+Test refuel data:
+08.07.16 90351 46.53 £50.58
+24.07.16 90726 44.48 £47.90
+24.07.16 90904 20.24 £22.65
+29.07.16 91256 37.67 £40.57
+01.08.16 91688 49.75 £53.58
+06.08.16 91791 12.65 £13.37
+
+{"make":"NISSAN","dateOfFirstRegistration":"06 July 2009","yearOfManufacture":"2009","cylinderCapacity":"1386 cc","co2Emissions":"139 g/km","fuelType":"PETROL","taxStatus":"Tax not due","colour":"GOLD","typeApproval":"M1","wheelPlan":"2 AXLE RIGID BODY","revenueWeight":"Not available","taxDetails":"Tax due: 01 March 2017","motDetails":"Expires: 02 March 2017","taxed":true,"mot":true,"vin":"SJNFAAE11U2020666","model":"NOTE ACENTA","transmission":"MANUAL","numberOfDoors":"5","sixMonthRate":"","twelveMonthRate":""}
+
+bootstrap daterangepicker / Why do I have to repeat loading js files in refuel_car.html? / Placement of library files
+
+consider cdn for daterangepicker, momemt, etc
+
+
+Out of sequence refills...
+
+Make everything available to admin
+
+DOn't delete the stats if the car is deleted (maybe an option for the user?)
+
+Give odometer reading at sign-up for quicker results!
+
+Nissan Primera breaks it
+
+More checks for refuel (date, values sensible, etc)
+
+forms.ModelForm for cars and refuels??
+
+Check user can't go to views when they shouldn't
+
+* Expenditure and fuel used do not include what's in your tank
+
+Store odo reading with refuels - might be useful later
+
+'Tracking resumed by not be quite right'
+
+LAST COMMIT BEFORE MAJOR REWORK:  Fix refuel logic for multiple partial tanks in sequence
+
+################
+
+        Valid for fuel economy calculations:
+        Full tank nothing missed to previous Full tank (don't care if something missed)
+        Full tank nothing missed plus any number of partial refuels with nothing missed to previous Full tank (don't care if something missed)
+
+        Anything else needs to be disregarded
+
+        Calculations:
+        Find latest full tank with nothing missed, work back collecting until either a missed full tank or a good full tank is found.
+            If it's a ANY full tank regardless of missed or not
+                add to total, NOT including the earliest item
+            Else
+                Chuck away
+
+            Continue working back in the same way until getting to the start.
+
+        Disregard first fill up except the odo reading - make a note to user - might think it's wrong!
+
+        Need to account for car's initial ODO reading
+
+
+
+        i = 0
+        for refuel in all_refuels:
+            previous_refuel = i + 1
+            if previous_refuel == refuel_count:
+                break  # reached end
+
+            # collect up consecutive partial tanks, unless user missed logging previous refuel
+            # and only if we've seen a full tank
+            if full_tank_found and not refuel.full_tank and not all_refuels[previous_refuel].missed_refuels:
+                part_tanks_litres += refuel.litres
+                part_tanks_price += refuel.price
+                part_tanks_mileage += (refuel.odometer - all_refuels[previous_refuel].odometer)
+                print i + 1, all_refuels[i].odometer, ": Part tank"
+
+            # add full tanks and collected part tanks to total, unless user has missed logging previous refuel
+            elif refuel.full_tank and not all_refuels[previous_refuel].missed_refuels:
+                full_tank_found = True
+                part_tanks_litres += refuel.litres
+                part_tanks_price += refuel.price
+                part_tanks_mileage += (refuel.odometer - all_refuels[previous_refuel].odometer)
+                if all_refuels[previous_refuel].full_tank:  # only add these on when preceded by a full tank, else collect more
+                    total_litres += part_tanks_litres
+                    total_price += part_tanks_price
+                    total_mileage += part_tanks_mileage
+                    part_tanks_litres = 0
+                    part_tanks_price = 0
+                    part_tanks_mileage = 0
+                    print i + 1, all_refuels[i].odometer, ": Good full tank preceded by full tank, add to total"
+                else:
+                    print i + 1, all_refuels[i].odometer, ": Good full tank, keep collecting"
+
+            # user has missed logging previous refuel - full and collected part tanks to this point must be disregarded
+            else:
+                part_tanks_litres = 0
+                part_tanks_price = 0
+                part_tanks_mileage = 0
+                print i + 1, all_refuels[i].odometer, ": Miss / reset"
+            i += 1

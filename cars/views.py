@@ -106,7 +106,8 @@ def cars(request, car_id):
                                                                                           rounding=ROUND_HALF_EVEN))
 
             # tracking resumed
-            if latest_refuel.full_tank and not latest_refuel.missed_refuels and previous_refuel.missed_refuels:
+            if latest_refuel.full_tank and not latest_refuel.missed_refuels and previous_refuel.missed_refuels \
+                    and refuel_count > 2:
                 messages.warning(request, "Tracking resumed after missing previous refuel(s).")
 
             # not a full tank, but didn't miss a refuel - update message

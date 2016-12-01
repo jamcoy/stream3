@@ -1,6 +1,5 @@
 .idea/
-db.sqlite3
-ToDo
-notes
-refuel_testing.ods
-.~lock.refuel_testing.ods#
+*.sqlite3
+*.notes
+*.ods#
+*.ods

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 class PlateForm(forms.Form):
@@ -10,13 +11,13 @@ class PlateForm(forms.Form):
 
 
 class RefuelForm(forms.Form):
-    date = forms.CharField(label='Date and Time', initial='Now')
 
     def __init__(self, *args, **kwargs):
         self.odometer_validation = kwargs.pop('odometer_validation')
+        self.date_validation = kwargs.pop('date_validation')
         new_car = kwargs.pop('skip_missed_refuel_question')
         super(RefuelForm, self).__init__(*args, **kwargs)
-        # only show the question about missing a refuel if it's not a new car
+        self.fields['date'] = forms.DateTimeField(label='Date and Time', initial=timezone.now())
         if new_car:
             self.fields['odometer'] = forms.DecimalField(label="Total mileage (This is your vehicle's total mileage, \
                                                                 not your journey mileage)")
@@ -50,3 +51,12 @@ class RefuelForm(forms.Form):
                 "That mileage is no higher than your last reading (" + str(self.odometer_validation) + ")"
             )
         return odometer
+
+    def clean_date(self):
+        date = self.cleaned_data['date']
+        print date, self.date_validation
+        if date < self.date_validation:
+            raise ValidationError(
+                "That pre-dates your last refuel (" + str(self.date_validation) + ")"
+            )
+        return date

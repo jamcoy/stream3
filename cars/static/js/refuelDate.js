@@ -7,7 +7,7 @@ $(document).ready(function(){
             "singleDatePicker": true,
             "autoApply": true,
             "locale": {
-                "format": "dddd DD/MM/YYYY HH:mm"
+                "format": "YYYY-MM-DD HH:mm:ss"
             },
             "linkedCalendars": false,
             "startDate": moment()

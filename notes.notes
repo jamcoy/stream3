@@ -46,6 +46,8 @@ Store odo reading with refuels - might be useful later
 
 'Tracking resumed by not be quite right'
 
+If user tries to add an out of sequence refuel, tell them to go the the refuel history and edit
+
 LAST COMMIT BEFORE MAJOR REWORK:  Fix refuel logic for multiple partial tanks in sequence
 
 ################

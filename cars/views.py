@@ -209,16 +209,19 @@ def refuel_car(request, car_id):
 
     # set things up for our odometer validation
     odometer_validation = 0
+    date_validation = 0
     new_car = False
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
     if refuel_count > 0:
         odometer_validation = Refuel.objects.filter(car_id=car_id).latest('date_time_added').odometer
+        date_validation = Refuel.objects.filter(car_id=car_id).latest('date_time_added').date_time_added
     else:
         new_car = True
 
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = RefuelForm(request.POST, odometer_validation=odometer_validation,
+                          date_validation=date_validation,
                           skip_missed_refuel_question=new_car)
 
         # check if form is valid
@@ -246,6 +249,8 @@ def refuel_car(request, car_id):
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")
     else:   # if a GET (or any other method) we'll create a blank form
-        form = RefuelForm(odometer_validation=odometer_validation, skip_missed_refuel_question=new_car)
+        form = RefuelForm(odometer_validation=odometer_validation,
+                          date_validation=date_validation,
+                          skip_missed_refuel_question=new_car)
 
     return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car, 'new_car': new_car})

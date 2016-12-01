@@ -19,6 +19,20 @@ def list_cars(request):
 
 
 @login_required()
+def refuel_history(request, car_id):
+    car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    refuel_count = Refuel.objects.filter(car_id=car_id).count()
+    refuels = {}  # is this necessary???
+    if refuel_count > 0:  # is this necessary???
+        refuels = Refuel.objects.filter(car_id=car_id).order_by('-date_time_added')
+        for refuel in refuels:
+            if refuel.litres > 0:
+                refuel.litre_price = round((refuel.price * 100 / refuel.litres), 1)
+    return render(request, 'cars/refuel_history.html', {'car_detail': car_detail,
+                                                        'refuels': refuels})
+
+
+@login_required()
 def cars(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
     car_statistic = {}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="">
+        <h4 class="">Refuel history for {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}</h4>
+    </div>
+    {% for refuel in refuels %}
+            <hr>
+    {% if not forloop.last %}
+            <p>{{ refuel.date_time_added }} | {{ refuel.odometer }} | {{ refuel.litres }} litres | ${{ refuel.price }} | {{ refuel.litre_price }}p / litre | Full tank: {{ refuel.full_tank }}</p>
+        {% else %}
+            <p>{{ refuel.date_time_added }} | {{ refuel.odometer }} | N/A | N/A | N/A | Full tank: {{ refuel.full_tank }}</p>
+        {% endif %}
+        {% if refuel.missed_refuels %}
+            {% if not forloop.last %}
+                <hr>
+                <p>MISSED REFUEL(S) REPORTED</p>
+            {%  endif %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

@@ -51,63 +51,8 @@ If user tries to add an out of sequence refuel, tell them to go the the refuel h
 LAST COMMIT BEFORE MAJOR REWORK:  Fix refuel logic for multiple partial tanks in sequence
 
 ################
-
-        Valid for fuel economy calculations:
-        Full tank nothing missed to previous Full tank (don't care if something missed)
-        Full tank nothing missed plus any number of partial refuels with nothing missed to previous Full tank (don't care if something missed)
-
-        Anything else needs to be disregarded
-
-        Calculations:
-        Find latest full tank with nothing missed, work back collecting until either a missed full tank or a good full tank is found.
-            If it's a ANY full tank regardless of missed or not
-                add to total, NOT including the earliest item
-            Else
-                Chuck away
-
-            Continue working back in the same way until getting to the start.
-
-        Disregard first fill up except the odo reading - make a note to user - might think it's wrong!
-
-        Need to account for car's initial ODO reading
-
-
-
-        i = 0
-        for refuel in all_refuels:
-            previous_refuel = i + 1
-            if previous_refuel == refuel_count:
-                break  # reached end
-
-            # collect up consecutive partial tanks, unless user missed logging previous refuel
-            # and only if we've seen a full tank
-            if full_tank_found and not refuel.full_tank and not all_refuels[previous_refuel].missed_refuels:
-                part_tanks_litres += refuel.litres
-                part_tanks_price += refuel.price
-                part_tanks_mileage += (refuel.odometer - all_refuels[previous_refuel].odometer)
-                print i + 1, all_refuels[i].odometer, ": Part tank"
-
-            # add full tanks and collected part tanks to total, unless user has missed logging previous refuel
-            elif refuel.full_tank and not all_refuels[previous_refuel].missed_refuels:
-                full_tank_found = True
-                part_tanks_litres += refuel.litres
-                part_tanks_price += refuel.price
-                part_tanks_mileage += (refuel.odometer - all_refuels[previous_refuel].odometer)
-                if all_refuels[previous_refuel].full_tank:  # only add these on when preceded by a full tank, else collect more
-                    total_litres += part_tanks_litres
-                    total_price += part_tanks_price
-                    total_mileage += part_tanks_mileage
-                    part_tanks_litres = 0
-                    part_tanks_price = 0
-                    part_tanks_mileage = 0
-                    print i + 1, all_refuels[i].odometer, ": Good full tank preceded by full tank, add to total"
-                else:
-                    print i + 1, all_refuels[i].odometer, ": Good full tank, keep collecting"
-
-            # user has missed logging previous refuel - full and collected part tanks to this point must be disregarded
-            else:
-                part_tanks_litres = 0
-                part_tanks_price = 0
-                part_tanks_mileage = 0
-                print i + 1, all_refuels[i].odometer, ": Miss / reset"
-            i += 1
+How the refuel algorithm works in human speak:
+Any readings from a full tank refuel to another full tank refuel are including in the calculation
+unless anything except the first reading has been marked as having preceding missed refuels, in which
+case all these readings are excluded.
+##########

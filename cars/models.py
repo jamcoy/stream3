@@ -50,3 +50,4 @@ class Refuel(models.Model):
              + str(self.litres) + " litres, " \
              + str(self.price) + " GBP, " \
              + tank
+

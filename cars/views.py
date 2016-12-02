@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from urllib2 import urlopen
-from .forms import PlateForm, RefuelForm
+from .forms import PlateForm, RefuelForm, ImageForm
 import json
 from django.contrib.auth.decorators import login_required
 from .models import Car, Refuel
@@ -10,8 +10,8 @@ from django.db.models import Value as V
 from django.db.models.functions import Concat
 
 
-def list_of_cars(request):  # not a view
-    return Car.objects.filter(user_id=request.user)\
+def list_of_cars(user):  # not a view
+    return Car.objects.filter(user_id=user)\
                       .annotate(car=Concat('make', V(' '), 'model', V(' '), 'sub_model'))\
                       .order_by('car')
 
@@ -36,7 +36,7 @@ def refuel_history(request, car_id):
         for refuel in refuels:
             if refuel.litres > 0:
                 refuel.litre_price = round((refuel.price * 100 / refuel.litres), 1)
-    cars_list = list_of_cars(request)
+    cars_list = list_of_cars(request.user)
     return render(request, 'cars/refuel_history.html', {'car_detail': car_detail,
                                                         'cars_list': cars_list,
                                                         'refuels': refuels})
@@ -45,7 +45,7 @@ def refuel_history(request, car_id):
 @login_required()
 def car_details(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
-    cars_list = list_of_cars(request)
+    cars_list = list_of_cars(request.user)
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
     latest_refuel = {}  # is this necessary???
     if refuel_count > 0:
@@ -171,7 +171,7 @@ def car_stats(request, car_id):
 
             messages.success(request, "You MUST complete at least TWO FULL TANK refuels to get some results!")
 
-    cars_list = list_of_cars(request)
+    cars_list = list_of_cars(request.user)
     return render(request, 'cars/car_stats.html', {'car_detail': car_detail,
                                                    'cars_list': cars_list,
                                                    'car_statistic': car_statistic})
@@ -300,3 +300,20 @@ def refuel_car(request, car_id):
                           skip_missed_refuel_question=new_car)
 
     return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car, 'new_car': new_car})
+
+
+@login_required()
+def upload_image(request, car_id):
+    car = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ImageForm(request.POST, request.FILES, instance=car)
+        # check whether it's valid:
+        if form.is_valid():
+            car = form.save(commit=False)
+            car.save()
+            return redirect(car_stats, car.pk)
+    else:  # if a GET (or any other method) we'll create a blank form
+        form = ImageForm(instance=car)
+        return render(request, 'cars/upload_image.html', {'form': form})  # maybe shouldn't be indented

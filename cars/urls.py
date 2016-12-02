@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^refuel_car/(?P<car_id>\d+)/$', views.refuel_car),
     url(r'^refuel_history/(?P<car_id>\d+)/$', views.refuel_history),
     url(r'^car_details/(?P<car_id>\d+)/$', views.car_details),
+    url(r'^upload_image/(?P<car_id>\d+)/$', views.upload_image),
 ]

@@ -21,7 +21,7 @@ class Car(models.Model):
     fuel_type = models.CharField(max_length=10)
     co2 = models.CharField(max_length=10)
     doors = models.CharField(max_length=10)
-    image = models.ImageField(upload_to="images/vehicles", blank=True, null=True)
+    image = models.ImageField(upload_to="images/cars", blank=True, null=True)
 
     def __str__(self):
         return self.make + " " \

@@ -2,12 +2,19 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from .models import Car
 
 
 class PlateForm(forms.Form):
     your_reg = forms.CharField(label='',
                                max_length=20,
                                widget=forms.TextInput(attrs={'class': 'uk-rear-plate'}))
+
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = Car
+        fields = ('image',)
 
 
 class RefuelForm(forms.Form):

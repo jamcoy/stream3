@@ -6,6 +6,14 @@ from django.contrib.auth.decorators import login_required
 from .models import Car, Refuel
 from django.contrib import messages
 from decimal import *
+from django.db.models import Value as V
+from django.db.models.functions import Concat
+
+
+def list_of_cars(request):  # not a view
+    return Car.objects.filter(user_id=request.user)\
+                      .annotate(car=Concat('make', V(' '), 'model', V(' '), 'sub_model'))\
+                      .order_by('car')
 
 
 @login_required()
@@ -23,15 +31,29 @@ def refuel_history(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
     refuels = {}  # is this necessary???
-    if refuel_count > 0:  # is this necessary???
+    if refuel_count > 0:
         refuels = Refuel.objects.filter(car_id=car_id).order_by('-date_time_added')
         for refuel in refuels:
             if refuel.litres > 0:
                 refuel.litre_price = round((refuel.price * 100 / refuel.litres), 1)
-    cars_list = Car.objects.filter(user_id=request.user)
+    cars_list = list_of_cars(request)
     return render(request, 'cars/refuel_history.html', {'car_detail': car_detail,
                                                         'cars_list': cars_list,
                                                         'refuels': refuels})
+
+
+@login_required()
+def car_details(request, car_id):
+    car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    cars_list = list_of_cars(request)
+    refuel_count = Refuel.objects.filter(car_id=car_id).count()
+    latest_refuel = {}  # is this necessary???
+    if refuel_count > 0:
+        latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
+        latest_refuel.odometer = "{:,}".format(int(latest_refuel.odometer))
+    return render(request, 'cars/car_details.html', {'car_detail': car_detail,
+                                                     'cars_list': cars_list,
+                                                     'refuel': latest_refuel})
 
 
 @login_required()
@@ -149,7 +171,7 @@ def car_stats(request, car_id):
 
             messages.success(request, "You MUST complete at least TWO FULL TANK refuels to get some results!")
 
-    cars_list = Car.objects.filter(user_id=request.user)
+    cars_list = list_of_cars(request)
     return render(request, 'cars/car_stats.html', {'car_detail': car_detail,
                                                    'cars_list': cars_list,
                                                    'car_statistic': car_statistic})

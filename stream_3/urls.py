@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-import settings
+from settings import MEDIA_ROOT, DEBUG
+from django.views.static import serve
 
 urlpatterns = [  # don't terminate with a $ when using includes
     url(r'^admin/', admin.site.urls),
@@ -25,9 +26,10 @@ urlpatterns = [  # don't terminate with a $ when using includes
     url(r'^forum/', include('forum.urls')),
     url(r'^cars/', include('cars.urls')),
     url(r'^stats/', include('stats.urls')),
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
 ]
 
-if settings.DEBUG:
+if DEBUG:
     import debug_toolbar
     urlpatterns += [
         url(r'^__debug__/', include(debug_toolbar.urls)),

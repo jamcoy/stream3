@@ -163,3 +163,9 @@ TINYMCE_JS_ROOT = os.path.join(BASE_DIR, "static", 'js', 'tinymce', 'tinymce.min
 # Disqus
 
 DISQUS_WEBSITE_SHORTNAME = 'mybootcampblog'
+
+
+# Media files
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

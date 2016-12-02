@@ -7,5 +7,7 @@
         {{ form | as_bootstrap}}
         <input class="btn btn-primary" type="submit" value="Save">
     </form>
-
+    <form action="/cars/{{ car_detail.id }}/" method="GET">
+        <input class="btn btn-default" type="submit" value="Cancel">
+    </form>
 {% endblock %}

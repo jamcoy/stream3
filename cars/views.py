@@ -45,12 +45,12 @@ def refuel_history(request, car_id):
 @login_required()
 def car_details(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
-    cars_list = list_of_cars(request.user)
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
     latest_refuel = {}  # is this necessary???
     if refuel_count > 0:
         latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
         latest_refuel.odometer = "{:,}".format(int(latest_refuel.odometer))
+    cars_list = list_of_cars(request.user)
     return render(request, 'cars/car_details.html', {'car_detail': car_detail,
                                                      'cars_list': cars_list,
                                                      'refuel': latest_refuel})
@@ -239,17 +239,6 @@ def add_car_details(request):
 
 
 @login_required()
-def delete_car(request, car_id):
-    car = get_object_or_404(Car, pk=car_id, user_id=request.user)
-    if request.method == 'POST':  # user has confirmed deleting car
-        car.delete()
-        messages.success(request, "Your car was deleted!")
-        return redirect(list_cars)  # would be better to return to list instead once available
-    else:  # ask user to confirm deleting car
-        return render(request, 'cars/delete_car.html', {'car_detail': car})  # maybe shouldn't be indented
-
-
-@login_required()
 def refuel_car(request, car_id):
     car = get_object_or_404(Car, pk=car_id, user_id=request.user)
 
@@ -316,4 +305,21 @@ def upload_image(request, car_id):
             return redirect(car_stats, car.pk)
     else:  # if a GET (or any other method) we'll create a blank form
         form = ImageForm(instance=car)
-        return render(request, 'cars/upload_image.html', {'form': form})  # maybe shouldn't be indented
+        cars_list = list_of_cars(request.user)
+        return render(request, 'cars/upload_image.html', {'form': form,  # maybe shouldn't be indented
+                                                          'cars_list': cars_list,
+                                                          'car_detail': car})
+
+
+@login_required()
+def delete_car(request, car_id):
+    car = get_object_or_404(Car, pk=car_id, user_id=request.user)
+    if request.method == 'POST':  # user has confirmed deleting car
+        car.delete()
+        messages.success(request, "Your car was deleted!")
+        return redirect(list_cars)  # would be better to return to list instead once available
+    else:  # ask user to confirm deleting car
+        cars_list = list_of_cars(request.user)
+        return render(request, 'cars/delete_car.html', {'cars_list': cars_list,  # maybe shouldn't be indented
+                                                        'car_detail': car})
+

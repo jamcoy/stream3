@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'cars/car_base.html' %}
+{% block car_content %}
     <div class="">
-        <h4 class="">Refuel history for {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}</h4>
+        <h4 class="">Refuel history</h4>
     </div>
     {% for refuel in refuels %}
             <hr>

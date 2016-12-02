@@ -12,7 +12,7 @@ from decimal import *
 def list_cars(request):
     if Car.objects.filter(user_id=request.user):
         first_car = Car.objects.filter(user_id=request.user)[:1].get()
-        return redirect(cars, first_car.pk)  # for the moment it redirects to user's 1st car
+        return redirect(car_stats, first_car.pk)  # for the moment it redirects to user's 1st car
     else:  # if user has no cars, send them to the add car form
         form = PlateForm()
         return render(request, 'cars/add_car.html', {'form': form})  # maybe shouldn't be indented
@@ -28,12 +28,14 @@ def refuel_history(request, car_id):
         for refuel in refuels:
             if refuel.litres > 0:
                 refuel.litre_price = round((refuel.price * 100 / refuel.litres), 1)
+    cars_list = Car.objects.filter(user_id=request.user)
     return render(request, 'cars/refuel_history.html', {'car_detail': car_detail,
+                                                        'cars_list': cars_list,
                                                         'refuels': refuels})
 
 
 @login_required()
-def cars(request, car_id):
+def car_stats(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
     car_statistic = {}
 
@@ -148,9 +150,9 @@ def cars(request, car_id):
             messages.success(request, "You MUST complete at least TWO FULL TANK refuels to get some results!")
 
     cars_list = Car.objects.filter(user_id=request.user)
-    return render(request, 'cars/cars.html', {'car_detail': car_detail,
-                                              'cars_list': cars_list,
-                                              'car_statistic': car_statistic})
+    return render(request, 'cars/car_stats.html', {'car_detail': car_detail,
+                                                   'cars_list': cars_list,
+                                                   'car_statistic': car_statistic})
 
 
 @login_required()
@@ -200,7 +202,7 @@ def add_car_details(request):
                 doors=car_details['numberOfDoors'])
         c.save()
         latest_car = Car.objects.filter(user_id=request.user).latest('date_added')  # django is asynchronous
-        return redirect(cars, latest_car.pk)
+        return redirect(car_stats, latest_car.pk)
 
     else:
         form = PlateForm()
@@ -259,7 +261,7 @@ def refuel_car(request, car_id):
                        missed_refuels=form.cleaned_data['missed_refuels'])
             r.save()
 
-            return redirect(cars, car.pk)
+            return redirect(car_stats, car.pk)
 
         else:  # form not valid
             messages.error(request, "Please correct the highlighted fields")

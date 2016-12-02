@@ -32,6 +32,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
+                    <li><a href="/cars/{{ car_detail.id }}">Economy stats</a></li>
                     <li><a href="#" name="vehicleDetails">Car details</a></li>
                     <li><a href="/cars/refuel_history/{{ car_detail.id }}" class="refuelHistory">Refuel history</a></li>
                     <li><a href="#" class="uploadPhoto">Upload photo</a></li>
@@ -76,66 +77,9 @@
         </div>
     </div>
 
-
-    <div class="row">
-
-        <div class="col-md-4">
-            <table class="bigStatsTable">
-                <tbody class="bigStatsTbody">
-                    <tr>
-                        <td class="statHeadings">Economy</td>
-                        <td class="tableSpacer"></td>
-                        <td class="statHeadings">Tracked mileage</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="statDetails">{{ car_statistic.economy }}</span>
-                            <span class="statUnits">mpg</span>
-                        </td>
-                        <td class="tableSpacer"></td>
-                        <td>
-                            <span class="statDetails">{{ car_statistic.miles }}</span>
-                            <span class="statUnits">miles</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="statHeadings">Fuel used</td>
-                        <td class="tableSpacer"></td>
-                        <td class="statHeadings">Ave. mileage cost</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="statDetails">{{ car_statistic.fuel }}</span>
-                            <span class="statUnits">litres</span>
-                        </td>
-                        <td class="tableSpacer"></td>
-                        <td>
-                            <span class="statDetails">{{ car_statistic.ppm }}</span>
-                            <span class="statUnits">p / mile</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="statHeadings">Expenditure</td>
-                        <td class="tableSpacer"></td>
-                        <td class="statHeadings">Ave. fuel cost</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="statDetails">£{{ car_statistic.expenditure }}</span>
-                            <span class="statUnits"></span>
-                        </td>
-                        <td class="tableSpacer"></td>
-                        <td>
-                            <span class="statDetails">{{ car_statistic.fuel_cost }}</span>
-                            <span class="statUnits">p / litre</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="col-md-8">
-            <p>[Chart here]</p>
-        </div>
+    <div class="container">
+        {% block car_content %}
+        {% endblock %}
     </div>
+
 {% endblock %}

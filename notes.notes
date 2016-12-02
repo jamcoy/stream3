@@ -9,13 +9,14 @@ MT09HAA PORSCHE BOXSTER S S-A
 MT09UGX FORD S-MAX ZETEC TDCI
 MT09YAA FORD FOCUS ZETEC 100
 
-Test refuel data:
+Test refuel data (All full tanks):
 08.07.16 90351 46.53 £50.58
 24.07.16 90726 44.48 £47.90
 24.07.16 90904 20.24 £22.65
 29.07.16 91256 37.67 £40.57
 01.08.16 91688 49.75 £53.58
 06.08.16 91791 12.65 £13.37
+30.11.16 93779 48.78 £53.61 (Stuff missed!)
 
 {"make":"NISSAN","dateOfFirstRegistration":"06 July 2009","yearOfManufacture":"2009","cylinderCapacity":"1386 cc","co2Emissions":"139 g/km","fuelType":"PETROL","taxStatus":"Tax not due","colour":"GOLD","typeApproval":"M1","wheelPlan":"2 AXLE RIGID BODY","revenueWeight":"Not available","taxDetails":"Tax due: 01 March 2017","motDetails":"Expires: 02 March 2017","taxed":true,"mot":true,"vin":"SJNFAAE11U2020666","model":"NOTE ACENTA","transmission":"MANUAL","numberOfDoors":"5","sixMonthRate":"","twelveMonthRate":""}
 

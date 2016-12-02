@@ -1,0 +1,66 @@
+{% extends 'cars/car_base.html' %}
+{% block car_content %}
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <h4>Economy stats</h4>
+            <table class="bigStatsTable">
+                <tbody class="bigStatsTbody">
+                    <tr>
+                        <td class="statHeadings">Economy</td>
+                        <td class="tableSpacer"></td>
+                        <td class="statHeadings">Tracked mileage</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="statDetails">{{ car_statistic.economy }}</span>
+                            <span class="statUnits">mpg</span>
+                        </td>
+                        <td class="tableSpacer"></td>
+                        <td>
+                            <span class="statDetails">{{ car_statistic.miles }}</span>
+                            <span class="statUnits">miles</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="statHeadings">Fuel used</td>
+                        <td class="tableSpacer"></td>
+                        <td class="statHeadings">Ave. mileage cost</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="statDetails">{{ car_statistic.fuel }}</span>
+                            <span class="statUnits">litres</span>
+                        </td>
+                        <td class="tableSpacer"></td>
+                        <td>
+                            <span class="statDetails">{{ car_statistic.ppm }}</span>
+                            <span class="statUnits">p / mile</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="statHeadings">Expenditure</td>
+                        <td class="tableSpacer"></td>
+                        <td class="statHeadings">Ave. fuel cost</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="statDetails">£{{ car_statistic.expenditure }}</span>
+                            <span class="statUnits"></span>
+                        </td>
+                        <td class="tableSpacer"></td>
+                        <td>
+                            <span class="statDetails">{{ car_statistic.fuel_cost }}</span>
+                            <span class="statUnits">p / litre</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-8">
+            <p>[Chart here]</p>
+        </div>
+    </div>
+{% endblock %}

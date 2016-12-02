@@ -12,9 +12,11 @@ class PlateForm(forms.Form):
 
 
 class ImageForm(forms.ModelForm):
+    image = forms.ImageField(label="Note that your image can be viewed by anyone.")
+
     class Meta:
         model = Car
-        fields = ('image',)
+        fields = ['image']
 
 
 class RefuelForm(forms.Form):

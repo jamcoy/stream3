@@ -1,7 +1,12 @@
 {% extends 'cars/car_base.html' %}
 {% block car_content %}
 {% load bootstrap_tags %}
-    <h4 class="">Upload an image</h4>
+    {% if car_detail.image %}
+        <h4 class="">Existing image:</h4>
+        <img src="/media/{{ car_detail.image}}">
+    {% else %}
+        <h4 class="">Upload an image</h4>
+    {% endif %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form | as_bootstrap}}

@@ -203,26 +203,33 @@ def add_car(request):
 
 @login_required()
 def add_car_details(request):
+    # validation not required here - user cannot edit anything - just confirming right vehicle
     if request.method == 'POST':
-        car_details = request.session['full_car_details']  # pass to next form using session variable
+        new_car_details = request.session['full_car_details']  # pass to confirmation page using session variable
         request.session['full_car_details'] = ""  # necessary to clear??
-        # validation not required here - user cannot edit anything - just confirming right vehicle
-        # total_mileage and previous_mileage deliberately omitted
-        # the car owner will never see the model / sub_model split, but it will be used when browsing mpg data
-        model = car_details['model'].split(' ', 1)[0]
-        sub_model = car_details['model'].split(' ', 1)[1]  # doesn't work for cars with no sub model!
+
+        # check if the new car has a sub_model
+        model_components_count = len(new_car_details['model'].split(' '))
+        model = new_car_details['model'].split(' ', 1)[0]
+        if model_components_count > 1:
+            sub_model = new_car_details['model'].split(' ', 1)[1]
+        else:
+            sub_model = ""
+
+        # save new car in database
         c = Car(user=request.user,
-                make=car_details['make'],
+                make=new_car_details['make'],
                 model=model,
                 sub_model=sub_model,
-                colour=car_details['colour'],
-                year_of_manufacture=car_details['yearOfManufacture'],
-                cylinder_capacity=car_details['cylinderCapacity'],
-                transmission=car_details['transmission'],
-                fuel_type=car_details['fuelType'],
-                co2=car_details['co2Emissions'],
-                doors=car_details['numberOfDoors'])
+                colour=new_car_details['colour'],
+                year_of_manufacture=new_car_details['yearOfManufacture'],
+                cylinder_capacity=new_car_details['cylinderCapacity'],
+                transmission=new_car_details['transmission'],
+                fuel_type=new_car_details['fuelType'],
+                co2=new_car_details['co2Emissions'],
+                doors=new_car_details['numberOfDoors'])
         c.save()
+
         latest_car = Car.objects.filter(user_id=request.user).latest('date_added')  # django is asynchronous
         return redirect(car_stats, latest_car.pk)
 

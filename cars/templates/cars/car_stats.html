@@ -61,6 +61,35 @@
 
         <div class="col-md-8">
             <p>[Chart here]</p>
+            <div class="btn-group">
+                <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                   data-placement="bottom" title="Stats date range">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu chartPeriod">
+                    <li><a href="#" name="1w">1 Week</a></li>
+                    <li><a href="#" name="1m">1 Month</a></li>
+                    <li><a href="#" name="3m">3 Months</a></li>
+                    <li><a href="#" name="6m">6 Months</a></li>
+                    <li><a href="#" name="1y">1 Year</a></li>
+                    <li><a href="#" name="3y">3 Years</a></li>
+                    <li><a href="#" name="all">Everything</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                   data-placement="bottom" title="Chart type">
+                    <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu chartType">
+                    <li><a href="#" name="pricesChart">Fuel prices</a></li>
+                    <li><a href="#" name="economyChart">Fuel economy</a></li>
+                    <li><a href="#" name="expenditureChart">Expenditure</a></li>
+                    <li><a href="#" name="fuelChart">Total fuel</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 {% endblock %}

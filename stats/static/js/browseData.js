@@ -50,8 +50,9 @@ $('#year-choice').change(function() {
     applyFilters(false)
 });
 
-$('#subfilter').change(function() {
-    applyFilters(true)
+$('.subFilter').change(function() {
+    //applyFilters(true)
+    console.log("Apply sub filter");
 });
 
 function applyFilters(applySubFilter){

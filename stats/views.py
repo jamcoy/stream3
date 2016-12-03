@@ -31,6 +31,28 @@ def select_year(request):
     return HttpResponse(json.dumps(data_models), content_type='application/json')
 
 
+def select_sub_details(request):
+    car_detail = {'make': request.GET.get('make', None),
+                  'model': request.GET.get('model', None),
+                  'year': request.GET.get('year', None)}
+    queries = [query_details_count('sub_model', car_detail),
+               query_details_count('cylinder_capacity', car_detail),
+               query_details_count('fuel_type', car_detail),
+               query_details_count('transmission', car_detail)]
+    return HttpResponse(json.dumps(queries), content_type='application/json')
+
+
+def query_details_count(field, car_detail):  # not a view
+    query = Car.objects.values(field)\
+                       .filter(exclude_from_collation=False,
+                               make=car_detail['make'],
+                               model=car_detail['model'],
+                               year_of_manufacture=car_detail['year'])\
+                       .annotate(n=Count("pk"))
+    data_model = [{field: item[field], 'number': item['n']} for item in query]
+    return json.dumps(data_model)
+
+
 def economy_apply_filters(request):
     sub_models = Car.objects.values("sub_model") \
                             .filter(exclude_from_collation=False, make=make, model=model, year=year) \

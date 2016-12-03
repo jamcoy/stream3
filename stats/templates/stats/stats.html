@@ -26,32 +26,32 @@
                     </select>
                 </td>
                 <td>
-                    <select id="model-choice">
+                    <select id="model-choice" style="display: none;">
                         <option selected value="base">Select</option>
                     </select>
                 </td>
                 <td>
-                    <select id="year-choice">
+                    <select id="year-choice" style="display: none;">
                         <option selected value="base">Select</option>
                     </select>
                 </td>
                 <td>
-                    <select id="sub_model-choice">
+                    <select id="sub_model-choice" style="display: none;">
                         <option selected value="base">Select</option>
                     </select>
                 </td>
                 <td>
-                    <select id="engine-choice">
+                    <select id="engine-choice" style="display: none;">
                         <option selected value="base">Selec</option>
                     </select>
                 </td>
                 <td>
-                    <select id="fuel_type-choice">
+                    <select id="fuel_type-choice" style="display: none;">
                         <option selected value="base">Select</option>
                     </select>
                 </td>
                 <td>
-                    <select id="transmission-choice">
+                    <select id="transmission-choice" style="display: none;">
                         <option selected value="base">Select</option>
                     </select>
                 </td>
@@ -66,106 +66,6 @@
                 </td>
             </tr>
         </table>
-    </div>
-
-
-
-    <div class="btn-group">
-        <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-           data-placement="bottom" title="Select make">
-            <span>Make</span>
-        </button>
-        <ul class="dropdown-menu">
-            {% for make in makes %}
-                <li class="switchCar">
-                    <a class="carMakeSelection" data-id="{{ make.make }}" type="button">{{ make.make }} ({{ make.n }})</a>
-                </li>
-            {%  endfor %}
-        </ul>
-    </div>
-
-    <div class="btn-group" style="display:none;">
-        <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-           data-placement="bottom" title="Select model">
-            <span>Model</span>
-        </a>
-        <ul class="dropdown-menu">
-            {% for model in models %}
-                <li class="switchCar">
-                    <a href="#">{{ model.model }} ({{ model.n }})</a>
-                </li>
-            {%  endfor %}
-        </ul>
-    </div>
-
-    <div class="btn-group" style="display:none;">
-        <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-           data-placement="bottom" title="Select year">
-            <span>Year</span>
-        </a>
-        <ul class="dropdown-menu">
-            {% for year in years %}
-                <li class="switchCar">
-                    <a href="#">{{ year.year }} ({{ year.n }})</a>
-                </li>
-            {%  endfor %}
-        </ul>
-    </div>
-
-    <div class="btn-group" style="display:none;">
-        <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-           data-placement="bottom" title="Select sub-model">
-            <span>Sub-model</span>
-        </a>
-        <ul class="dropdown-menu">
-            {% for sub_model in sub_models %}
-                <li class="switchCar">
-                    <a href="#">{{ submodel.submodel }} ({{ submodel.n }})</a>
-                </li>
-            {%  endfor %}
-        </ul>
-    </div>
-
-    <div class="btn-group" style="display:none;">
-        <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-           data-placement="bottom" title="Select engine size">
-            <span>Engine size</span>
-        </a>
-        <ul class="dropdown-menu">
-            {% for engine in engines %}
-                <li class="switchCar">
-                    <a href="#">{{ engine.engine }}cc ({{ engine.n }})</a>
-                </li>
-            {%  endfor %}
-        </ul>
-    </div>
-
-    <div class="btn-group" style="display:none;">
-        <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-           data-placement="bottom" title="Select fuel type">
-            <span>Fuel type</span>
-        </a>
-        <ul class="dropdown-menu">
-            {% for fuel_type in fuel_types %}
-                <li class="switchCar">
-                    <a href="#">{{ fuel_type.fuel_type }} ({{ fuel_type.n }})</a>
-                </li>
-            {%  endfor %}
-        </ul>
-    </div>
-
-    <div class="btn-group" style="display:none;">
-        <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-           data-placement="bottom" title="Select fuel type">
-            <span>Transmission</span>
-        </a>
-        <ul class="dropdown-menu">
-            {% for transmission in transmissions %}
-                <li class="switchCar">
-                    <a href="#">{{ transmission.transmission }} ({{ transmission.n }})</a>
-                </li>
-            {%  endfor %}
-        </ul>
     </div>
 
 {% endblock %}

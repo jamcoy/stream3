@@ -70,31 +70,39 @@ $('#year-choice').change(function() {
             $transmissionChoice.append('<option>Select</option>');
 
             $.each(response, function(index, value) {
-                var obj = JSON.parse(value);
-                if(obj[0].sub_model){
-                    $subModelChoice.append('<option value="' + obj[0].sub_model + '">'
-                                            + obj[0].sub_model + ' (' + obj[0].number + ')'
-                                         + '</option>');
-                }
-                if(obj[0].cylinder_capacity){
-                    $engineChoice.append('<option value="' + obj[0].cylinder_capacity + '">'
-                                            + obj[0].cylinder_capacity + ' (' + obj[0].number + ')'
-                                         + '</option>');
-                }
-                if(obj[0].fuel_type){
-                    $fuelTypeChoice.append('<option value="' + obj[0].fuel_type + '">'
-                                            + obj[0].fuel_type + ' (' + obj[0].number + ')'
-                                         + '</option>');
-                }
-                if(obj[0].transmission){
-                    $transmissionChoice.append('<option value="' + obj[0].transmission + '">'
-                                            + obj[0].transmission + ' (' + obj[0].number + ')'
-                                         + '</option>');
+                for (var i = 0; i < value.length; i++){
+                    if (value[i].hasOwnProperty('sub_model')) {
+                        if (value[i].sub_model == "") {
+                            value[i].sub_model = "[None]"
+                        }
+                        $subModelChoice.append('<option value="' + value[i].sub_model + '">'
+                                                + value[i].sub_model + ' (' + value[i].number + ')'
+                                             + '</option>');
+                    } else if (value[i].hasOwnProperty('cylinder_capacity')) {
+                        if (value[i].cylinder_capacity == "") {
+                            value[i].cylinder_capacity = "[None]"
+                        }
+                        $engineChoice.append('<option value="' + value[i].cylinder_capacity + '">'
+                                                + value[i].cylinder_capacity + ' (' + value[i].number + ')'
+                                           + '</option>');
+                    } else if (value[i].hasOwnProperty('fuel_type')) {
+                        if (value[i].fuel_type == "") {
+                            value[i].fuel_type = "[None]"
+                        }
+                        $fuelTypeChoice.append('<option value="' + value[i].fuel_type + '">'
+                                                + value[i].fuel_type + ' (' + value[i].number + ')'
+                                             + '</option>');
+                    } else if (value[i].hasOwnProperty('transmission')) {
+                        if (value[i].transmission == "") {
+                            value[i].transmission = "[None]"
+                        }
+                        $transmissionChoice.append('<option value="' + value[i].transmission + '">'
+                                                    + value[i].transmission + ' (' + value[i].number + ')'
+                                                 + '</option>');
+                    }
                 }
             });
-            if ($('#sub_model-choice option').length > 1) {
-                $subModelChoice.show();
-            }
+            $subModelChoice.show();
             $engineChoice.show();
             $fuelTypeChoice.show();
             $transmissionChoice.show();

@@ -50,7 +50,7 @@ def query_details_count(field, car_detail):  # not a view
                                year_of_manufacture=car_detail['year'])\
                        .annotate(n=Count("pk"))
     data_model = [{field: item[field], 'number': item['n']} for item in query]
-    return json.dumps(data_model)
+    return data_model
 
 
 def economy_apply_filters(request):

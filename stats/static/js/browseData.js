@@ -44,21 +44,53 @@ $('#model-choice').change(function() {
 });
 
 $('#year-choice').change(function() {
-    var selectedMake = $('#make-choice').text();
-    var selectedModel = $('#model-choice').text();
-    var selectedYear = this.value;
-    $('#year-choice').replaceWith(selectedYear);
+    var $yearChoice = $('#year-choice');
+    var selectedYear = $yearChoice.val();
+    $yearChoice.replaceWith('<span id="year-choice">' + selectedYear + '</span>');
+    applyFilters(false)
+});
+
+$('#subfilter').change(function() {
+    applyFilters(true)
+});
+
+function applyFilters(applySubFilter){
+    var filters;
+    var selectedMake, selectedModel, selectedYear;
+    var selectedSubModel, selectedEngine, selectedFuelType, selectedTransmission;
     var $subModelChoice = $('#sub_model-choice');
     var $engineChoice = $('#engine-choice');
     var $fuelTypeChoice = $('#fuel_type-choice');
     var $transmissionChoice = $('#transmission-choice');
+    if (applySubFilter) {
+        selectedMake = $('#make-choice').text();
+        selectedModel = $('#model-choice').text();
+        selectedYear = $('#year-choice').text();
+        selectedSubModel = $subModelChoice.val();
+        selectedEngine = $engineChoice.val();
+        selectedFuelType = $fuelTypeChoice.val();
+        selectedTransmission = $transmissionChoice.val();
+        filters = { make: selectedMake,
+                    model: selectedModel,
+                    year: selectedYear,
+                    sub_model: selectedSubModel,
+                    engine: selectedEngine,
+                    fuel_type: selectedFuelType,
+                    transmission: selectedTransmission
+        };
+    } else {
+        selectedMake = $('#make-choice').text();
+        selectedModel = $('#model-choice').text();
+        selectedYear = $('#year-choice').text();
+        filters = { make: selectedMake,
+                    model: selectedModel,
+                    year: selectedYear
+        };
+    }
     $.ajax({
         url: '/stats/select_sub_details/',
         type: 'GET',
-        data: { make: selectedMake,
-                model: selectedModel,
-                year: selectedYear
-              },
+        data: filters,
         success : function(response){
             $subModelChoice.empty();
             $engineChoice.empty();
@@ -108,4 +140,4 @@ $('#year-choice').change(function() {
             $transmissionChoice.show();
         }
     });
-});
+}

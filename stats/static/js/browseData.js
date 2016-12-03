@@ -51,6 +51,9 @@ $('#year-choice').change(function() {
 });
 
 $('.subFilter').change(function() {
+    var element = $(this);
+    var selection = element.find(":selected").val();
+    element.replaceWith('<span class="frozen_option" id="' + element.attr('id') + '">' + selection + '</span>');
     applyFilters(true);
 });
 
@@ -66,10 +69,18 @@ function applyFilters(applySubFilter){
         selectedMake = $('#make-choice').text();
         selectedModel = $('#model-choice').text();
         selectedYear = $('#year-choice').text();
-        selectedSubModel = $subModelChoice.val();
-        selectedEngine = $engineChoice.val();
-        selectedFuelType = $fuelTypeChoice.val();
-        selectedTransmission = $transmissionChoice.val();
+        if ($subModelChoice.hasClass('frozen_option')) {
+            selectedSubModel = $subModelChoice.text();
+        }
+        if ($engineChoice.hasClass('frozen_option')) {
+            selectedEngine = $engineChoice.text();
+        }
+        if ($fuelTypeChoice.hasClass('frozen_option')) {
+            selectedFuelType = $fuelTypeChoice.text();
+        }
+        if ($transmissionChoice.hasClass('frozen_option')) {
+            selectedTransmission = $transmissionChoice.text();
+        }
         filters = { make: selectedMake,
                     model: selectedModel,
                     year: selectedYear,
@@ -92,45 +103,65 @@ function applyFilters(applySubFilter){
         type: 'GET',
         data: filters,
         success : function(response){
-            $subModelChoice.empty();
-            $engineChoice.empty();
-            $fuelTypeChoice.empty();
-            $transmissionChoice.empty();
-            $subModelChoice.append('<option>Select</option>');
-            $engineChoice.append('<option>Select</option>');
-            $fuelTypeChoice.append('<option>Select</option>');
-            $transmissionChoice.append('<option>Select</option>');
+            if (!$subModelChoice.hasClass('frozen_option')) {
+                $subModelChoice.empty();
+                $subModelChoice.append('<option>Select</option>');
+            }
+            if (!$engineChoice.hasClass('frozen_option')) {
+                $engineChoice.empty();
+                $engineChoice.append('<option>Select</option>');
+            }
+            if (!$fuelTypeChoice.hasClass('frozen_option')) {
+                $fuelTypeChoice.empty();
+                $fuelTypeChoice.append('<option>Select</option>');
+            }
+            if (!$transmissionChoice.hasClass('frozen_option')) {
+                $transmissionChoice.empty();
+                $transmissionChoice.append('<option>Select</option>');
+            }
 
             $.each(response, function(index, value) {
                 for (var i = 0; i < value.length; i++){
+
                     if (value[i].hasOwnProperty('sub_model')) {
-                        if (value[i].sub_model == "") {
-                            value[i].sub_model = "[None]"
-                        }
-                        $subModelChoice.append('<option value="' + value[i].sub_model + '">'
-                                                + value[i].sub_model + ' (' + value[i].number + ')'
-                                             + '</option>');
-                    } else if (value[i].hasOwnProperty('cylinder_capacity')) {
-                        if (value[i].cylinder_capacity == "") {
-                            value[i].cylinder_capacity = "[None]"
-                        }
-                        $engineChoice.append('<option value="' + value[i].cylinder_capacity + '">'
-                                                + value[i].cylinder_capacity + ' (' + value[i].number + ')'
-                                           + '</option>');
-                    } else if (value[i].hasOwnProperty('fuel_type')) {
-                        if (value[i].fuel_type == "") {
-                            value[i].fuel_type = "[None]"
-                        }
-                        $fuelTypeChoice.append('<option value="' + value[i].fuel_type + '">'
-                                                + value[i].fuel_type + ' (' + value[i].number + ')'
-                                             + '</option>');
-                    } else if (value[i].hasOwnProperty('transmission')) {
-                        if (value[i].transmission == "") {
-                            value[i].transmission = "[None]"
-                        }
-                        $transmissionChoice.append('<option value="' + value[i].transmission + '">'
-                                                    + value[i].transmission + ' (' + value[i].number + ')'
+                        if (!$subModelChoice.hasClass('frozen_option')) {
+                            if (value[i].sub_model == "") {
+                                value[i].sub_model = "[None]"
+                            }
+                            $subModelChoice.append('<option class="subFilter" value="' + value[i].sub_model + '">'
+                                                    + value[i].sub_model + ' (' + value[i].number + ')'
                                                  + '</option>');
+                        }
+
+                    } else if (value[i].hasOwnProperty('cylinder_capacity')) {
+                        if (!$engineChoice.hasClass('frozen_option')) {
+                            if (value[i].cylinder_capacity == "") {
+                                value[i].cylinder_capacity = "[None]"
+                            }
+                            $engineChoice.append('<option class="subFilter" value="' + value[i].cylinder_capacity + '">'
+                                                    + value[i].cylinder_capacity + ' (' + value[i].number + ')'
+                                               + '</option>');
+                        }
+
+                    } else if (value[i].hasOwnProperty('fuel_type')) {
+                        if (!$fuelTypeChoice.hasClass('frozen_option')) {
+                            if (value[i].fuel_type == "") {
+                                value[i].fuel_type = "[None]"
+                            }
+                            $fuelTypeChoice.append('<option class="subFilter" value="' + value[i].fuel_type + '">'
+                                                   + value[i].fuel_type + ' (' + value[i].number + ')'
+                                                 + '</option>');
+                        }
+
+                    } else if (value[i].hasOwnProperty('transmission')) {
+                        if (!$transmissionChoice.hasClass('frozen_option')) {
+                            if (value[i].transmission == "") {
+                                value[i].transmission = "[None]"
+                            }
+                            $transmissionChoice.append('<option class="subFilter" value="' + value[i].transmission + '">'
+                                                       + value[i].transmission + ' (' + value[i].number + ')'
+                                                     + '</option>');
+                        }
                     }
                 }
             });

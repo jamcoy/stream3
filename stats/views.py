@@ -34,53 +34,49 @@ def select_year(request):
 def select_sub_details(request):
     car_detail = {'make': request.GET.get('make', None),
                   'model': request.GET.get('model', None),
-                  'year': request.GET.get('year', None)}
-    queries = [query_details_count('sub_model', car_detail),
-               query_details_count('cylinder_capacity', car_detail),
-               query_details_count('fuel_type', car_detail),
-               query_details_count('transmission', car_detail)]
+                  'year': request.GET.get('year', None),
+                  }
+
+    filters = {'exclude_from_collation': False,
+               'make': car_detail['make'],
+               'model': car_detail['model'],
+               'year_of_manufacture': car_detail['year']
+               }
+
+    sub_model = request.GET.get('sub_model', None)
+    if sub_model is not None:  # add to filter
+        filters['sub_model'] = sub_model
+
+    cylinder_capacity = request.GET.get('cylinder_capacity', None)
+    if cylinder_capacity is not None:
+        filters['cylinder_capacity'] = cylinder_capacity
+
+    fuel_type = request.GET.get('fuel_type', None)
+    if fuel_type is not None:
+        filters['fuel_type'] = fuel_type
+
+    transmission = request.GET.get('transmission', None)
+    if transmission is not None:
+        filters['transmission'] = transmission
+
+    queries = []
+
+    if sub_model is None:
+        queries.append(query_details_count('sub_model', filters))
+
+    if cylinder_capacity is None:
+        queries.append(query_details_count('cylinder_capacity', filters))
+
+    if fuel_type is None:
+        queries.append(query_details_count('fuel_type', filters))
+
+    if transmission is None:
+        queries.append(query_details_count('transmission', filters))
+
     return HttpResponse(json.dumps(queries), content_type='application/json')
 
 
-def query_details_count(field, car_detail):  # not a view
-    query = Car.objects.values(field)\
-                       .filter(exclude_from_collation=False,
-                               make=car_detail['make'],
-                               model=car_detail['model'],
-                               year_of_manufacture=car_detail['year'])\
-                       .annotate(n=Count("pk"))
+def query_details_count(field, filters):  # not a view
+    query = Car.objects.values(field).filter(**filters).annotate(n=Count("pk"))
     data_model = [{field: item[field], 'number': item['n']} for item in query]
     return data_model
-
-
-def economy_apply_filters(request):
-    sub_models = Car.objects.values("sub_model") \
-                            .filter(exclude_from_collation=False, make=make, model=model, year=year) \
-                            .annotate(n=Count("pk"))
-    engines = Car.objects.values("cylinder_capacity")\
-                         .filter(exclude_from_collation=False, make=make, model=model, year=year)\
-                         .annotate(n=Count("pk"))
-    fuel_types = Car.objects.values("fuel_type")\
-                            .filter(exclude_from_collation=False, make=make, model=model, year=year)\
-                            .annotate(n=Count("pk"))
-    transmissions = Car.objects.values("transmission") \
-                      .filter(exclude_from_collation=False, make=make, model=model, year=year) \
-                      .annotate(n=Count("pk"))
-    filters = {'exclude_from_collation': False}
-    if make:
-        filters['make'] = make
-    if model:
-        filters['model'] = model
-    if year:
-        filters['year'] = year
-    if sub_model:
-        filters['sub_model'] = sub_model
-    if engine:
-        filters['engine'] = engine
-    if fuel:
-        filters['fuel'] = fuel
-    if transmission:
-        filters['transmission'] = transmission
-    filtered_cars = Car.objects.filter(**filters)
-    # calculate economy here
-    return render(request, 'stats/stats.html', {'filtered': filtered_cars})

@@ -51,8 +51,7 @@ $('#year-choice').change(function() {
 });
 
 $('.subFilter').change(function() {
-    //applyFilters(true)
-    console.log("Apply sub filter");
+    applyFilters(true);
 });
 
 function applyFilters(applySubFilter){
@@ -75,7 +74,7 @@ function applyFilters(applySubFilter){
                     model: selectedModel,
                     year: selectedYear,
                     sub_model: selectedSubModel,
-                    engine: selectedEngine,
+                    cylinder_capacity: selectedEngine,
                     fuel_type: selectedFuelType,
                     transmission: selectedTransmission
         };

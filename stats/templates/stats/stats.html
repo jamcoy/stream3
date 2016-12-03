@@ -1,6 +1,74 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>stats.html Placeholder</h1>
+    <h4>Select a vehicle to show its fuel economy:</h4>
+
+    <div>
+        <table class="table">
+            <tr>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Sub-model</th>
+                <th>Engine size</th>
+                <th>Fuel type</th>
+                <th>Transmission</th>
+                <th>Cars</th>
+                <th>Miles</th>
+                <th>Economy</th>
+            </tr>
+            <tr>
+                <td>
+                    <select id="make-choice">
+                        <option selected value="{{ make.make }}">Select</option>
+                        {% for make in makes %}
+                            <option value="{{ make.make }}">{{ make.make }} ({{ make.n }})</option>
+                        {%  endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select id="model-choice">
+                        <option selected value="base">Select</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="year-choice">
+                        <option selected value="base">Select</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="sub_model-choice">
+                        <option selected value="base">Select</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="engine-choice">
+                        <option selected value="base">Selec</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="fuel_type-choice">
+                        <option selected value="base">Select</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="transmission-choice">
+                        <option selected value="base">Select</option>
+                    </select>
+                </td>
+                <td>
+                    <span>123</span>
+                </td>
+                <td>
+                    <span>456</span>
+                </td>
+                <td>
+                    <span>45.3 MPG</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
 
     <div class="btn-group">
         <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-toggle="dropdown"

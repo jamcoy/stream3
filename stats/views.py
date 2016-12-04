@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from cars.models import Car
+from cars.models import Car, Refuel
 from django.db.models import Count
 from django.http import HttpResponse
 import json
@@ -60,6 +60,8 @@ def select_sub_details(request):
     if transmission is None or 'Select':
         queries.append(query_details_count('transmission', filters))
 
+    queries.append(calculate_economy(filters))
+
     return HttpResponse(json.dumps(queries), content_type='application/json')
 
 
@@ -67,3 +69,11 @@ def query_details_count(field, filters):  # not a view
     query = Car.objects.values(field).filter(**filters).annotate(n=Count("pk"))
     data_model = [{field: item[field], 'number': item['n']} for item in query]
     return data_model
+
+
+def calculate_economy(filters):  # not a view
+    all_cars = Car.objects.values().filter(**filters)
+
+    return [{'cars_in_sample': len(all_cars),
+             'distance': '3,345,234',
+             'economy_calculation': '45.3 MPG'}]

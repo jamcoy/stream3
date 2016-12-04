@@ -56,6 +56,64 @@ def car_details(request, car_id):
                                                      'refuel': latest_refuel})
 
 
+def car_stats_totals(car_id):  # not a view
+    all_refuels = Refuel.objects.filter(car_id=car_id).order_by('date_time_added')
+
+    # Economy algorithm, accounting for user missing refuels, or partial tank refuels
+    total_litres = 0
+    total_mileage = 0
+    total_price = 0
+    part_litres = 0
+    part_price = 0
+    start_mileage = 0
+    found_start_point = False
+    previous_refuel = []  # used in subsequent message to user
+    i = 0
+
+    for refuel in all_refuels:
+
+        # user missed a refuel - reset everything - but it can still be a valid start point if it was a full tank
+        if refuel.missed_refuels:
+            part_litres = 0
+            part_price = 0
+            # valid start point
+            if refuel.full_tank:
+                start_mileage = refuel.odometer
+                found_start_point = True
+            # not valid start point
+            else:
+                found_start_point = False
+
+        # valid start point
+        elif refuel.full_tank and found_start_point is False:
+            start_mileage = refuel.odometer
+            found_start_point = True
+
+        # part filled tanks
+        elif refuel.full_tank is False:
+            # only include a part tank that follows a valid start point
+            if found_start_point:
+                part_litres += refuel.litres
+                part_price += refuel.litres
+
+        # valid end point (and next start point)
+        else:
+            total_litres += part_litres + refuel.litres
+            total_price += part_price + refuel.price
+            total_mileage += refuel.odometer - start_mileage
+            part_litres = 0
+            part_price = 0
+            start_mileage = refuel.odometer
+            previous_refuel = all_refuels[i - 1]
+
+        i += 1
+
+    return {'litres': total_litres,
+            'miles': total_mileage,
+            'price': total_price,
+            'previous_refuel': previous_refuel}
+
+
 @login_required()
 def car_stats(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
@@ -77,63 +135,18 @@ def car_stats(request, car_id):
 
     # all other cars
     else:
-        all_refuels = Refuel.objects.filter(car_id=car_id).order_by('date_time_added')
+        refuel_totals = car_stats_totals(car_id)
+        total_litres = refuel_totals['litres']
+        total_mileage = refuel_totals['miles']
+        total_price = refuel_totals['price']
+        previous_refuel = refuel_totals['previous_refuel']
+
         latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
-
-        # Economy algorithm, accounting for user missing refuels, or partial tank refuels
-        total_litres = 0
-        total_mileage = 0
-        total_price = 0
-        part_litres = 0
-        part_price = 0
-        start_mileage = 0
-        found_start_point = False
-        previous_refuel = []  # used in subsequent message to user
-        i = 0
-
-        for refuel in all_refuels:
-
-            # user missed a refuel - reset everything - but it can still be a valid start point if it was a full tank
-            if refuel.missed_refuels:
-                part_litres = 0
-                part_price = 0
-                # valid start point
-                if refuel.full_tank:
-                    start_mileage = refuel.odometer
-                    found_start_point = True
-                # not valid start point
-                else:
-                    found_start_point = False
-
-            # valid start point
-            elif refuel.full_tank and found_start_point is False:
-                start_mileage = refuel.odometer
-                found_start_point = True
-
-            # part filled tanks
-            elif refuel.full_tank is False:
-                # only include a part tank that follows a valid start point
-                if found_start_point:
-                    part_litres += refuel.litres
-                    part_price += refuel.litres
-
-            # valid end point (and next start point)
-            else:
-                total_litres += part_litres + refuel.litres
-                total_price += part_price + refuel.price
-                total_mileage += refuel.odometer - start_mileage
-                part_litres = 0
-                part_price = 0
-                start_mileage = refuel.odometer
-                previous_refuel = all_refuels[i - 1]
-
-            i += 1
 
         # prepare the figures
         if total_litres > 0 and total_mileage > 0 and total_price > 0:
             car_statistic['economy'] = round(total_mileage / (total_litres / Decimal(4.545454)), 1)
-            car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'),
-                                                                                   rounding=ROUND_HALF_EVEN))
+            car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN))
             car_statistic['fuel'] = "{:,}".format(Decimal(total_litres).quantize(Decimal('1'),
                                                                                  rounding=ROUND_HALF_EVEN))
             car_statistic['ppm'] = round((total_price / total_mileage) * 100, 1)

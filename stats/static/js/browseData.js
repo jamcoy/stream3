@@ -61,10 +61,19 @@ function applyFilters(applySubFilter){
     var filters;
     var selectedMake, selectedModel, selectedYear;
     var selectedSubModel, selectedEngine, selectedFuelType, selectedTransmission;
-    var $subModelChoice = $('#sub_model-choice');
-    var $engineChoice = $('#engine-choice');
-    var $fuelTypeChoice = $('#fuel_type-choice');
-    var $transmissionChoice = $('#transmission-choice');
+
+    var $subModelChoice = $('#sub_model-choice'),
+        $engineChoice = $('#engine-choice'),
+        $fuelTypeChoice = $('#fuel_type-choice'),
+        $transmissionChoice = $('#transmission-choice'),
+        $cars = $('#cars_sample_size'),
+        $distance = $('#distance_sample_size'),
+        $economy = $('#economy_calculated');
+
+    $cars.text("");
+    $distance.text("");
+    $economy.text("Calculating...");
+
     if (applySubFilter) {
         selectedMake = $('#make-choice').text();
         selectedModel = $('#model-choice').text();
@@ -162,7 +171,12 @@ function applyFilters(applySubFilter){
                                                        + value[i].transmission + ' (' + value[i].number + ')'
                                                      + '</option>');
                         }
+                    } else if (value[i].hasOwnProperty('economy_calculation')) {
+                        $cars.text(value[i].cars_in_sample);
+                        $distance.text(value[i].distance);
+                        $economy.text(value[i].economy_calculation);
                     }
+
                 }
             });
             $subModelChoice.show();

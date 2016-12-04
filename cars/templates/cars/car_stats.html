@@ -60,9 +60,9 @@
         </div>
 
         <div class="col-md-8">
-            <div id="chart">[Chart here]</div>
+            <canvas id="chart" width="400" height="400"></canvas>
             <div class="btn-group">
-                <select id="chart-range" class="selectpicker chart-select">
+                <select id="chart-range" data-id="{{ car_detail.id }}" class="selectpicker chart-select">
                     <option value="1 week">1 week</option>
                     <option value="1 month">1 month</option>
                     <option value="3 months">3 months</option>

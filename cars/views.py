@@ -8,6 +8,8 @@ from django.contrib import messages
 from decimal import *
 from django.db.models import Value as V
 from django.db.models.functions import Concat
+from django.http import HttpResponse
+
 
 
 def list_of_cars(user):  # not a view
@@ -335,4 +337,43 @@ def delete_car(request, car_id):
         cars_list = list_of_cars(request.user)
         return render(request, 'cars/delete_car.html', {'cars_list': cars_list,  # maybe shouldn't be indented
                                                         'car_detail': car})
+
+
+@login_required()
+def select_chart(request):
+    chart_type = request.GET.get('chart_type', None)
+    chart_range = request.GET.get('chart_range', None)
+    car_id = request.GET.get('car_id', None)
+    data = []
+    if chart_type == "economy":
+        data = get_economy_data(chart_range, car_id)
+    elif chart_type == "price":
+        data = get_price_data(chart_range, car_id)
+    elif chart_type == "fuel":
+        data = get_fuel_data(chart_range, car_id)
+    elif chart_type == "expenditure":
+        data = get_expenditure_data(chart_range, car_id)
+    elif chart_type == "mileage":
+        data = get_mileage_data(chart_range, car_id)
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+def get_economy_data(range, car_id):
+    return "Some data"
+
+
+def get_price_data(range, car_id):
+    return "Some data"
+
+
+def get_fuel_data(range, car_id):
+    return "Some data"
+
+
+def get_expenditure_data(range, car_id):
+    return "Some data"
+
+
+def get_mileage_data(range, car_id):
+    return "Some data"
 

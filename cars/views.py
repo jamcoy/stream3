@@ -341,76 +341,15 @@ def delete_car(request, car_id):
 
 @login_required()
 def select_chart(request):
-    chart_type = request.GET.get('chart_type', None)
+    chart_type = request.GET.get('chart_type', None)  # may be unnecessary
     chart_range = request.GET.get('chart_range', None)
     car_id = request.GET.get('car_id', None)
-    data = []
-    if chart_type == "economy":
-        data = get_economy_data(chart_range, car_id)
-    elif chart_type == "price":
-        data = get_price_data(chart_range, car_id)
-    elif chart_type == "fuel":
-        data = get_fuel_data(chart_range, car_id)
-    elif chart_type == "expenditure":
-        data = get_expenditure_data(chart_range, car_id)
-    elif chart_type == "mileage":
-        data = get_mileage_data(chart_range, car_id)
-
-    return HttpResponse(json.dumps(data), content_type='application/json')
-
-
-def get_economy_data(range, car_id):  # not a view
-    return "Some data"
-
-
-def get_price_data(range, car_id):  # not a view
-    return "Some data"
-
-
-def get_fuel_data(range, car_id):  # not a view
-    return "Some data"
-
-
-def get_expenditure_data(range, car_id):  # not a view
-    return "Some data"
-
-
-def get_mileage_data(range, car_id):  # not a view
-    return "Some data"
-
-
-def get_date_labels(chart_range):  # not a view
-    dates = []
     today = datetime.date.today()
-    if chart_range == '1 week':
-        date_format = "%a %d %b"
-        for i in xrange(0, 7):
-            dates.append(today-datetime.timedelta(days=i))
-            print dates[i].strftime(date_format)
-    if chart_range == '1 month':
-        date_format = "%a %d %b"
-        for i in xrange(0, 10):
-            dates.append(today-datetime.timedelta(days=(i*3)))
-            print dates[i].strftime(date_format)
-    if chart_range == '3 months':
-        date_format = "%d %b"
-        for i in xrange(0, 12):
-            dates.append(today-datetime.timedelta(weeks=i))
-            print dates[i].strftime(date_format)
-    if chart_range == '6 months':
-        date_format = "%d %b %Y"
-        # 7 x 4 weeks is 6.5 months, but since we're showing a range and not calculating a total, it doesn't matter
-        for i in xrange(0, 7):
-            dates.append(today-datetime.timedelta(weeks=i*4))
-            print dates[i].strftime(date_format)
-    if chart_range == '1 year':
-        date_format = "%d %b %Y"
-        for i in xrange(0, 13):
-            dates.append(today-datetime.timedelta(weeks=i*4))
-            print dates[i].strftime(date_format)
-    if chart_range == '3 years':
-        date_format = "%d %b %Y"
-        for i in xrange(0, 13):
-            dates.append(today-datetime.timedelta(weeks=i*12))
-            print dates[i].strftime(date_format)
-    return dates
+    start_date = today-datetime.timedelta(days=int(chart_range))
+    refuels = Refuel.objects.filter(car_id=car_id, date_time_added__gte=start_date).order_by('date_time_added')
+    data_model = [{'date_time': refuel.date_time_added.strftime('%Y-%m-%dT%H:%M:%S'),
+                   'fuel': str(refuel.litres),
+                   'price': str(refuel.price)
+                   } for refuel in refuels]
+    print data_model
+    return HttpResponse(json.dumps(data_model), content_type='application/json')

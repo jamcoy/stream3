@@ -17,46 +17,25 @@ $('.chart-select').change(function () {
             car_id: $chartRange.attr("data-id")
         },
         success: function (response) {
+            var dataPoints = [];
+            var dataPoint = {};
+            $.each(response, function(index, value) {
+                dataPoint = {
+                    x: new Date(value.date_time),
+                    y: value.price
+                };
+                dataPoints.push(dataPoint);
+            });
             var data = [
                 {
                     label: 'Fuel economy',
                     strokeColor: '#A31010',
-                    data: [
-                        {
-                            x: new Date('2016-04-11T11:45:00'),
-                            y: 29.3
-                        },
-                        {
-                            x: new Date('2016-04-20T12:51:00'),
-                            y: 28.4
-                        },
-                        {
-                            x: new Date('2016-04-30T14:10:00'),
-                            y: 33.1
-                        },
-                        {
-                            x: new Date('2016-05-24T15:15:00'),
-                            y: 30.0
-                        },
-                        {
-                            x: new Date('2016-06-05T17:00:00'),
-                            y: 29.7
-                        },
-                        {
-                            x: new Date('2016-06-21T21:00:00'),
-                            y: 32.3
-                        },
-                        {
-                            x: new Date('2016-07-01T13:00:00'),
-                            y: 32.5
-                        }
-                    ]
+                    data: dataPoints
                 }];
             if (typeof genericChart != "undefined") {
-                genericChart.update();
-            } else {
-                drawGenericChart(data);
+                genericChart.destroy();
             }
+            drawGenericChart(data);
         }
     });
 });

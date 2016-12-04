@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from cars.models import Car, Refuel
+from cars.models import Car
+from cars.views import car_stats_totals
 from django.db.models import Count
 from django.http import HttpResponse
+from decimal import *
 import json
 
 
@@ -74,6 +76,19 @@ def query_details_count(field, filters):  # not a view
 def calculate_economy(filters):  # not a view
     all_cars = Car.objects.values().filter(**filters)
 
+    total_distance = 0
+    total_fuel = 0
+
+    for car in all_cars:
+        totals = car_stats_totals(car['id'])
+        total_fuel += totals['litres']
+        total_distance += totals['miles']
+
+    if total_distance > 0 and total_fuel > 0:
+        economy = str(round(total_distance / (total_fuel / Decimal(4.545454)), 1)) + " MPG"
+    else:
+        economy = "N/A"
+
     return [{'cars_in_sample': len(all_cars),
-             'distance': '3,345,234',
-             'economy_calculation': '45.3 MPG'}]
+             'distance': "{:,}".format(Decimal(total_distance).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN)),
+             'economy_calculation': economy}]

@@ -9,7 +9,7 @@ from decimal import *
 from django.db.models import Value as V
 from django.db.models.functions import Concat
 from django.http import HttpResponse
-
+import datetime
 
 
 def list_of_cars(user):  # not a view
@@ -355,25 +355,62 @@ def select_chart(request):
         data = get_expenditure_data(chart_range, car_id)
     elif chart_type == "mileage":
         data = get_mileage_data(chart_range, car_id)
+
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 
-def get_economy_data(range, car_id):
+def get_economy_data(range, car_id):  # not a view
     return "Some data"
 
 
-def get_price_data(range, car_id):
+def get_price_data(range, car_id):  # not a view
     return "Some data"
 
 
-def get_fuel_data(range, car_id):
+def get_fuel_data(range, car_id):  # not a view
     return "Some data"
 
 
-def get_expenditure_data(range, car_id):
+def get_expenditure_data(range, car_id):  # not a view
     return "Some data"
 
 
-def get_mileage_data(range, car_id):
+def get_mileage_data(range, car_id):  # not a view
     return "Some data"
 
+
+def get_date_labels(chart_range):  # not a view
+    dates = []
+    today = datetime.date.today()
+    if chart_range == '1 week':
+        date_format = "%a %d %b"
+        for i in xrange(0, 7):
+            dates.append(today-datetime.timedelta(days=i))
+            print dates[i].strftime(date_format)
+    if chart_range == '1 month':
+        date_format = "%a %d %b"
+        for i in xrange(0, 10):
+            dates.append(today-datetime.timedelta(days=(i*3)))
+            print dates[i].strftime(date_format)
+    if chart_range == '3 months':
+        date_format = "%d %b"
+        for i in xrange(0, 12):
+            dates.append(today-datetime.timedelta(weeks=i))
+            print dates[i].strftime(date_format)
+    if chart_range == '6 months':
+        date_format = "%d %b %Y"
+        # 7 x 4 weeks is 6.5 months, but since we're showing a range and not calculating a total, it doesn't matter
+        for i in xrange(0, 7):
+            dates.append(today-datetime.timedelta(weeks=i*4))
+            print dates[i].strftime(date_format)
+    if chart_range == '1 year':
+        date_format = "%d %b %Y"
+        for i in xrange(0, 13):
+            dates.append(today-datetime.timedelta(weeks=i*4))
+            print dates[i].strftime(date_format)
+    if chart_range == '3 years':
+        date_format = "%d %b %Y"
+        for i in xrange(0, 13):
+            dates.append(today-datetime.timedelta(weeks=i*12))
+            print dates[i].strftime(date_format)
+    return dates

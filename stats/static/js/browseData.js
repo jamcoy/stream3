@@ -74,10 +74,11 @@ function applyFilters(applySubFilter){
     $distance.text("");
     $economy.text("Calculating...");
 
+    selectedMake = $('#make-choice').text();
+    selectedModel = $('#model-choice').text();
+    selectedYear = $('#year-choice').text();
+
     if (applySubFilter) {
-        selectedMake = $('#make-choice').text();
-        selectedModel = $('#model-choice').text();
-        selectedYear = $('#year-choice').text();
         if ($subModelChoice.hasClass('frozen_option')) {
             selectedSubModel = $subModelChoice.text();
         }
@@ -99,9 +100,6 @@ function applyFilters(applySubFilter){
                     transmission: selectedTransmission
         };
     } else {
-        selectedMake = $('#make-choice').text();
-        selectedModel = $('#model-choice').text();
-        selectedYear = $('#year-choice').text();
         filters = { make: selectedMake,
                     model: selectedModel,
                     year: selectedYear

@@ -1,6 +1,7 @@
 $(document).ready(function(){
-    $("#id_date").on('focus', function () {
-        $('#id_date').daterangepicker({
+    var $date = $("#id_date")
+    $date.on('focus', function () {
+        $date.daterangepicker({
             "timePicker": true,
             "timePicker24Hour": true,
             "timePickerIncrement": 15,

@@ -19,12 +19,18 @@ $('.chart-select').change(function () {
         success: function (response) {
             var dataPoints = [];
             var dataPoint = {};
-            var label, units, unitsPosition;
+            var label, units, unitsPosition, partialRefuels;
             $.each(response, function(index, value) {
                 if (value.hasOwnProperty('data_value')) {
+                    if (value.includes_partial_refuels == 'True'){
+                        partialRefuels = 2;
+                    } else {
+                        partialRefuels = 1;
+                    }
                     dataPoint = {
                         x: new Date(value.date_time),
-                        y: value.data_value
+                        y: value.data_value,
+                        r: partialRefuels
                     };
                     dataPoints.push(dataPoint);
                 } else if (value.hasOwnProperty('units')) {
@@ -63,7 +69,7 @@ drawGenericChart = function (data, units, unitsPosition) {
         scaleDateTimeFormat: "d mmm yyyy, HH:MM"
     };
     if (unitsPosition == "before") {
-        chartOptions.scaleLabel = units + "<%=value%>"
+        chartOptions.scaleLabel = units + "<%=value%>";
     } else {
         chartOptions.scaleLabel = "<%=value%> " + units;
     }

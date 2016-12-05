@@ -134,7 +134,7 @@ def car_stats(request, car_id):
         car_statistic['expenditure'] = "TBD"
 
         messages.success(request, "Tracking starts after your first full tank refuel.  Data will be available \
-                                   following your second full tank refuel.")
+                                   following your second full tank refuel.  Always try to fill your tank.")
 
     # all other cars
     else:
@@ -348,38 +348,114 @@ def select_chart(request):
     today = datetime.date.today()
     start_date = today-datetime.timedelta(days=int(chart_range))
     refuels = Refuel.objects.filter(car_id=car_id, date_time_added__gte=start_date).order_by('date_time_added')
+    total_litres = 0
+    total_price = 0
+    total_mileage = 0
+    part_litres = 0
+    part_price = 0
+    start_mileage = 0
+    found_start_point = False
+
     for refuel in refuels:
         refuel.formatted_date = refuel.date_time_added.strftime('%Y-%m-%dT%H:%M:%S')
-        # filter out invalid data here (missed refuels etc and first refuel if going back that far)
-        # filter out any zero readings
+        refuel.valid_end_point = False
+        refuel.contains_part_refuels = False
+
+    i = 0
+    for refuel in refuels:
+        # user missed a refuel - reset everything - but it can still be a valid start point if it was a full tank
+        if refuel.missed_refuels:
+            part_litres = 0
+            part_price = 0
+            # valid start point
+            if refuel.full_tank:
+                start_mileage = refuel.odometer
+                found_start_point = True
+            # not valid start point
+            else:
+                found_start_point = False
+
+        # valid start point
+        elif refuel.full_tank and found_start_point is False:
+            start_mileage = refuel.odometer
+            found_start_point = True
+
+        # part filled tanks
+        elif refuel.full_tank is False:
+            # only include a part tank that follows a valid start point
+            if found_start_point:
+                part_litres += refuel.litres
+                part_price += refuel.litres
+
+        # valid end point (and next start point)
+        else:
+            total_litres += part_litres + refuel.litres
+            total_price += part_price + refuel.price
+            total_mileage += refuel.odometer - start_mileage
+
+            refuel.end_point_litres = total_litres
+            refuel.end_point_price = total_price
+            refuel.end_point_mileage = total_mileage
+            refuel.valid_end_point = True  # we only want to chart valid end points
+
+            if part_litres > 0:
+                refuel.contains_part_refuels = True  # flag to user that a reading includes part refuels
+
+            # only reset these after reaching the valid end-point
+            total_litres = 0
+            total_price = 0
+            total_mileage = 0
+            part_litres = 0
+            part_price = 0
+            start_mileage = refuel.odometer
+
+        i += 1
+
     data_model = []
-    if chart_type == "economy":
-        pass
-    if chart_type == "mileage":
-        pass
-    elif chart_type == "expenditure":
+    if chart_type == "expenditure":
         data_model = [{
-            'date_time': refuel.formatted_date,
-            'data_value': str(refuel.price),
-        } for refuel in refuels]
+                'date_time': refuel.formatted_date,
+                'data_value': str(refuel.end_point_price),
+                'includes_partial_refuels': str(refuel.contains_part_refuels)
+            } for refuel in refuels if refuel.valid_end_point]
         data_model.append({'label': "Refuel cost"})
         data_model.append({'units': "£"})
         data_model.append({'units_position': "before"})
     elif chart_type == "fuel":
         data_model = [{
-            'date_time': refuel.formatted_date,
-            'data_value': str(refuel.litres),
-        } for refuel in refuels]
+                'date_time': refuel.formatted_date,
+                'data_value': str(refuel.end_point_litres),
+                'includes_partial_refuels': str(refuel.contains_part_refuels)
+            } for refuel in refuels if refuel.valid_end_point]
         data_model.append({'label': "Litres of fuel"})
         data_model.append({'units': "l"})
         data_model.append({'units_position': "after"})
     elif chart_type == "price":
         data_model = [{
-            'date_time': refuel.formatted_date,
-            'data_value': str(refuel.price / refuel.litres),
-        } for refuel in refuels]
+                'date_time': refuel.formatted_date,
+                'data_value': str(refuel.end_point_price / refuel.end_point_litres),
+                'includes_partial_refuels': str(refuel.contains_part_refuels)
+            } for refuel in refuels if refuel.valid_end_point]
         data_model.append({'label': "Pump price"})
         data_model.append({'units': "p / l"})
         data_model.append({'units_position': "after"})
-    print data_model
+    elif chart_type == "economy":
+        data_model = [{
+                'date_time': refuel.formatted_date,
+                'data_value': str(refuel.end_point_mileage / (refuel.end_point_litres / Decimal(4.545454))),
+                'includes_partial_refuels': str(refuel.contains_part_refuels)
+            } for refuel in refuels if refuel.valid_end_point]
+        data_model.append({'label': "Fuel economy"})
+        data_model.append({'units': "MPG"})
+        data_model.append({'units_position': "after"})
+    elif chart_type == "mileage":
+        data_model = [{
+                'date_time': refuel.formatted_date,
+                'data_value': str(refuel.end_point_mileage),
+                'includes_partial_refuels': str(refuel.contains_part_refuels)
+            } for refuel in refuels if refuel.valid_end_point]
+        data_model.append({'label': "Mileage"})
+        data_model.append({'units': "miles"})
+        data_model.append({'units_position': "after"})
     return HttpResponse(json.dumps(data_model), content_type='application/json')
+

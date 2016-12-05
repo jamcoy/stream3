@@ -97,7 +97,7 @@ def car_stats_totals(car_id):  # not a view
             # only include a part tank that follows a valid start point
             if found_start_point:
                 part_litres += refuel.litres
-                part_price += refuel.litres
+                part_price += refuel.price
 
         # valid end point (and next start point)
         else:
@@ -386,7 +386,7 @@ def select_chart(request):
             # only include a part tank that follows a valid start point
             if found_start_point:
                 part_litres += refuel.litres
-                part_price += refuel.litres
+                part_price += refuel.price
 
         # valid end point (and next start point)
         else:
@@ -458,5 +458,6 @@ def select_chart(request):
         data_model.append({'label': "Mileage"})
         data_model.append({'units': "miles"})
         data_model.append({'units_position': "after"})
+    print data_model
     return HttpResponse(json.dumps(data_model), content_type='application/json')
 

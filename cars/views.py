@@ -35,7 +35,7 @@ def refuel_history(request, car_id):
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
     refuels = {}  # is this necessary???
     if refuel_count > 0:
-        refuels = Refuel.objects.filter(car_id=car_id).order_by('-date_time_added')
+        refuels = Refuel.objects.filter(car_id=car_id).order_by('-date')
         for refuel in refuels:
             if refuel.litres > 0:
                 refuel.litre_price = round((refuel.price * 100 / refuel.litres), 1)
@@ -51,7 +51,7 @@ def car_details(request, car_id):
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
     latest_refuel = {}  # is this necessary???
     if refuel_count > 0:
-        latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
+        latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date')
         latest_refuel.odometer = "{:,}".format(int(latest_refuel.odometer))
     cars_list = list_of_cars(request.user)
     return render(request, 'cars/car_details.html', {'car_detail': car_detail,
@@ -60,7 +60,7 @@ def car_details(request, car_id):
 
 
 def car_stats_totals(car_id):  # not a view
-    all_refuels = Refuel.objects.filter(car_id=car_id).order_by('date_time_added')
+    all_refuels = Refuel.objects.filter(car_id=car_id).order_by('date')
 
     # Economy algorithm, accounting for user missing refuels, or partial tank refuels
     total_litres = 0
@@ -144,7 +144,7 @@ def car_stats(request, car_id):
         total_price = refuel_totals['price']
         previous_refuel = refuel_totals['previous_refuel']
 
-        latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date_time_added')
+        latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date')
 
         # prepare the figures
         if total_litres > 0 and total_mileage > 0 and total_price > 0:
@@ -264,8 +264,8 @@ def refuel_car(request, car_id):
     new_car = False
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
     if refuel_count > 0:
-        odometer_validation = Refuel.objects.filter(car_id=car_id).latest('date_time_added').odometer
-        date_validation = Refuel.objects.filter(car_id=car_id).latest('date_time_added').date_time_added
+        odometer_validation = Refuel.objects.filter(car_id=car_id).latest('date').odometer
+        date_validation = Refuel.objects.filter(car_id=car_id).latest('date').date
     else:
         new_car = True
 
@@ -285,10 +285,11 @@ def refuel_car(request, car_id):
                 form.cleaned_data['price'] = 0
 
             # record refuel data with calculated mileage
+            print form.cleaned_data['date']
             r = Refuel(user=request.user,
                        car=car,
                        odometer=form.cleaned_data['odometer'],
-                       date_time_added=form.cleaned_data['date'],
+                       date=form.cleaned_data['date'],
                        litres=form.cleaned_data['litres'],
                        price=form.cleaned_data['price'],
                        full_tank=form.cleaned_data['full_tank'],
@@ -347,7 +348,7 @@ def select_chart(request):
     car_id = request.GET.get('car_id', None)
     today = datetime.date.today()
     start_date = today-datetime.timedelta(days=int(chart_range))
-    refuels = Refuel.objects.filter(car_id=car_id, date_time_added__gte=start_date).order_by('date_time_added')
+    refuels = Refuel.objects.filter(car_id=car_id, date__gte=start_date).order_by('date')
     total_litres = 0
     total_price = 0
     total_mileage = 0
@@ -357,7 +358,7 @@ def select_chart(request):
     found_start_point = False
 
     for refuel in refuels:
-        refuel.formatted_date = refuel.date_time_added.strftime('%Y-%m-%dT%H:%M:%S')
+        refuel.formatted_date = refuel.date.strftime('%Y-%m-%dT%H:%M:%S')
         refuel.valid_end_point = False
         refuel.contains_part_refuels = False
 

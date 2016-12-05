@@ -70,3 +70,5 @@ class RefuelForm(forms.Form):
                     "That pre-dates your last refuel (" + str(self.date_validation)[:19] + ")"
                 )
             return date
+        else:
+            return date

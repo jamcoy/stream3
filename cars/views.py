@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect, get_object_or_404
 from urllib2 import urlopen
 from .forms import PlateForm, RefuelForm, ImageForm
@@ -347,9 +348,38 @@ def select_chart(request):
     today = datetime.date.today()
     start_date = today-datetime.timedelta(days=int(chart_range))
     refuels = Refuel.objects.filter(car_id=car_id, date_time_added__gte=start_date).order_by('date_time_added')
-    data_model = [{'date_time': refuel.date_time_added.strftime('%Y-%m-%dT%H:%M:%S'),
-                   'fuel': str(refuel.litres),
-                   'price': str(refuel.price)
-                   } for refuel in refuels]
+    for refuel in refuels:
+        refuel.formatted_date = refuel.date_time_added.strftime('%Y-%m-%dT%H:%M:%S')
+        # filter out invalid data here (missed refuels etc and first refuel if going back that far)
+        # filter out any zero readings
+    data_model = []
+    if chart_type == "economy":
+        pass
+    if chart_type == "mileage":
+        pass
+    elif chart_type == "expenditure":
+        data_model = [{
+            'date_time': refuel.formatted_date,
+            'data_value': str(refuel.price),
+        } for refuel in refuels]
+        data_model.append({'label': "Refuel cost"})
+        data_model.append({'units': "£"})
+        data_model.append({'units_position': "before"})
+    elif chart_type == "fuel":
+        data_model = [{
+            'date_time': refuel.formatted_date,
+            'data_value': str(refuel.litres),
+        } for refuel in refuels]
+        data_model.append({'label': "Litres of fuel"})
+        data_model.append({'units': "l"})
+        data_model.append({'units_position': "after"})
+    elif chart_type == "price":
+        data_model = [{
+            'date_time': refuel.formatted_date,
+            'data_value': str(refuel.price / refuel.litres),
+        } for refuel in refuels]
+        data_model.append({'label': "Pump price"})
+        data_model.append({'units': "p / l"})
+        data_model.append({'units_position': "after"})
     print data_model
     return HttpResponse(json.dumps(data_model), content_type='application/json')

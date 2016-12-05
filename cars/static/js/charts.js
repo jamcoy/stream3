@@ -19,38 +19,53 @@ $('.chart-select').change(function () {
         success: function (response) {
             var dataPoints = [];
             var dataPoint = {};
+            var label, units, unitsPosition;
             $.each(response, function(index, value) {
-                dataPoint = {
-                    x: new Date(value.date_time),
-                    y: value.price
-                };
-                dataPoints.push(dataPoint);
+                if (value.hasOwnProperty('data_value')) {
+                    dataPoint = {
+                        x: new Date(value.date_time),
+                        y: value.data_value
+                    };
+                    dataPoints.push(dataPoint);
+                } else if (value.hasOwnProperty('units')) {
+                    units = value.units;
+                } else if (value.hasOwnProperty('units_position')) {
+                    unitsPosition = value.units_position;
+                } else if (value.hasOwnProperty('label')) {
+                    label = value.label;
+                }
             });
             var data = [
                 {
-                    label: 'Fuel economy',
+                    label: label,
                     strokeColor: '#A31010',
                     data: dataPoints
                 }];
             if (typeof genericChart != "undefined") {
                 genericChart.destroy();
             }
-            drawGenericChart(data);
+            drawGenericChart(data, units, unitsPosition);
         }
     });
 });
 
-drawGenericChart = function (data) {
+drawGenericChart = function (data, units, unitsPosition) {
     var canvas = $("#chart");
     canvas.css('width', $(window).innerWidth());
     canvas.css('height', $(window).innerHeight());
     var ctx3 = canvas[0].getContext('2d');
-    genericChart = new Chart(ctx3).Scatter(data, {
+    var chartOptions = {
         bezierCurve: true,
         showTooltips: true,
         scaleShowHorizontalLines: true,
         scaleShowLabels: true,
         scaleType: "date",
-        scaleLabel: "<%=value%> MPG"
-    });
+        scaleDateTimeFormat: "d mmm yyyy, HH:MM"
+    };
+    if (unitsPosition == "before") {
+        chartOptions.scaleLabel = units + "<%=value%>"
+    } else {
+        chartOptions.scaleLabel = "<%=value%> " + units;
+    }
+    genericChart = new Chart(ctx3).Scatter(data, chartOptions);
 };

@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <button class="btn btn-default" onclick="location.href='{% url 'new_post' %}'">New Post</button>
+    {% if staff %}
+        <button class="btn btn-default" onclick="location.href='{% url 'new_post' %}'">New Post</button>
+    {% endif %}
     {% for post in posts %}
         <div class="row">
             <hr>

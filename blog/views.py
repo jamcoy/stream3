@@ -3,6 +3,7 @@ from .models import Post
 from django.shortcuts import render, get_object_or_404
 from .forms import BlogPostForm
 from django.shortcuts import redirect
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 def post_detail(request, db_id):
@@ -27,7 +28,9 @@ def post_list(request):
     """
     posts = Post.objects.filter(published_date__lte=timezone.now()
                                 ).order_by('-published_date')
-    return render(request, "blog/blogposts.html", {'posts': posts})
+    staff = request.user.is_staff
+    return render(request, "blog/blogposts.html", {'posts': posts,
+                                                   'staff': staff})
 
 
 def top_posts(request):
@@ -40,6 +43,7 @@ def top_posts(request):
     return render(request, "blog/blogposts.html", {'posts': posts})
 
 
+@staff_member_required()
 def new_post(request):
     if request.method == "POST":
         form = BlogPostForm(request.POST, request.FILES)

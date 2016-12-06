@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_js %}
+    <script type="text/javascript" src="{% static 'lib/tinymce/tinymce.min.js' %}"></script>
+    <script type="application/javascript">
+        tinyMCE.init({mode: "textareas", theme: 'modern', plugins: 'paste'})
+    </script>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="col-md-9">
+        {% block thread_form_content %}
+        {% endblock %}
+        </div>
+    </section>
+{% endblock %}

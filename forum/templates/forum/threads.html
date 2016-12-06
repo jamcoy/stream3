@@ -7,7 +7,8 @@
     <div class="col-md-12">
         {% if user.is_authenticated %}
             <p>
-                <a href="{% url 'new_thread' subject.id %}" class="btn btn-primary">New Thread</a>
+                <a href="{% url 'new_thread' subject.id 'no_poll' %}" class="btn btn-primary">New Thread</a>
+                <a href="{% url 'new_thread' subject.id 'poll' %}" class="btn btn-primary">New Thread with poll</a>
             </p>
         {% endif %}
         {% for thread in subject.threads.all %}

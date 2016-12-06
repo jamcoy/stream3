@@ -2,8 +2,7 @@
 {% block car_content %}
 {% load bootstrap_tags %}
     {% if car_detail.image %}
-        <h4 class="">Existing image:</h4>
-        <img src="/media/{{ car_detail.image}}">
+        <img src="{{ car_detail.image.large.url}}">
     {% else %}
         <h4 class="">Upload an image</h4>
     {% endif %}

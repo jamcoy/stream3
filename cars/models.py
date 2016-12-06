@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
+from stdimage.models import StdImageField
 
 
 class Car(models.Model):
@@ -19,8 +20,14 @@ class Car(models.Model):
     transmission = models.CharField(max_length=10)
     fuel_type = models.CharField(max_length=10)
     co2 = models.CharField(max_length=10)
-    doors = models.CharField(max_length=10)
-    image = models.ImageField(upload_to="images/cars", blank=True, null=True)
+    doors = models.CharField(max_length=2)
+    image = StdImageField(upload_to="images/cars",
+                          variations={
+                              'large': {'width': 960, 'height': 640},
+                              'medium': {'width': 360, 'height': 240},
+                              'thumbnail': {'width': 120, 'height': 80, "crop": True}
+                          },
+                          blank=True, null=True)
 
     def __str__(self):
         return self.make + " " \

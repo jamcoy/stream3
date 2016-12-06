@@ -3,6 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from .models import Car
+from stdimage.models import StdImageField
 
 
 class PlateForm(forms.Form):
@@ -12,7 +13,7 @@ class PlateForm(forms.Form):
 
 
 class ImageForm(forms.ModelForm):
-    image = forms.ImageField(label="Note that your image can be viewed by anyone.")
+    image = StdImageField()
 
     class Meta:
         model = Car

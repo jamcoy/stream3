@@ -56,7 +56,7 @@
                 </tr>
             </table>
             {% if car_detail.image %}
-                <img src="/media/{{ car_detail.image}}" width="360" height="240">
+                <img src="{{ car_detail.image.medium.url}}">
             {% endif %}
         </div>
 

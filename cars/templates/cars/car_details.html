@@ -3,7 +3,7 @@
 
     <h4 class="">Car details</h4>
         {% if car_detail.image %}
-            <img src="/media/{{ car_detail.image}}" width="360" height="240">
+            <img src="{{ car_detail.image.large.url}}">
         {% endif %}
         <table class="table table-striped table-hover ">
             <tbody>

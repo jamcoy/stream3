@@ -11,8 +11,9 @@
                 <a href="{% url 'new_thread' subject.id 'poll' %}" class="btn btn-primary">New Thread with poll</a>
             </p>
         {% endif %}
-        {% for thread in subject.threads.all %}
+        {% for thread in threads %}
             {% include "forum/thread_item.html" %}
+            Post count: {{ thread.post_count }} | Author: {{ thread.user }} | Freshness: {{ thread.freshness }}
         {% endfor %}
     </div>
 {% endblock %}

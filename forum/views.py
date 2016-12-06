@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages, auth
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.template.context_processors import csrf
 from forum.forms import ThreadForm, PostForm, PollSubjectForm, PollForm
 from forum.models import Subject, Post, Thread, PollSubject
 from django.forms import formset_factory
+from django.utils.timezone import localtime, now
 
 
 def forum(request):
@@ -14,7 +15,14 @@ def forum(request):
 
 def threads(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
-    return render(request, 'forum/threads.html', {'subject': subject})
+    threads = Thread.objects.filter(subject_id=subject_id)
+    for thread in threads:
+        thread.post_count = Post.objects.filter(thread_id=thread.id).count()
+        time_last_post = Post.objects.filter(thread_id=thread.id).latest('created_at').created_at
+        print time_last_post
+        thread.freshness = (localtime(now()) - time_last_post)
+    return render(request, 'forum/threads.html', {'subject': subject,
+                                                  'threads': threads})
 
 
 @login_required

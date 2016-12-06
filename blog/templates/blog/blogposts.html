@@ -15,7 +15,11 @@
                 <h3>{{ post.title }}</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>{{ post.content|truncatewords:30 }}</p>
+                        <p>
+                            {% autoescape off %}
+                                {{ post.content|truncatewords:30 }}
+                            {% endautoescape %}
+                        </p>
                         <p><button class="btn btn-default" onclick="location.href={{ post.id }};">Read More</button></p>
                         {{ post.published_date }} | <strong>Views</strong> {{ post.views }} | <strong>Tag</strong> {{ post.tag }}
                     </div>

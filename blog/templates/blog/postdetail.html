@@ -14,7 +14,11 @@
                      {% if post.image %}
                         <img src="/media/{{ post.image}}">
                     {% endif %}
-                    <p>{{ post.content|linebreaks }}</p>
+                    <p>
+                        {% autoescape off %}
+                            {{ post.content|linebreaks }}
+                        {% endautoescape %}
+                    </p>
                     <button class="btn btn-default" onclick="location.href='/blog'">Back To Blog</button>
                     <button class="btn btn-default" onclick="location.href='edit'">Edit</button>
                     {{ post.published_date }} | <strong>Views</strong> {{ post.views }} | <strong>Tag</strong> {{ post.tag }}

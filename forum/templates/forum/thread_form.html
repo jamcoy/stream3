@@ -3,8 +3,7 @@
 {% load staticfiles %}
 
 {% block head_js %}
-    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'lib/tinymce/tinymce.min.js' %}"></script>
     <script type="application/javascript">
         tinyMCE.init({mode: "textareas", theme: 'modern', plugins: 'paste'})
 
@@ -26,7 +25,7 @@
                     {{ poll_form|as_bootstrap }}
                     {{ poll_subject_formset.management_form }}
                     {% for poll_subject_form in poll_subject_formset %}
-                        {{ poll_subject_form | as_bootstrap }}
+                        {{ poll_subject_form|as_bootstrap }}
                     {% endfor %}
                 </div>
                 <div class="form-group">
@@ -38,16 +37,15 @@
     <script>
         $(function () {
             if (!$('#id_is_a_poll').is('checked')) {
-                $('#poll_form').hide()
+                $('#poll_form').hide();
             }
 
             $('#id_is_a_poll').click(function (el) {
-                var poll_form = $('#poll_form')
-
+                var poll_form = $('#poll_form');
                 if (poll_form.is(":visible")) {
-                    poll_form.hide()
+                    poll_form.hide();
                 } else {
-                    poll_form.show()
+                    poll_form.show();
                 }
             })
         })

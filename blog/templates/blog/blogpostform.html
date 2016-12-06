@@ -1,6 +1,16 @@
 {% extends "base.html" %}
+{% load bootstrap_tags %}
 {% load staticfiles %}
-
+{% block head_js %}
+    <script src="{% static 'lib/tinymce/tinymce.min.js' %}"></script>
+    <script type="text/javascript">
+        tinyMCE.init({
+            mode: "textareas",
+            theme: "modern",
+            plugins: "paste",
+        });
+    </script>
+{% endblock %}
 
 {% block content %}
     {% load bootstrap_tags %}

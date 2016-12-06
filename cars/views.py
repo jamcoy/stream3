@@ -458,6 +458,5 @@ def select_chart(request):
         data_model.append({'label': "Mileage"})
         data_model.append({'units': "miles"})
         data_model.append({'units_position': "after"})
-    print data_model
     return HttpResponse(json.dumps(data_model), content_type='application/json')
 

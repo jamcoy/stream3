@@ -17,7 +17,9 @@ def post_detail(request, db_id):
     post = get_object_or_404(Post, pk=db_id)  # pk is primary key
     post.views += 1  # clock up the number of post views
     post.save()
-    return render(request, "blog/postdetail.html", {'post': post})
+    staff = request.user.is_staff
+    return render(request, "blog/postdetail.html", {'post': post,
+                                                   'staff': staff})
 
 
 def post_list(request):
@@ -58,6 +60,7 @@ def new_post(request):
     return render(request, 'blog/blogpostform.html', {'form': form})
 
 
+@staff_member_required()
 def edit_post(request, db_id):
     post = get_object_or_404(Post, pk=db_id)
     if request.method == "POST":

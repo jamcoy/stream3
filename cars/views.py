@@ -133,7 +133,7 @@ def car_stats(request, car_id):
         car_statistic['fuel_cost'] = "TBD"
         car_statistic['expenditure'] = "TBD"
 
-        messages.success(request, "Tracking starts after your first full tank refuel.  Data will be available \
+        messages.info(request, "Tracking starts after your first full tank refuel.  Data will be available \
                                    following your second full tank refuel.  Always try to fill your tank.")
 
     # all other cars

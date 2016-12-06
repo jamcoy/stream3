@@ -33,7 +33,7 @@ class Car(models.Model):
 class Refuel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     car = models.ForeignKey(Car)
-    date = models.DateTimeField()
+    date = models.DateTimeField(null=True)
     date_time_added = models.DateTimeField(auto_now_add=True)
     litres = models.DecimalField(max_digits=10, decimal_places=2)
     price = models.DecimalField(max_digits=6, decimal_places=2)

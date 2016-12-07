@@ -23,76 +23,91 @@
         {% endif %}
     </div>
 
-    <div class="container">
+    <div id="stats-container" class="container">
         <h4>Select a vehicle to show its fuel economy:</h4>
-        <div>
-            <table class="table">
-                <tr>
-                    <th>Make</th>
-                    <th>Model</th>
-                    <th>Year</th>
-                    <th>Sub-model</th>
-                    <th>Engine size</th>
-                    <th>Fuel type</th>
-                    <th>Transmission</th>
-                    <th>Cars</th>
-                    <th>Miles</th>
-                    <th>Economy</th>
-                </tr>
-                <tr>
-                    <td>
-                        <select id="make-choice">
-                            <option selected value="{{ make.make }}">Select</option>
-                            {% for make in makes %}
-                                <option value="{{ make.make }}">{{ make.make }} ({{ make.n }})</option>
-                            {%  endfor %}
-                        </select>
-                    </td>
-                    <td>
-                        <select id="model-choice" style="display: none;">
-                            <option>Select</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="year-choice" style="display: none;">
-                            <option>Select</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="subFilter" id="sub_model-choice" style="display: none;">
-                            <option>Select</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="subFilter" id="engine-choice" style="display: none;">
-                            <option>Select</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="subFilter" id="fuel_type-choice" style="display: none;">
-                            <option>Select</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="subFilter" id="transmission-choice" style="display: none;">
-                            <option>Select</option>
-                        </select>
-                    </td>
-                    <td>
-                        <span id="cars_sample_size"></span>
-                    </td>
-                    <td>
-                        <span id="distance_sample_size"></span>
-                    </td>
-                    <td>
-                        <span id="economy_calculated"></span>
-                    </td>
-                </tr>
-            </table>
+
+        <table id="stats-details-table" class="table table-striped stats-table">
+            <tr>
+                <td class="stats-field-heading">Manufacturer</td>
+                <td>
+                    <select id="make-choice">
+                        <option selected value="{{ make.make }}">Select</option>
+                        {% for make in makes %}
+                            <option value="{{ make.make }}">{{ make.make }} ({{ make.n }})</option>
+                        {%  endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="stats-field-heading">Model</td>
+                <td>
+                    <select id="model-choice" style="display: none;">
+                        <option>Select</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="stats-field-heading">Year</td>
+                <td>
+                    <select id="year-choice" style="display: none;">
+                        <option>Select</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="stats-field-heading">Sub model</td>
+                <td>
+                    <select class="subFilter" id="sub_model-choice" style="display: none;">
+                        <option>Select</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="stats-field-heading">Engine size</td>
+                <td>
+                    <select class="subFilter" id="engine-choice" style="display: none;">
+                        <option>Select</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="stats-field-heading">Fuel type</td>
+                <td>
+                    <select class="subFilter" id="fuel_type-choice" style="display: none;">
+                        <option>Select</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="stats-field-heading">Transmission</td>
+                <td>
+                    <select class="subFilter" id="transmission-choice" style="display: none;">
+                        <option>Select</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <table id="stats-results-table" class="table table-striped stats-table">
+            <tr>
+                <td class="stats-field-heading">Cars in calculation</td>
+                <td><span id="cars_sample_size"></span></td>
+            </tr>
+            <tr>
+                <td class="stats-field-heading">Miles travelled</td>
+                <td><span id="distance_sample_size"></span></td>
+            </tr>
+            <tr>
+                <td class="stats-field-heading">Economy</td>
+                <td><span id="economy_calculated"></span></td>
+            </tr>
+        </table>
+
+        <div id="reset-stats">
+            <a href="/stats/">
+                <button class="btn btn-danger">Reset</button>
+            </a>
         </div>
-        <a href="/stats/">
-            <button class="btn btn-danger">Reset</button>
-        </a>
     </div>
 
 {% endblock %}

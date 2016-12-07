@@ -1,56 +1,55 @@
 {% extends 'base.html' %}
 {% block content %}
-
-    <div class="row">
-        <div class="col-md-7 carHeading">
-            <h1>{{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}</h1>
-        </div>
-        <div class="col-md-5 text-right carDetailButtons">
-            <!--http://glyphicons.com/ for more glyphicons-->
-            <div class="btn-group">
-                <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                   data-placement="bottom" title="Select vehicle">
-                    <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li class="addCarModal"><a href="/cars">Detailed list</a></li>
-                    <li role="separator" class="divider"></li>
-                    {% for car in cars_list %}
-                        <li class="switchCar">
-                            <a href="/cars/{{ car.id }}">{{ car.car }}</a>
-                        </li>
-                    {%  endfor %}
-                    <li role="separator" class="divider"></li>
-                    <li class="addCarModal"><a href="/cars/add_car/">Add new car</a></li>
-                </ul>
-            </div>
-            <div class="btn-group">
-                <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                   data-placement="bottom" title="Edit vehicle">
-                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="/cars/{{ car_detail.id }}">Statistics</a></li>
-                    <li><a href="/cars/car_details/{{ car_detail.id }}">Car details</a></li>
-                    <li><a href="/cars/refuel_history/{{ car_detail.id }}" class="refuelHistory">Refuel history</a></li>
-                    <li><a href="/cars/upload_image/{{ car_detail.id }}" class="uploadPhoto">Upload photo</a></li>
-                    <li><a href="/cars/delete_car/{{ car_detail.id }}">Delete car</a></li>
-                </ul>
-            </div>
-            <a href="/cars/refuel_car/{{ car_detail.id }}">
-                <button type="button" class="btn btn-primary refuelCarModal" data-toggle="tooltip" data-placement="bottom"
-                        title="Refuel vehicle">
-                    <span class="glyphicon glyphicon-tint" aria-hidden="true"></span>
-                </button>
-            </a>
-        </div>
-    </div>
-
     <div class="container">
-        {% block car_content %}
-        {% endblock %}
+        <div class="row">
+            <div class="col-md-7 carHeading">
+                <h1>{{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}</h1>
+            </div>
+            <div class="col-md-5 text-right carDetailButtons">
+                <!--http://glyphicons.com/ for more glyphicons-->
+                <div class="btn-group">
+                    <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                       data-placement="bottom" title="Select vehicle">
+                        <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="addCarModal"><a href="/cars">Detailed list</a></li>
+                        <li role="separator" class="divider"></li>
+                        {% for car in cars_list %}
+                            <li class="switchCar">
+                                <a href="/cars/{{ car.id }}">{{ car.car }}</a>
+                            </li>
+                        {%  endfor %}
+                        <li role="separator" class="divider"></li>
+                        <li class="addCarModal"><a href="/cars/add_car/">Add new car</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                       data-placement="bottom" title="Edit vehicle">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/cars/{{ car_detail.id }}">Statistics</a></li>
+                        <li><a href="/cars/car_details/{{ car_detail.id }}">Car details</a></li>
+                        <li><a href="/cars/refuel_history/{{ car_detail.id }}" class="refuelHistory">Refuel history</a></li>
+                        <li><a href="/cars/upload_image/{{ car_detail.id }}" class="uploadPhoto">Upload photo</a></li>
+                        <li><a href="/cars/delete_car/{{ car_detail.id }}">Delete car</a></li>
+                    </ul>
+                </div>
+                <a href="/cars/refuel_car/{{ car_detail.id }}">
+                    <button type="button" class="btn btn-primary refuelCarModal" data-toggle="tooltip" data-placement="bottom"
+                            title="Refuel vehicle">
+                        <span class="glyphicon glyphicon-tint" aria-hidden="true"></span>
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div>
+            {% block car_content %}
+            {% endblock %}
+        </div>
     </div>
-
 {% endblock %}

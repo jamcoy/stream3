@@ -1,73 +1,74 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h4>Select a vehicle to show its fuel economy:</h4>
-
-    <div>
-        <table class="table">
-            <tr>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Sub-model</th>
-                <th>Engine size</th>
-                <th>Fuel type</th>
-                <th>Transmission</th>
-                <th>Cars</th>
-                <th>Miles</th>
-                <th>Economy</th>
-            </tr>
-            <tr>
-                <td>
-                    <select id="make-choice">
-                        <option selected value="{{ make.make }}">Select</option>
-                        {% for make in makes %}
-                            <option value="{{ make.make }}">{{ make.make }} ({{ make.n }})</option>
-                        {%  endfor %}
-                    </select>
-                </td>
-                <td>
-                    <select id="model-choice" style="display: none;">
-                        <option>Select</option>
-                    </select>
-                </td>
-                <td>
-                    <select id="year-choice" style="display: none;">
-                        <option>Select</option>
-                    </select>
-                </td>
-                <td>
-                    <select class="subFilter" id="sub_model-choice" style="display: none;">
-                        <option>Select</option>
-                    </select>
-                </td>
-                <td>
-                    <select class="subFilter" id="engine-choice" style="display: none;">
-                        <option>Select</option>
-                    </select>
-                </td>
-                <td>
-                    <select class="subFilter" id="fuel_type-choice" style="display: none;">
-                        <option>Select</option>
-                    </select>
-                </td>
-                <td>
-                    <select class="subFilter" id="transmission-choice" style="display: none;">
-                        <option>Select</option>
-                    </select>
-                </td>
-                <td>
-                    <span id="cars_sample_size"></span>
-                </td>
-                <td>
-                    <span id="distance_sample_size"></span>
-                </td>
-                <td>
-                    <span id="economy_calculated"></span>
-                </td>
-            </tr>
-        </table>
+    <div class="container">
+        <h4>Select a vehicle to show its fuel economy:</h4>
+        <div>
+            <table class="table">
+                <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Sub-model</th>
+                    <th>Engine size</th>
+                    <th>Fuel type</th>
+                    <th>Transmission</th>
+                    <th>Cars</th>
+                    <th>Miles</th>
+                    <th>Economy</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select id="make-choice">
+                            <option selected value="{{ make.make }}">Select</option>
+                            {% for make in makes %}
+                                <option value="{{ make.make }}">{{ make.make }} ({{ make.n }})</option>
+                            {%  endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="model-choice" style="display: none;">
+                            <option>Select</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="year-choice" style="display: none;">
+                            <option>Select</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="subFilter" id="sub_model-choice" style="display: none;">
+                            <option>Select</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="subFilter" id="engine-choice" style="display: none;">
+                            <option>Select</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="subFilter" id="fuel_type-choice" style="display: none;">
+                            <option>Select</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="subFilter" id="transmission-choice" style="display: none;">
+                            <option>Select</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span id="cars_sample_size"></span>
+                    </td>
+                    <td>
+                        <span id="distance_sample_size"></span>
+                    </td>
+                    <td>
+                        <span id="economy_calculated"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <a href="/stats/">
+            <button class="btn btn-danger">Reset</button>
+        </a>
     </div>
-    <a href="/stats/">
-        <button class="btn btn-danger">Reset</button>
-    </a>
 {% endblock %}

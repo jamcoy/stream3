@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "forum/forum_base.html" %}
 {% load staticfiles %}
 
 {% block head_js %}
@@ -8,7 +8,7 @@
     </script>
 {% endblock %}
 
-{% block content %}
+{% block forum_content %}
     <section>
         <div class="col-md-9">
         {% block thread_form_content %}

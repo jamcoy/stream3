@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% extends "forum/forum_base.html" %}
 {% load thread_extras %}
-{% block content %}
+{% block forum_content %}
    {% load bootstrap_tags %}
    {% for subject in subjects %}
        <section class="subject">

@@ -67,12 +67,12 @@ footer a{
     margin-bottom: 10px;
 }
 
-.tableSpacer {
+.tableSpacer{
     border-bottom-style: none;
     width: 30px;
 }
 
-.uk-rear-plate {
+.uk-rear-plate{
     color: black;
     border: 2px solid black;
     background-color: #ffd800;
@@ -81,7 +81,7 @@ footer a{
     text-transform: uppercase;
     width:200px;
     height: 48px;
-    padding: 0px 12px;
+    padding: 0 12px;
     border-radius: 4px;
     text-align: center;
     /*
@@ -94,6 +94,15 @@ footer a{
 
 /* messages */
 
-.message-container {
+.message-container{
     margin-top: 70px;
 }
+
+/* messages end */
+
+/* home page background image */
+#index_background{
+    background-image: url("../../static/img/home_background.jpg");
+}
+
+/* home page background image end */

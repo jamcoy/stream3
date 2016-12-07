@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "blog/blog_base.html" %}
 {% load bootstrap_tags %}
 {% load staticfiles %}
+
 {% block head_js %}
     <script src="{% static 'lib/tinymce/tinymce.min.js' %}"></script>
     <script type="text/javascript">
@@ -12,14 +13,12 @@
     </script>
 {% endblock %}
 
-{% block content %}
-    <div class="container">
-        {% load bootstrap_tags %}
-        <h1>Add a post</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %} <!-- security measure to prevent Cross Site Request Forgery. -->
-            {{ form | as_bootstrap }}
-            <button type="submit" class=" btn btn- btn-info">Save</button>
-        </form>
-    </div>
+{% block blog_content %}
+    {% load bootstrap_tags %}
+    <h1>Add / edit a post</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %} <!-- security measure to prevent Cross Site Request Forgery. -->
+        {{ form | as_bootstrap }}
+        <button type="submit" class=" btn btn- btn-info">Save</button>
+    </form>
 {% endblock %}

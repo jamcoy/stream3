@@ -128,19 +128,18 @@ footer a{
     position: absolute;
     bottom: -500px;
     margin: 0 15px;
+    text-shadow: 3px 3px 5px black;
 }
 
 .intro_driver h1{
     font-size: 60px;
     font-weight: bold;
     color: #46bcff;
-    text-shadow: 3px 3px 5px black;
 }
 
 .intro_driver p{
     color: #d9f1ff;
     font-size: 20px;
-    text-shadow: 3px 3px 5px black;
 }
 
 .intro-button {
@@ -153,6 +152,7 @@ footer a{
 }
 
 .intro h1{
+    margin-top: 0;
     font-size: 50px;
     font-weight: bold;
 }
@@ -171,9 +171,6 @@ footer a{
     background-color: #dddddd;
 }
 
-.intro-browse-data h1{
-    margin-top: 0;
-}
 
 /* home page background image end */
 

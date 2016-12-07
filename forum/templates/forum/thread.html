@@ -54,16 +54,18 @@
                 </div>
             {% endif %}
 
-            {% if user.is_authenticated %}
-                <p>
-                    <a href="{% url 'new_post' thread.id %}" class="btn btn-primary">Post a reply</a>
-                </p>
-            {% endif %}
         </div>
     </div>
-    <div class="container">
+    <table class="table table-striped table-hover">
         {% for post in thread.posts.all %}
-            {% include "forum/post.html" %}
+            <tr>
+                {% include "forum/post.html" %}
+            </tr>
         {% endfor %}
-    </div>
+    </table>
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'new_post' thread.id %}" class="btn btn-primary">Post a reply</a></p>
+    {% else %}
+        <p><a href="{% url 'login' %}" class="btn btn-primary">Login to post a reply</a></p>
+    {% endif %}
 {% endblock %}

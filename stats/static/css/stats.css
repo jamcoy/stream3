@@ -12,8 +12,9 @@
     height: 58px;
 }
 
-.stats-table {
-    width: 50%;
+.stats-table .stats-field-heading{
+    width: 300px;
+    text-align: left;
 }
 
 

@@ -1,5 +1,12 @@
 /* footer start */
 
+footer {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #333333;
+    color: #dddddd;
+}
+
 footer table {
     width: 100%;
 }
@@ -21,7 +28,7 @@ footer table img {
 }
 
 footer a{
-    color: #444444;
+    color: #dddddd;
 }
 
 /* footer end */
@@ -145,9 +152,16 @@ footer a{
 }
 
 .intro-2 p{
-    font-size: 20px;
+    font-size: 18px;
 }
 
+.intro-2 img{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
 
+.intro-3{
+    background-color: #444444;
+}
 
 /* home page background image end */

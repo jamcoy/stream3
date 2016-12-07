@@ -124,8 +124,15 @@ footer a{
     background-size: cover;
 }
 
+.intro-row{
+    position: relative;
+}
+
+
 .intro{
-    padding: 100px 20px;
+    position: absolute;
+    bottom: -500px;
+    margin: 0 15px;
 }
 
 .intro h1{
@@ -139,6 +146,10 @@ footer a{
     color: #d9f1ff;
     font-size: 20px;
     text-shadow: 3px 3px 5px black;
+}
+
+.intro .sign-up {
+    margin-top: 20px;
 }
 
 .intro-2{
@@ -162,6 +173,10 @@ footer a{
 
 .intro-3{
     background-color: #444444;
+}
+
+.last-intro h1{
+    margin-top: 0;
 }
 
 /* home page background image end */

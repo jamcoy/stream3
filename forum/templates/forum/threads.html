@@ -4,16 +4,16 @@
     <h1>{{ subject.name }}</h1>
     {% if user.is_authenticated %}
         <p>
-            <a href="{% url 'new_thread' subject.id 'no_poll' %}" class="btn btn-primary">New Thread</a>
-            <a href="{% url 'new_thread' subject.id 'poll' %}" class="btn btn-primary">New Thread with Poll</a>
+            <a href="{% url 'new_thread' subject.id 'no_poll' %}" class="btn btn-primary">New topic</a>
+            <a href="{% url 'new_thread' subject.id 'poll' %}" class="btn btn-primary">New topic with poll</a>
         </p>
     {% endif %}
     <table class="table table-striped table-hover">
         <tr>
-            <th>Topic</th>
-            <th>Author</th>
-            <th>Posts</th>
-            <th>Freshness</th>
+            <th>TOPIC</th>
+            <th>AUTHOR</th>
+            <th>POSTS</th>
+            <th>FRESHNESS</th>
         </tr>
         {% for thread in threads %}
             <tr>

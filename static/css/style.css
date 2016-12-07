@@ -164,6 +164,7 @@ footer a{
 .intro img{
     margin-top: 20px;
     margin-bottom: 40px;
+    width: 600px;
 }
 
 .intro-browse-data h1{
@@ -171,3 +172,34 @@ footer a{
 }
 
 /* home page background image end */
+
+@media screen and (max-width: 768px){
+    .intro img{
+        width: 420px;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media screen and (max-width : 480px) {
+    .intro img{
+        width: 280px;
+    }
+}
+
+@media screen and (max-width : 360px) {
+    .intro_driver{
+        text-align: center;
+        margin-left: 0;
+    }
+    .intro img{
+        width: 200px;
+    }
+    .intro h1{
+        font-size: 36px;
+    }
+}
+
+/* Custom, iPhone Retina */
+@media screen and (max-width : 320px) {
+
+}

@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% extends "accounts/accounts_base.html" %}
 {% load bootstrap_tags %}
-{% block content %}
+{% block accounts_content %}
     <form role="form" method="post" action="{% url 'login' %}">
         <legend>Login</legend>
         {% csrf_token %}

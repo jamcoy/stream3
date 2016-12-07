@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "accounts/accounts_base.html" %}
 {% load bootstrap_tags %}
 {% load static %}
 
@@ -12,7 +12,7 @@
   <script type="text/javascript" src="{% static "js/stripe.js" %}"></script>
 {% endblock %}
 
-{% block content %}
+{% block accounts_content %}
   <form role="form" method="post" id="register-form" action="{% url 'register' %}">
     <div id="credit-card-errors" style="display:none">
       <div class="alert-message block-message error" id="stripe-error-message"></div>

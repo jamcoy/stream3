@@ -1,14 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-    <div id="index_background">
-        <div class="container">
-            <h1>Jumbotron</h1>
-            <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-            <p><a class="btn btn-primary btn-lg">Learn more</a></p>
+
+    <div id="black_background">
+        <div id="index_background">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="intro">
+                            <img id="laptop" src="{% static "img/Laptop.png" %}" alt="Laptop" width="500"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="intro">
+                            <h1>True MPG</h1>
+                            <p>Manufacturers' fuel economy figures rarely match real-world performance.</p>
+                            <p>Track the true fuel economy of your vehicle using True MPG.</p>
+                            <p class="sign-up"><a class="btn btn-primary btn-lg">Start tracking</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="container">
-
+        <div class="row">
+            <div class="intro-2">
+                <h1>Browse real-world MPG data</h1>
+                <p>Choose your next car based on its real fuel economy.</p>
+                <p><a class="btn btn-primary btn-lg">Browse MPG data</a></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="intro-2">
+                <img id="laptop" src="{% static "img/Laptop.png" %}" alt="Laptop" width="500"/>
+            </div>
+        </div>
     </div>
 {% endblock %}

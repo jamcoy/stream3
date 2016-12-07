@@ -101,8 +101,53 @@ footer a{
 /* messages end */
 
 /* home page background image */
-#index_background{
-    background-image: url("../../static/img/home_background.jpg");
+#black_background {
+    background-color: black;
+    margin-top: 51px;
+    height: 530px;
 }
+
+#index_background{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: url("../../static/img/home_background.jpg") center no-repeat;
+    height: 530px;
+    max-width: 1400px;
+    background-size: cover;
+}
+
+.intro{
+    padding: 100px 20px;
+}
+
+.intro h1{
+    font-size: 60px;
+    font-weight: bold;
+    color: #46bcff;
+    text-shadow: 3px 3px 5px black;
+}
+
+.intro p{
+    color: #d9f1ff;
+    font-size: 20px;
+    text-shadow: 3px 3px 5px black;
+}
+
+.intro-2{
+    padding: 40px;
+    text-align: center;
+}
+
+.intro-2 h1{
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.intro-2 p{
+    font-size: 20px;
+}
+
+
 
 /* home page background image end */

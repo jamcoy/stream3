@@ -143,7 +143,7 @@ footer a{
     text-shadow: 3px 3px 5px black;
 }
 
-.intro_driver .sign-up {
+.intro-button {
     margin-top: 20px;
 }
 
@@ -163,8 +163,12 @@ footer a{
 
 .intro img{
     margin-top: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 12px;
     width: 600px;
+}
+
+.intro-browse-data{
+    background-color: #dddddd;
 }
 
 .intro-browse-data h1{

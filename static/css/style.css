@@ -124,58 +124,49 @@ footer a{
     background-size: cover;
 }
 
-.intro-row{
-    position: relative;
-}
-
-
-.intro{
+.intro_driver{
     position: absolute;
     bottom: -500px;
     margin: 0 15px;
 }
 
-.intro h1{
+.intro_driver h1{
     font-size: 60px;
     font-weight: bold;
     color: #46bcff;
     text-shadow: 3px 3px 5px black;
 }
 
-.intro p{
+.intro_driver p{
     color: #d9f1ff;
     font-size: 20px;
     text-shadow: 3px 3px 5px black;
 }
 
-.intro .sign-up {
+.intro_driver .sign-up {
     margin-top: 20px;
 }
 
-.intro-2{
+.intro{
     padding: 40px;
     text-align: center;
 }
 
-.intro-2 h1{
+.intro h1{
     font-size: 50px;
     font-weight: bold;
 }
 
-.intro-2 p{
+.intro p{
     font-size: 18px;
 }
 
-.intro-2 img{
+.intro img{
     margin-top: 20px;
     margin-bottom: 40px;
 }
 
-.intro-3{
-    background-color: #444444;
-}
-
-.last-intro h1{
+.intro-browse-data h1{
     margin-top: 0;
 }
 

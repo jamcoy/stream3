@@ -6,7 +6,7 @@ from django.conf import settings
 
 class Subject(models.Model):
     name = models.CharField(max_length=255)
-    description = HTMLField()
+    description = models.CharField(max_length=255)
 
     def __unicode__(self):
         return self.name

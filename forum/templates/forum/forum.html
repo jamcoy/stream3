@@ -1,25 +1,22 @@
 {% extends "forum/forum_base.html" %}
 {% load thread_extras %}
 {% block forum_content %}
-   {% load bootstrap_tags %}
-   {% for subject in subjects %}
-       <section class="subject">
-           <h2><a href="{% url 'threads' subject.id %}">{{ subject.name }}</a></h2>
-           <p>
-               <a href="{% url 'threads' subject.id %}">
-                   {% autoescape off %}{{ subject.description }}{% endautoescape %}
-               </a>
-           </p>
-           <table>
-               <tr>
-                   <th>THREADS</th>
-                   <th>POSTS</th>
-               </tr>
-               <tr>
-                   <td>{{ subject.threads.count }}</td>
-                   <td>{{ subject|get_total_subject_posts }}</td>
-               </tr>
-           </table>
-       </section>
-   {% endfor %}
+    <h1>Forums</h1>
+    {% load bootstrap_tags %}
+    <table>
+        <tr>
+            <th>Forum</th>
+            <th>Description</th>
+            <th>Topics</th>
+            <th>Posts</th>
+        </tr>
+        {% for subject in subjects %}
+            <tr>
+                <td><a href="{% url 'threads' subject.id %}">{{ subject.name }}</a></td>
+                <td>{{ subject.description }}</td>
+                <td>{{ subject.threads.count }}</td>
+                <td>{{ subject|get_total_subject_posts }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

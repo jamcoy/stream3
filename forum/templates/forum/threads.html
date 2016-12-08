@@ -23,7 +23,7 @@
         </tr>
         {% for thread in subject.threads.all %}
             <tr>
-                <td>{% include "forum/thread_item.html" %}</td>
+                <td><a href="{% url 'forum_thread' thread.id %}">{{ thread.name }}</a></td>
                 <td>{{ thread.user.public_name }}</td>
                 <td>{% get_total_thread_posts thread %}</td>
                 <td>{% last_posted_user_name thread %}</td>

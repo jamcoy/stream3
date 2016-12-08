@@ -4,16 +4,7 @@
 
 {% block head_js %}
     <script src="{% static 'lib/tinymce/tinymce.min.js' %}"></script>
-    <script>
-        tinyMCE.init({
-            mode: "textareas",
-            theme: "modern",
-            plugins: "paste emoticons image",
-            image_dimensions: false,
-            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist \
-                      numlist outdent indent | emoticons | image"
-        });
-    </script>
+    <script src="{% static 'js/tinyMCE_init.js' %}"></script>
 {% endblock %}
 
 {% block forum_content %}

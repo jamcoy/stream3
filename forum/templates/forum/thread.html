@@ -3,13 +3,17 @@
 {% load staticfiles %}
 {% block forum_content %}
 
-    <h2>{{ thread.name }}</h2>
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="{% url 'forum_forums' %}">Forums</a></li>
+                <li><a href="{% url 'forum_threads' thread_subject.id %}">{{ thread_subject.name | truncatechars:35 }}</a></li>
+                <li class="active">{{ thread.name | truncatechars:35 }}</li>
+            </ol>
+        </div>
+    </div>
 
-    <ol class="breadcrumb">
-        <li><a href="{% url 'forum_forums' %}">Forums</a></li>
-        <li><a href="{% url 'forum_threads' thread_subject.id %}">{{ thread_subject.name }}</a></li>
-        <li class="active">{{ thread.name }}</li>
-     </ol>
+    <h2>{{ thread.name }}</h2>
 
     <table class="table">
         <tbody>

@@ -13,7 +13,7 @@ class UserRegistrationForm(UserCreationForm):
     expiry_month = forms.ChoiceField(label="Month", choices=MONTH_CHOICES)
     expiry_year = forms.ChoiceField(label="Year", choices=YEAR_CHOICES)
     stripe_id = forms.CharField(widget=forms.HiddenInput)
-    public_name = forms.CharField(label="Public name (shown in forums)")
+    public_name = forms.CharField(label="Public name (shown in forums; aliases are fine)")
     password1 = forms.CharField(
         label='Password',
         widget=forms.PasswordInput

@@ -66,7 +66,7 @@
         {% endfor %}
     </table>
     {% if user.is_authenticated %}
-        <p><a href="{% url 'new_post' thread.id %}" class="btn btn-primary">Post a reply</a></p>
+        <p><a href="{% url 'forum_' thread.id %}" class="btn btn-primary">Post a reply</a></p>
     {% else %}
         <p><a href="{% url 'login' %}" class="btn btn-primary">Login to post a reply</a></p>
     {% endif %}

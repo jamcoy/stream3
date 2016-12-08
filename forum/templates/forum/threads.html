@@ -4,8 +4,8 @@
     <h1>{{ subject.name }}</h1>
     {% if user.is_authenticated %}
         <p>
-            <a href="{% url 'new_thread' subject.id 'no_poll' %}" class="btn btn-primary">New topic</a>
-            <a href="{% url 'new_thread' subject.id 'poll' %}" class="btn btn-primary">New topic with poll</a>
+            <a href="{% url 'forum_new_thread' subject.id 'no_poll' %}" class="btn btn-primary">New topic</a>
+            <a href="{% url 'forum_new_thread' subject.id 'poll' %}" class="btn btn-primary">New topic with poll</a>
         </p>
     {% endif %}
     <table class="table table-striped table-hover">

@@ -1,7 +1,7 @@
 {% extends "forum/thread_form_base.html" %}
 {% load bootstrap_tags %}
 {% block thread_form_content %}
-    <form method="post" action="{% url 'new_thread' subject.id 'no_poll' %}">
+    <form method="post" action="{% url 'forum_new_thread' subject.id 'no_poll' %}">
         {% csrf_token %}
         <div class="form-group">
             {{ thread_form | as_bootstrap }}

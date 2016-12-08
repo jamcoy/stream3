@@ -39,17 +39,37 @@
 
                 <div class="collapse navbar-collapse" id="mpgNavbar">
                     <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="{% url 'stats' %}">MPG Stats</a></li>
-                    <li><a href="/forum/">Forums</a></li>
-                    <li><a href="/blog/">Blog</a></li>
-                    <li><a href="/cars/">My Cars</a></li>
+                    <li {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>
+                        <a href="/">Home</a>
+                    </li>
+                    <li {% if request.resolver_match.url_name == 'stats' %}class="active"{% endif %}>
+                        <a href="{% url 'stats' %}">MPG Stats</a>
+                    </li>
+                    <li {% if request.resolver_match.url_name|truncatechars:9 == 'forum_...' %}
+                            class="active"
+                        {% endif %}>
+                        <a href="{% url 'forum_forums' %}">Forums</a>
+                    </li>
+                    <li {% if request.resolver_match.url_name|truncatechars:8 == 'blog_...' %}class="active"{% endif %}>
+                        <a href="{% url 'blog_post_list' %}">Blog</a>
+                    </li>
+                    <li {% if request.resolver_match.url_name|truncatechars:7 == 'car_...' %}class="active"{% endif %}>
+                        <a href="{% url 'car_cars' %}">My Cars</a>
+                    </li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'profile' %}">Profile</a></li>
-                        <li><a href="{% url 'logout' %}">Log Out</a></li>
+                        <li {% if request.resolver_match.url_name == 'profile' %}class="active"{% endif %}>
+                            <a href="{% url 'profile' %}">Profile</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}">Log Out</a>
+                        </li>
                     {% else %}
-                        <li><a href="{% url 'register' %}">Register</a></li>
-                        <li><a href="{% url 'login' %}">Log In</a></li>
+                        <li {% if request.resolver_match.url_name == 'register' %}class="active"{% endif %}>
+                            <a href="{% url 'register' %}">Register</a>
+                        </li>
+                        <li {% if request.resolver_match.url_name == 'login' %}class="active"{% endif %}>
+                            <a href="{% url 'login' %}">Log In</a>
+                        </li>
                     {% endif %}
                     </ul>
                 </div>

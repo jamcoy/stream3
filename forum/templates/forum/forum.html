@@ -12,7 +12,7 @@
         </tr>
         {% for subject in subjects %}
             <tr>
-                <td><a href="{% url 'threads' subject.id %}">{{ subject.name }}</a></td>
+                <td><a href="{% url 'forum_threads' subject.id %}">{{ subject.name }}</a></td>
                 <td>{{ subject.description }}</td>
                 <td>{{ subject.threads.count }}</td>
                 <td>{{ subject|get_total_subject_posts }}</td>

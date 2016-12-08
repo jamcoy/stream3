@@ -9,7 +9,7 @@
 
 {% block forum_content %}
     <section>
-        <div class="col-md-9">
+        <div class="col-lg-10 col-lg-offset-1">
             <form method="post" action="{{ form_action }}">
                 {% csrf_token %}
                 {{ form|as_bootstrap }}

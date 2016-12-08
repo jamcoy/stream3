@@ -104,7 +104,8 @@ def new_thread(request, subject_id, poll):
 
 def thread(request, thread_id):
     thread_ = get_object_or_404(Thread, pk=thread_id)
-    args = {'thread': thread_}
+    subject = get_object_or_404(Subject, pk=thread_.subject_id)
+    args = {'thread': thread_, 'thread_subject': subject}
     args.update(csrf(request))
     return render(request, 'forum/thread.html', args)
 

@@ -3,60 +3,67 @@
 {% load staticfiles %}
 {% block forum_content %}
 
-        <h2>{{ thread.name }}</h2>
-        <table class="table">
-            <tbody>
-            <tr>
-                <th>CREATED</th>
-                <th>OWNER</th>
-                <th>LAST POST</th>
-            </tr>
-            <tr>
-                <td>
-                    <time datetime="{{ thread.created_at }}">
-                        {{ thread.created_at | started_time }}
-                    </time>
-                </td>
-                <td>{{ thread.user.username }}</td>
-                <td>{% last_posted_user_name thread %}</td>
-            </tr>
-            </tbody>
-        </table>
+    <h2>{{ thread.name }}</h2>
 
-        {% if thread.poll %}
-            <h2>Poll</h2>
-            <strong>{{ thread.poll.question }}</strong><br><br>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'forum_forums' %}">Forums</a></li>
+        <li><a href="{% url 'forum_threads' thread_subject.id %}">{{ thread_subject.name }}</a></li>
+        <li class="active">{{ thread.name }}</li>
+     </ol>
 
-            <div class="container">
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>CREATED</th>
+            <th>OWNER</th>
+            <th>LAST POST</th>
+        </tr>
+        <tr>
+            <td>
+                <time datetime="{{ thread.created_at }}">
+                    {{ thread.created_at | started_time }}
+                </time>
+            </td>
+            <td>{{ thread.user.username }}</td>
+            <td>{% last_posted_user_name thread %}</td>
+        </tr>
+        </tbody>
+    </table>
 
-                <div class="col-md-2">
-                    <p>Voting so far:</p>
-                </div>
+    {% if thread.poll %}
+        <h2>Poll</h2>
+        <strong>{{ thread.poll.question }}</strong><br><br>
 
-                <div class="col-md-8 ">
+        <div class="container">
 
-                    {% for subject in thread.poll.subjects.all %}
+            <div class="col-md-2">
+                <p>Voting so far:</p>
+            </div>
 
-                        <span class="pull-left"><strong>{{ subject.name }}</strong></span>
-                        {% autoescape off %}
-                            {% user_vote_button thread subject user %}
-                        {% endautoescape %}
-                        <span class="pull-right">{{ subject|vote_percentage }}%</span>
+            <div class="col-md-8 ">
 
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-info" role="progressbar"
-                                 aria-value="{{ subject|vote_percentage }}" aria-valuemin="0" aria-valuemax="100"
-                                 style="width:{{ subject|vote_percentage }}%;">
-                            </div>
+                {% for subject in thread.poll.subjects.all %}
+
+                    <span class="pull-left"><strong>{{ subject.name }}</strong></span>
+                    {% autoescape off %}
+                        {% user_vote_button thread subject user %}
+                    {% endautoescape %}
+                    <span class="pull-right">{{ subject|vote_percentage }}%</span>
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-info" role="progressbar"
+                             aria-value="{{ subject|vote_percentage }}" aria-valuemin="0" aria-valuemax="100"
+                             style="width:{{ subject|vote_percentage }}%;">
                         </div>
+                    </div>
 
-                    {% endfor %}
-
-                </div>
+                {% endfor %}
 
             </div>
 
-        {% endif %}
+        </div>
+
+    {% endif %}
 
     <table class="table table-striped">
         {% for post in thread.posts.all %}

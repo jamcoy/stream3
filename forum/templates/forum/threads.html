@@ -8,6 +8,11 @@
             <a href="{% url 'forum_new_thread' subject.id 'poll' %}" class="btn btn-primary">New topic with poll</a>
         </p>
     {% endif %}
+
+    <ol class="breadcrumb">
+        <li><a href="{% url 'forum_forums' %}">Forums</a></li>
+        <li class="active">{{ subject.name }}</li>
+    </ol>
     <table class="table table-striped table-hover">
         <tr>
             <th>TOPIC</th>

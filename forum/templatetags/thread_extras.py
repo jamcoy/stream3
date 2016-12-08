@@ -13,6 +13,11 @@ def get_total_subject_posts(subject):
     return total_posts
 
 
+@register.simple_tag
+def get_total_thread_posts(thread):
+    return thread.posts.count()
+
+
 @register.filter
 def started_time(created_at):
     return arrow.get(created_at).humanize()
@@ -20,8 +25,15 @@ def started_time(created_at):
 
 @register.simple_tag
 def last_posted_user_name(thread):
-    posts = thread.posts.all().order_by('-created_at')  # 'created_at' ??
+    posts = thread.posts.all().order_by('-created_at')
     return posts[posts.count() - 1].user.public_name
+
+
+@register.simple_tag
+def last_post_time(thread):
+    posts = thread.posts.all().order_by('created_at')
+    latest_post_time = posts[posts.count() - 1].created_at
+    return arrow.get(latest_post_time).humanize()
 
 
 @register.simple_tag
@@ -32,7 +44,6 @@ def user_vote_button(thread, subject, user):
         if user.is_authenticated():
             link = '<div class="btn-vote"><a href="%s" class="btn btn-default btn-sm">Add my vote!</a></div>' \
                    % reverse('forum_cast_vote', kwargs={'thread_id': thread.id, 'subject_id': subject.id})
-
             return link
 
     return ""

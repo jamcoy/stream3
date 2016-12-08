@@ -25,7 +25,9 @@
                 </time>
             </td>
             <td>{{ thread.user.public_name }}</td>
-            <td>{% last_posted_user_name thread %}</td>
+            <td>{% last_posted_user_name thread %}
+                (<time>{% last_post_time thread %}</time>)
+            </td>
         </tr>
         </tbody>
     </table>

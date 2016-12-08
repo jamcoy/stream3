@@ -16,16 +16,18 @@
     <table class="table table-striped table-hover">
         <tr>
             <th>TOPIC</th>
-            <th>AUTHOR</th>
+            <th>OWNER</th>
             <th>POSTS</th>
-            <th>FRESHNESS</th>
+            <th>LAST POST</th>
         </tr>
-        {% for thread in threads %}
+        {% for thread in subject.threads.all %}
             <tr>
                 <td>{% include "forum/thread_item.html" %}</td>
                 <td>{{ thread.user.public_name }}</td>
-                <td>{{ thread.post_count }}</td>
-                <td>{{ thread.freshness }}</td>
+                <td>{% get_total_thread_posts thread %}</td>
+                <td>{% last_posted_user_name thread %}
+                    (<time>{% last_post_time thread %}</time>)
+                </td>
             </tr>
         {% endfor %}
     </table>

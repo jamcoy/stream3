@@ -5,7 +5,7 @@
     {% if user.is_authenticated %}
         <p>
             <a href="{% url 'forum_new_thread' subject.id 'no_poll' %}" class="btn btn-primary">New topic</a>
-            <a href="{% url 'forum_new_thread' subject.id 'poll' %}" class="btn btn-primary">New topic with poll</a>
+            <a href="{% url 'forum_new_thread' subject.id 'poll' %}" class="btn btn-primary">New poll</a>
         </p>
     {% endif %}
 
@@ -26,10 +26,10 @@
                 <td>
                     <a href="{% url 'forum_thread' thread.id %}">
                         {% if thread.poll %}
-                            {{ thread.name }}
+                            {{ thread.name | truncatechars:30 }}
                             <span class="badge">POLL</span>
                         {% else %}
-                            {{ thread.name }}
+                            {{ thread.name | truncatechars:35 }}
                         {% endif %}
                     </a>
                 </td>

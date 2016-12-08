@@ -1,9 +1,9 @@
 {% load staticfiles %}
 {% load emoticons_tags %}
 
-    <td>
+    <td class="user-datails">
         <p><img src="{% static 'images/user.png' %}"/></p>
-        <p>{{ post.user.public_name }}</p>
+        <p><strong>{{ post.user.public_name }}</strong></p>
         <p>{{ post.user.posts.count }} posts</p>
     </td>
 
@@ -14,5 +14,7 @@
             {% endautoescape %}
         </div>
         <hr>
-        {% include "forum/comment_details.html" %}
+        <div class="comment-details">
+            {% include "forum/comment_details.html" %}
+        </div>
     </td>

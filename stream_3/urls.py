@@ -20,7 +20,7 @@ from django.views.static import serve
 
 urlpatterns = [  # don't terminate with a $ when using includes
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('www.urls')),
+    url(r'^', include('complementary_pages.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^blog/', include('blog.urls')),
     url(r'^forum/', include('forum.urls')),

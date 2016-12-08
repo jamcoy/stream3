@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'cars',
     'forum',
     'stats',
-    'www',
+    'complementary_pages',
 ]
 # Should this also have SessionMiddleware and AuthenticationMiddleware???
 MIDDLEWARE = [

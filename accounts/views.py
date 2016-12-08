@@ -1,19 +1,19 @@
+import datetime
+import json
+
+import arrow
+import stripe
+from django.conf import settings
 from django.contrib import messages, auth
-from accounts.forms import UserRegistrationForm, UserLoginForm
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
-from django.contrib.auth.decorators import login_required
-from django.conf import settings
-import datetime
-import stripe
-import arrow
-import json
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-from models import User
-from www import views as www_views
 
+from accounts.forms import UserRegistrationForm, UserLoginForm
+from models import User
 
 stripe.api_key = settings.STRIPE_SECRET
 

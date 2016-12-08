@@ -3,42 +3,18 @@
 {% load staticfiles %}
 {% block forum_content %}
 
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li><a href="{% url 'forum_forums' %}">Forums</a></li>
-                <li><a href="{% url 'forum_threads' thread_subject.id %}">{{ thread_subject.name | truncatechars:35 }}</a></li>
-                <li class="active">{{ thread.name | truncatechars:35 }}</li>
-            </ol>
-        </div>
-    </div>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{% url 'forum_forums' %}">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                Forums
+            </a>
+        </li>
+        <li><a href="{% url 'forum_threads' thread_subject.id %}">{{ thread_subject.name | truncatechars:35 }}</a></li>
+        <li class="active">{{ thread.name | truncatechars:35 }}</li>
+    </ol>
 
     <h2>{{ thread.name }}</h2>
-
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>STARTED</th>
-            <th>CREATOR</th>
-            <th>POSTS</th>
-            <th>VOICES</th>
-            <th>LAST POST</th>
-            <th>FRESHNESS</th>
-        </tr>
-        <tr>
-            <td>
-                <time datetime="{{ thread.created_at }}">
-                    {{ thread.created_at | started_time }}
-                </time>
-            </td>
-            <td>{{ thread.user.public_name }}</td>
-            <td>{% get_total_thread_posts thread %}</td>
-            <td>{% get_distinct_thread_voices thread %}</td>
-            <td>{% last_posted_user_name thread %}</td>
-            <td><time>{% last_post_time thread %}</time></td>
-        </tr>
-        </tbody>
-    </table>
 
     {% if thread.poll %}
         <h2>Poll</h2>
@@ -75,7 +51,7 @@
 
     {% endif %}
 
-    <table class="table table-striped post">
+    <table id="forum-thread" class="table table-striped">
         {% for post in thread.posts.all %}
             <tr>
                 {% include "forum/post.html" %}

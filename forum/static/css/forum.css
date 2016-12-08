@@ -1,25 +1,25 @@
-.comment-content img{
+.comment-content img {
     max-width: 500px;
     max-height: 500px;
 }
 
-table {
-    border: 2px solid #333333;
+.comment-content {
+    min-height: 32px;
 }
 
-th {
-    border: 1px solid #333333;
+#forum-thread {
+    border: 2px solid #555555
 }
 
-td {
-    border: 1px solid #333333;
+#forum-thread td {
+    border: 1px solid #555555
 }
 
-.post .user-datails{
+#forum-thread .user-datails {
     width: 120px;
     min-width: 120px;
 }
 
-.comment-content{
-    min-height: 32px;
+#threads-header {
+    margin-top: 0;
 }

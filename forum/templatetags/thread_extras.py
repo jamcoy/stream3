@@ -40,7 +40,7 @@ def last_posted_user_name(thread):
 def last_post_time(thread):
     posts = thread.posts.all().order_by('created_at')
     latest_post_time = posts[posts.count() - 1].created_at
-    return arrow.get(latest_post_time).humanize(only_distance=True)
+    return arrow.get(latest_post_time).humanize()
 
 
 @register.simple_tag

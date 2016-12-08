@@ -3,7 +3,7 @@ from models import Thread, Post, Poll, PollSubject  # .models???
 
 
 class ThreadForm(forms.ModelForm):
-    name = forms.CharField(label="Thread name")
+    name = forms.CharField(label="Topic name")
 
     class Meta:
         model = Thread
@@ -17,7 +17,7 @@ class PostForm(forms.ModelForm):
 
 
 class PollForm(forms.ModelForm):
-    question = forms.CharField(label="What is your poll about?")
+    question = forms.CharField(label="What is the question you'd like to ask?")
 
     class Meta:
         model = Poll
@@ -25,7 +25,7 @@ class PollForm(forms.ModelForm):
 
 
 class PollSubjectForm(forms.ModelForm):
-    name = forms.CharField(label="Poll subject name", required=True)
+    name = forms.CharField(label="Poll option", required=True)
 
     def __init__(self, *args, **kwargs):
         super(PollSubjectForm, self).__init__(*args, **kwargs)

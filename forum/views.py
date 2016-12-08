@@ -56,6 +56,8 @@ def new_thread(request, subject_id, poll):
                     subject.poll = poll
                     subject.save()
 
+                messages.success(request, "You have created a new poll!")
+
         else:
             if thread_form.is_valid() and post_form.is_valid():
 
@@ -69,7 +71,8 @@ def new_thread(request, subject_id, poll):
                 post.thread = thread
                 post.save()
 
-        messages.success(request, "You have created a new thread!")
+                messages.success(request, "You have created a new topic!")
+
         return redirect(reverse('forum_thread', args={thread.pk}))
 
     else:

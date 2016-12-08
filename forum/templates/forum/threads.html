@@ -23,7 +23,7 @@
         {% for thread in threads %}
             <tr>
                 <td>{% include "forum/thread_item.html" %}</td>
-                <td>{{ thread.user }}</td>
+                <td>{{ thread.user.public_name }}</td>
                 <td>{{ thread.post_count }}</td>
                 <td>{{ thread.freshness }}</td>
             </tr>

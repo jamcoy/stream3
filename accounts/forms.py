@@ -13,6 +13,7 @@ class UserRegistrationForm(UserCreationForm):
     expiry_month = forms.ChoiceField(label="Month", choices=MONTH_CHOICES)
     expiry_year = forms.ChoiceField(label="Year", choices=YEAR_CHOICES)
     stripe_id = forms.CharField(widget=forms.HiddenInput)
+    public_name = forms.CharField(label="Public name (shown in forums)")
     password1 = forms.CharField(
         label='Password',
         widget=forms.PasswordInput
@@ -25,7 +26,7 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['email', 'password1', 'password2', 'stripe_id']
+        fields = ['email', 'public_name', 'password1', 'password2', 'stripe_id']
         exclude = ['username']
 
     def clean_password2(self):

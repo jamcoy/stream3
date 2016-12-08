@@ -24,7 +24,7 @@
                     {{ thread.created_at | started_time }}
                 </time>
             </td>
-            <td>{{ thread.user.username }}</td>
+            <td>{{ thread.user.public_name }}</td>
             <td>{% last_posted_user_name thread %}</td>
         </tr>
         </tbody>

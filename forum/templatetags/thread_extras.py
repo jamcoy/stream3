@@ -18,6 +18,13 @@ def get_total_thread_posts(thread):
     return thread.posts.count()
 
 
+@register.simple_tag
+def get_distinct_thread_voices(thread):
+    # thread.posts.distinct('user_id') not supported in sqlite / mysql
+    voices = thread.posts.order_by('user_id').values('user_id').distinct().count()
+    return voices
+
+
 @register.filter
 def started_time(created_at):
     return arrow.get(created_at).humanize()
@@ -33,7 +40,7 @@ def last_posted_user_name(thread):
 def last_post_time(thread):
     posts = thread.posts.all().order_by('created_at')
     latest_post_time = posts[posts.count() - 1].created_at
-    return arrow.get(latest_post_time).humanize()
+    return arrow.get(latest_post_time).humanize(only_distance=True)
 
 
 @register.simple_tag

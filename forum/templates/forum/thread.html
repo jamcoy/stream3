@@ -14,9 +14,12 @@
     <table class="table">
         <tbody>
         <tr>
-            <th>CREATED</th>
-            <th>OWNER</th>
+            <th>STARTED</th>
+            <th>CREATOR</th>
+            <th>POSTS</th>
+            <th>VOICES</th>
             <th>LAST POST</th>
+            <th>FRESHNESS</th>
         </tr>
         <tr>
             <td>
@@ -25,9 +28,10 @@
                 </time>
             </td>
             <td>{{ thread.user.public_name }}</td>
-            <td>{% last_posted_user_name thread %}
-                (<time>{% last_post_time thread %}</time>)
-            </td>
+            <td>{% get_total_thread_posts thread %}</td>
+            <td>{% get_distinct_thread_voices thread %}</td>
+            <td>{% last_posted_user_name thread %}</td>
+            <td><time>{% last_post_time thread %}</time></td>
         </tr>
         </tbody>
     </table>

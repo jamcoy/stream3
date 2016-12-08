@@ -78,7 +78,7 @@ def new_thread(request, subject_id, poll):
                 post.save()
 
         messages.success(request, "You have created a new thread!")
-        return redirect(reverse('thread', args={thread.pk}))
+        return redirect(reverse('forum_thread', args={thread.pk}))
 
     else:
         thread_form = ThreadForm()
@@ -123,13 +123,13 @@ def new_post(request, thread_id):
 
             messages.success(request, "Your post has been added to the thread!")
 
-            return redirect(reverse('thread', args={thread.pk}))
+            return redirect(reverse('forum_thread', args={thread.pk}))
     else:
         form = PostForm()
 
     args = {
         'form': form,
-        'form_action': reverse('new_post', args={thread.id}),
+        'form_action': reverse('forum_new_post', args={thread.id}),
         'button_text': 'Update Post'
     }
     args.update(csrf(request))
@@ -148,13 +148,13 @@ def edit_post(request, thread_id, post_id):
             form.save()
             messages.success(request, "You have updated your thread!")
 
-            return redirect(reverse('thread', args={thread.pk}))
+            return redirect(reverse('forum_thread', args={thread.pk}))
     else:
         form = PostForm(instance=post)
 
     args = {
         'form': form,
-        'form_action': reverse('edit_post', kwargs={"thread_id": thread.id, "post_id": post.id}),
+        'form_action': reverse('forum_edit_post', kwargs={"thread_id": thread.id, "post_id": post.id}),
         'button_text': 'Update Post'
     }
     args.update(csrf(request))
@@ -170,7 +170,7 @@ def delete_post(request, post_id):
 
     messages.success(request, "Your post was deleted!")
 
-    return redirect(reverse('thread', args={thread_id}))
+    return redirect(reverse('forum_thread', args={thread_id}))
 
 
 @login_required
@@ -181,7 +181,7 @@ def thread_vote(request, thread_id, subject_id):
 
     if subject:
         messages.error(request, "You already voted on this... You're not trying to cheat are you?")
-        return redirect(reverse('thread', args={thread_id}))
+        return redirect(reverse('forum_thread', args={thread_id}))
 
     subject = PollSubject.objects.get(id=subject_id)
 
@@ -189,4 +189,4 @@ def thread_vote(request, thread_id, subject_id):
 
     messages.success(request, "We've registered your vote!")
 
-    return redirect(reverse('thread', args={thread_id}))
+    return redirect(reverse('forum_thread', args={thread_id}))

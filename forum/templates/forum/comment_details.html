@@ -7,8 +7,8 @@
     </div>
     <div class="pull-right">
         {% if post.user == user or user.is_staff %}
-            <a href="{% url 'forum_' thread.id post.id %}"><i class="fa fa-pencil-square-o"></i></a>
-            <a href="{% url 'forum_' thread.id post.id %}"><i class="fa fa-trash-o"></i></a>
+            <a href="{% url 'forum_edit_post' thread.id post.id %}"><i class="fa fa-pencil-square-o"></i></a>
+            <a href="{% url 'forum_delete_post' post.id %}"><i class="fa fa-trash-o"></i></a>
         {% endif %}
     </div>
     <div class="clearfix"></div>

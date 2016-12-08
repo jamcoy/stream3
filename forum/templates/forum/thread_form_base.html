@@ -1,13 +1,6 @@
 {% extends "forum/forum_base.html" %}
 {% load staticfiles %}
 
-{% block head_js %}
-    <script type="text/javascript" src="{% static 'lib/tinymce/tinymce.min.js' %}"></script>
-    <script type="application/javascript">
-        tinyMCE.init({mode: "textareas", theme: 'modern', plugins: 'paste'})
-    </script>
-{% endblock %}
-
 {% block forum_content %}
     <section>
         <div class="col-md-9">

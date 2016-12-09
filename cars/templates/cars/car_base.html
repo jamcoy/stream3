@@ -17,8 +17,6 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="addCarModal"><a href="/cars">Detailed list</a></li>
-                        <li role="separator" class="divider"></li>
                         {% for car in cars_list %}
                             <li class="switchCar">
                                 <a href="/cars/{{ car.id }}">{{ car.car }}</a>

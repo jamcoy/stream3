@@ -1,17 +1,21 @@
 {% extends 'cars/car_base.html' %}
 {% load static %}
 {% block car_content %}
-    <div>
+    <div class="delete-car">
         <h4>
-            Permanently remove {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}?
-            <img src="{% static "img/deleteCar.png" %}" alt="Quayside warning sign"/>
+            <img src="{% static "img/deleteCar.png" %}" alt="Quayside warning sign"/><br>
+            Confirm deletion: {{ car_detail.colour }} {{ car_detail.year_of_manufacture }} {{ car_detail.make }}
+            {{ car_detail.model }} {{ car_detail.sub_model }}
+
         </h4>
+        <div class="delete-car-buttons">
+            <form action="/cars/delete_car/{{ car_detail.id }}/" method="POST">
+                {% csrf_token %}
+                <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+            <form action="/cars/{{ car_detail.id }}/" method="GET">
+                <input class="btn btn-default" type="submit" value="Cancel">
+            </form>
+        </div>
     </div>
-    <form action="/cars/delete_car/{{ car_detail.id }}/" method="POST">
-        {% csrf_token %}
-        <input class="btn btn-danger" type="submit" value="Remove">
-    </form>
-    <form action="/cars/{{ car_detail.id }}/" method="GET">
-        <input class="btn btn-default" type="submit" value="Cancel">
-    </form>
 {% endblock %}

@@ -16,6 +16,24 @@
     width: 100%;
 }
 
+.delete-car img{
+    margin: 20px;
+}
+
+.delete-car {
+    text-align: center;
+}
+
+.delete-car .delete-car-buttons {
+    text-align: center;
+    margin: 20px 0 50px 0;
+}
+
+.delete-car form{
+    display: inline;
+    margin: 4px;
+}
+
 /* BS medium */
 @media screen and (max-width: 992px){
     .car-details table {

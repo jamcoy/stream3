@@ -56,7 +56,9 @@
                         <a href="{% url 'blog_post_list' %}">Blog</a>
                     </li>
                     {% if user.is_authenticated %}
-                        <li {% if request.resolver_match.url_name|truncatechars:7 == 'car_...' %}class="active"{% endif %}>
+                        <li {% if request.resolver_match.url_name|truncatechars:7 == 'car_...' %}
+                                class="active"
+                            {% endif %}>
                             <a href="{% url 'car_cars' %}">My Cars</a>
                         </li>
                         <li {% if request.resolver_match.url_name == 'profile' %}class="active"{% endif %}>
@@ -102,17 +104,18 @@
             </div>
         </footer>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
-    <script src="{% static 'js/browseData.js' %}"></script>
-    <script src="{% static 'lib/moment.min.js' %}"></script>
-    <script src="{% static 'lib/daterangepicker/js/daterangepicker.js' %}"></script>
-    <script src="{% static 'js/refuelDate.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js"></script>
-    <script src="{% static 'lib/Chart.Scatter.min.js' %}"></script>
-    <script src="{% static 'js/charts.js' %}"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js">
+        </script>
+        <script src="{% static 'js/browseData.js' %}"></script>
+        <script src="{% static 'lib/moment.min.js' %}"></script>
+        <script src="{% static 'lib/daterangepicker/js/daterangepicker.js' %}"></script>
+        <script src="{% static 'js/refuelDate.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js"></script>
+        <script src="{% static 'lib/Chart.Scatter.min.js' %}"></script>
+        <script src="{% static 'js/charts.js' %}"></script>
 
     </body>
 </html>

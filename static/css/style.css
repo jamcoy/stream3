@@ -191,10 +191,15 @@ footer a{
     width: 600px;
 }
 
+.embedded-logo{
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
+}
+
+
 .intro-browse-data{
     background-color: #dddddd;
 }
-
 
 /* home page background image end */
 

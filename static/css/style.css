@@ -1,3 +1,10 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+}
+p, div {
+    font-family: 'Roboto', sans-serif;
+}
+
 /* footer start */
 
 footer {
@@ -32,6 +39,16 @@ footer a{
 }
 
 /* footer end */
+
+/* navbar start */
+
+#navbar-logo {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+
+}
+/* navbar end */
 
 
 /* Cars start */
@@ -131,15 +148,21 @@ footer a{
     text-shadow: 3px 3px 5px black;
 }
 
-.intro_driver h1{
+.intro_driver h1 {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
     font-size: 60px;
-    font-weight: bold;
     color: #46bcff;
+}
+
+.intro_driver #fuel {
+    color: #bbbbbb;
 }
 
 .intro_driver p{
     color: #d9f1ff;
     font-size: 20px;
+    line-height: 110%;
 }
 
 .intro-button {
@@ -152,9 +175,10 @@ footer a{
 }
 
 .intro h1{
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
     margin-top: 0;
     font-size: 50px;
-    font-weight: bold;
 }
 
 .intro p{

@@ -2,12 +2,14 @@
 {% load static %}
 {% block car_content %}
     <div class="delete-car">
-        <h4>
+        <h3>
             <img src="{% static "img/deleteCar.png" %}" alt="Quayside warning sign"/><br>
-            Confirm deletion: {{ car_detail.colour }} {{ car_detail.year_of_manufacture }} {{ car_detail.make }}
+            {{ car_detail.colour }} {{ car_detail.year_of_manufacture }} {{ car_detail.make }}
             {{ car_detail.model }} {{ car_detail.sub_model }}
-
-        </h4>
+        </h3>
+        {% if not car_detail.exclude_from_collation %}
+            <p>This will also delete any fuel economy data that has been contributed to the community.</p>
+        {% endif %}
         <div class="delete-car-buttons">
             <form action="/cars/delete_car/{{ car_detail.id }}/" method="POST">
                 {% csrf_token %}

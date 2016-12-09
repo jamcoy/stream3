@@ -23,8 +23,8 @@ class Car(models.Model):
     doors = models.CharField(max_length=2)
     image = StdImageField(upload_to="images/cars",
                           variations={
-                              'large': {'width': 960, 'height': 640},
-                              'medium': {'width': 360, 'height': 240},
+                              'large': {'width': 900, 'height': 600},
+                              'medium': {'width': 450, 'height': 300},
                               'thumbnail': {'width': 120, 'height': 80, "crop": True}
                           },
                           blank=True, null=True)

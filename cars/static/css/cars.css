@@ -38,6 +38,10 @@
     margin: 4px;
 }
 
+.refueling-history .missed-refuel {
+    text-align: center;
+}
+
 /* BS medium */
 @media screen and (max-width: 992px){
     .car-details table {

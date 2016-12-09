@@ -1,20 +1,59 @@
 {% extends 'cars/car_base.html' %}
 {% block car_content %}
-    <div class="">
-        <h4 class="">Refuel history</h4>
-    </div>
-    {% for refuel in refuels %}
-            <hr>
-    {% if not forloop.last %}
-            <p>{{ refuel.date_time_added }} | {{ refuel.odometer }} | {{ refuel.litres }} litres | ${{ refuel.price }} | {{ refuel.litre_price }}p / litre | Full tank: {{ refuel.full_tank }}</p>
-        {% else %}
-            <p>{{ refuel.date_time_added }} | {{ refuel.odometer }} | N/A | N/A | N/A | Full tank: {{ refuel.full_tank }}</p>
-        {% endif %}
-        {% if refuel.missed_refuels %}
+    <h4 class="">Refueling history</h4>
+    <table class="table table-striped">
+        <tr>
+            <th>Date</th>
+            <th>Odometer</th>
+            <th>Fuel</th>
+            <th>Cost</th>
+            <th>Price / litre</th>
+            <th>Full tank</th>
+        </tr>
+        {% for refuel in refuels %}
             {% if not forloop.last %}
-                <hr>
-                <p>MISSED REFUEL(S) REPORTED</p>
-            {%  endif %}
-        {% endif %}
-    {% endfor %}
+
+                {% if refuel.full_tank %}
+                    <tr class="success">
+                        <td>{{ refuel.date_time_added }}</td>
+                        <td>{{ refuel.odometer }}</td>
+                        <td>{{ refuel.litres }} litres</td>
+                        <td>£{{ refuel.price }}</td>
+                        <td>{{ refuel.litre_price }}p</td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    </tr>
+                {% else %}
+                    <tr class="warning">
+                        <td>{{ refuel.date_time_added }}</td>
+                        <td>{{ refuel.odometer }}</td>
+                        <td>{{ refuel.litres }} litres</td>
+                        <td>£{{ refuel.price }}</td>
+                        <td>{{ refuel.litre_price }}p</td>
+                        <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                    </tr>
+                {% endif %}
+
+            {% else %}
+                <tr>
+                    <td>{{ refuel.date_time_added }}</td>
+                    <td>{{ refuel.odometer }}</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    {% if refuel.full_tank %}
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    {% else %}
+                        <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                    {% endif %}
+                </tr>
+            {% endif %}
+            {% if refuel.missed_refuels %}
+                {% if not forloop.last %}
+                    <tr class="danger">
+                        <td colspan="6">MISSED REFUEL(S) REPORTED</td>
+                    </tr>
+                {%  endif %}
+            {% endif %}
+        {% endfor %}
+    </table>
 {% endblock %}

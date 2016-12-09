@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a id="navbar-logo" class="navbar-brand" href="#/">
+                    <a id="navbar-logo" class="navbar-brand" href="{% url 'home' %}">
                         EasyFuelTracker
                     </a>
                 </div>
@@ -42,7 +42,7 @@
                 <div class="collapse navbar-collapse" id="mpgNavbar">
                     <ul class="nav navbar-nav navbar-right">
                     <li {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>
-                        <a href="/">Home</a>
+                        <a href="{% url 'home' %}">Home</a>
                     </li>
                     <li {% if request.resolver_match.url_name == 'stats' %}class="active"{% endif %}>
                         <a href="{% url 'stats' %}">MPG Stats</a>

@@ -45,7 +45,7 @@
                         <a href="{% url 'home' %}">Home</a>
                     </li>
                     <li {% if request.resolver_match.url_name == 'stats' %}class="active"{% endif %}>
-                        <a href="{% url 'stats' %}">MPG Stats</a>
+                        <a href="{% url 'stats' %}">Economy data</a>
                     </li>
                     <li {% if request.resolver_match.url_name|truncatechars:9 == 'forum_...' %}
                             class="active"
@@ -59,20 +59,20 @@
                         <li {% if request.resolver_match.url_name|truncatechars:7 == 'car_...' %}
                                 class="active"
                             {% endif %}>
-                            <a href="{% url 'car_cars' %}">My Cars</a>
+                            <a href="{% url 'car_cars' %}">My cars</a>
                         </li>
                         <li {% if request.resolver_match.url_name == 'profile' %}class="active"{% endif %}>
                             <a href="{% url 'profile' %}">Profile</a>
                         </li>
                         <li>
-                            <a href="{% url 'logout' %}">Log Out</a>
+                            <a href="{% url 'logout' %}">Log out</a>
                         </li>
                     {% else %}
                         <li {% if request.resolver_match.url_name == 'register' %}class="active"{% endif %}>
                             <a href="{% url 'register' %}">Register</a>
                         </li>
                         <li {% if request.resolver_match.url_name == 'login' %}class="active"{% endif %}>
-                            <a href="{% url 'login' %}">Log In</a>
+                            <a href="{% url 'login' %}">Log in</a>
                         </li>
                     {% endif %}
                     </ul>

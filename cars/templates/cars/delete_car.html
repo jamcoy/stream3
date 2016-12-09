@@ -10,13 +10,13 @@
         {% if not car_detail.exclude_from_collation %}
             <p>This will also delete any fuel economy data that has been contributed to the community.</p>
         {% endif %}
-        <div class="delete-car-buttons">
+        <div>
             <form action="/cars/delete_car/{{ car_detail.id }}/" method="POST">
                 {% csrf_token %}
-                <input class="btn btn-danger" type="submit" value="Delete">
-            </form>
-            <form action="/cars/{{ car_detail.id }}/" method="GET">
-                <input class="btn btn-default" type="submit" value="Cancel">
+                <div class="car-dialog-buttons">
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                    <a class="btn btn-default" href="/cars/{{ car_detail.id }}/">Cancel</a>
+                </div>
             </form>
         </div>
     </div>

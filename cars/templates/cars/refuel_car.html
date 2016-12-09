@@ -3,27 +3,28 @@
 {% load static %}
 
 {% block car_content %}
-    <div>
-        <h4>
-            Enter refueling details for {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}
-            <img src="{% static "img/fuelPump.png" %}" alt="Fuel pump"/>
-        </h4>
-        {% if new_car %}
-            <h3>This is your first refuel</h3>
-            <p>Only limited information is needed on your first refuel to set a baseline for calculating your economy
-               figures.</p>
-            <p>Future refuels will also require the quantity of fuel (in litres) and
-               and the price paid.</p>
-            <p>You will also be asked to declare if you've forgotten to log any refuels. Please be honest, or you will
-               skew your results!</p>
-        {% endif %}
-        <form action="/cars/refuel_car/{{ car_detail.id }}/" method="POST">
-            {% csrf_token %}
-            {{ form|as_bootstrap }}
-            <input class="btn btn-primary" type="submit" value="Submit">
-        </form>
-        <form action="/cars/{{ car_detail.id }}/" method="GET">
-            <input class="btn btn-default" type="submit" value="Cancel">
-        </form>
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            {% if new_car %}
+                <h3>This is your first refuel</h3>
+                <p>Only limited information is needed on your first refuel to set a baseline for calculating your economy
+                   figures.</p>
+                <p>Future refuels will also require the quantity of fuel (in litres) and
+                   and the price paid.</p>
+                <p>You will also be asked to declare if you've forgotten to log any refuels. Please be honest, or you will
+                   skew your results!</p><br>
+            {% endif %}
+            <legend>Enter refueling details</legend>
+            <div>
+                <form action="/cars/refuel_car/{{ car_detail.id }}/" method="POST">
+                    {% csrf_token %}
+                    {{ form|as_bootstrap }}
+                    <div class="car-dialog-buttons">
+                        <input class="btn btn-primary" type="submit" value="Submit">
+                        <a class="btn btn-default" href="/cars/{{ car_detail.id }}/">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}

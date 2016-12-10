@@ -1,12 +1,14 @@
 {% extends 'cars/car_base.html' %}
 {% load static %}
 {% block car_content %}
-    <div class="delete-car">
-        <h3>
-            <img src="{% static "img/deleteCar.png" %}" alt="Quayside warning sign"/><br>
-            {{ car_detail.colour }} {{ car_detail.year_of_manufacture }} {{ car_detail.make }}
-            {{ car_detail.model }} {{ car_detail.sub_model }}
-        </h3>
+    <div class="delete-car col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <p>
+                <img src="{% static "img/deleteCar.png" %}" alt="Quayside warning sign"/>
+            </p>
+            <h3>
+                {{ car_detail.colour }} {{ car_detail.year_of_manufacture }}
+                {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}
+            </h3>
         {% if not car_detail.exclude_from_collation %}
             <p>This will also delete any fuel economy data that has been contributed to the community.</p>
         {% endif %}
@@ -14,8 +16,8 @@
             <form action="/cars/delete_car/{{ car_detail.id }}/" method="POST">
                 {% csrf_token %}
                 <div class="car-dialog-buttons">
-                    <input class="btn btn-danger" type="submit" value="Delete">
                     <a class="btn btn-default" href="/cars/{{ car_detail.id }}/">Cancel</a>
+                    <input class="btn btn-danger" type="submit" value="Delete">
                 </div>
             </form>
         </div>

@@ -103,6 +103,7 @@ footer a{
 .uk-rear-plate{
     margin-top: 10px;
     margin-bottom: 20px;
+    margin-right: 15px;
     color: black;
     border: 2px solid black;
     background-color: #ffd800;
@@ -118,7 +119,6 @@ footer a{
 
 #add-car-submit-button {
     margin-bottom: 15px;
-    margin-left: 15px;
 }
 
 #add-car-wait-api {
@@ -132,7 +132,7 @@ footer a{
 }
 
 .add-car-details-form-buttons{
-    text-align: center;
+    text-align: right;
     margin: 20px 0 40px 0;
 }
 

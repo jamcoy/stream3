@@ -20,8 +20,8 @@
                     {% csrf_token %}
                     {{ form|as_bootstrap }}
                     <div class="car-dialog-buttons">
-                        <input class="btn btn-primary" type="submit" value="Submit">
                         <a class="btn btn-default" href="/cars/{{ car_detail.id }}/">Cancel</a>
+                        <input class="btn btn-primary" type="submit" value="Submit">
                     </div>
                 </form>
             </div>

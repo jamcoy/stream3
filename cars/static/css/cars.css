@@ -17,15 +17,11 @@
 }
 
 .delete-car img{
-    margin: 20px;
-}
-
-.delete-car {
-    text-align: center;
+    margin-top: 20px;
 }
 
 .car-dialog-buttons {
-    text-align: center;
+    text-align: right;
     margin: 20px 0 40px 0;
 }
 

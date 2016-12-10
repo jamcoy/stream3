@@ -1,8 +1,8 @@
 {% extends 'cars/car_base.html' %}
 {% block car_content %}
     <h4 class="">Refueling history</h4>
-    <table class="table table-striped refueling-history">
-        <tr>
+    <table class="table refueling-history">
+        <tr class="active">
             <th>Date</th>
             <th>Odometer</th>
             <th>Fuel</th>
@@ -13,7 +13,16 @@
         {% for refuel in refuels %}
             {% if not forloop.last %}
 
-                {% if refuel.full_tank %}
+                {% if refuel.missed_refuels %}
+                    <tr>
+                        <td>{{ refuel.date_time_added }}</td>
+                        <td>{{ refuel.odometer }}</td>
+                        <td><span class="text-muted">{{ refuel.litres }} litres</span></td>
+                        <td><span class="text-muted">£{{ refuel.price }}</span></td>
+                        <td><span class="text-muted">{{ refuel.litre_price }}p</span></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    </tr>
+                {% elif refuel.full_tank %}
                     <tr class="success">
                         <td>{{ refuel.date_time_added }}</td>
                         <td>{{ refuel.odometer }}</td>
@@ -37,9 +46,9 @@
                 <tr>
                     <td>{{ refuel.date_time_added }}</td>
                     <td>{{ refuel.odometer }}</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    <td><span class="text-muted">N/A</span></td>
+                    <td><span class="text-muted">N/A</span></td>
+                    <td><span class="text-muted">N/A</span></td>
                     {% if refuel.full_tank %}
                         <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
                     {% else %}
@@ -49,13 +58,20 @@
             {% endif %}
             {% if refuel.missed_refuels %}
                 {% if not forloop.last %}
-                    <tr class="danger">
+                    <tr class="danger"> <!--Add extra row for any missed refuels-->
                         <td class="missed-refuel" colspan="6">
-                            Missed refuel(s) reported. These are excluded from your tracking.
+                            Missed refuel(s) reported. These are excluded from your tracking. The above fuel, cost
+                            and price per litre are also excluded. <a href="#refueling-advice">See notes below.</a>
                         </td>
                     </tr>
                 {%  endif %}
             {% endif %}
         {% endfor %}
     </table>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1 refueling-history-advice">
+            <a name="refueling-advice"></a>
+            {% include "complementary_pages/calculations.html" %}
+        </div>
+    </div>
 {% endblock %}

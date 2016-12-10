@@ -350,7 +350,11 @@ def refuel_car(request, car_id):
                           date_validation=date_validation,
                           skip_missed_refuel_question=new_car)
 
-    return render(request, 'cars/refuel_car.html', {'form': form, 'car_detail': car, 'new_car': new_car})
+    cars_list = list_of_cars(request.user)
+    return render(request, 'cars/refuel_car.html', {'form': form,
+                                                    'car_detail': car,
+                                                    'cars_list': cars_list,
+                                                    'new_car': new_car})
 
 
 @login_required()

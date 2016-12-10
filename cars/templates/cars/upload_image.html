@@ -2,16 +2,19 @@
 {% block car_content %}
 {% load bootstrap_tags %}
     {% if car_detail.image %}
-        <img src="{{ car_detail.image.large.url}}">
-    {% else %}
-        <h4 class="">Upload an image</h4>
-    {% endif %}
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form | as_bootstrap}}
-        <input class="btn btn-primary" type="submit" value="Save">
-    </form>
-    <form action="/cars/{{ car_detail.id }}/" method="GET">
-        <input class="btn btn-default" type="submit" value="Cancel">
-    </form>
+        <div class="col-lg-10 col-lg-offset-1 upload-photo">
+                <img src="{{ car_detail.image.large.url}}" alt="{{ car_detail.make }} {{ car_detail.model }}">
+            {% else %}
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 upload-photo">
+                <h3 class="">Upload an image of your car</h3>
+            {% endif %}
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <div class="car-dialog-buttons">
+                    <a class="btn btn-default" href="/cars/{{ car_detail.id }}/">Cancel</a>
+                    <input class="btn btn-primary" type="submit" value="Save">
+                </div>
+            </form>
+        </div>
 {% endblock %}

@@ -33,11 +33,13 @@ def list_cars(request):
 def refuel_history(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
-    refuels = {}  # is this necessary???
+    refuels = {}
+
     if refuel_count > 0:
         refuels = Refuel.objects.filter(car_id=car_id).order_by('-date')
         i = 0
         for refuel in refuels:
+            refuel.odometer = format(Decimal(refuel.odometer).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN))
             if refuel.litres > 0:
                 refuel.litre_price = round((refuel.price * 100 / refuel.litres), 1)
 
@@ -67,11 +69,9 @@ def refuel_history(request, car_id):
                     elif refuels[j - 1].missed_refuels:
                         refuel.part_tank_status = "exclude"
                         break
-                    elif refuels[j - 1].full_tank:  # Good going forwards. Also need to check what preceded.
+
+                    elif refuels[j - 1].full_tank:  # Also need to check what preceded.
                         for k in range(i, refuel_count - 1):
-                            # any full tank for an include
-                            # a part tank with itself marked as previous miss for an exclude
-                            # skip others
                             if k == refuel_count: # shouldn't be able to get here if database is right
                                 refuel.part_tank_status = "exclude"
                                 break
@@ -83,6 +83,7 @@ def refuel_history(request, car_id):
                                 break
                         break
             i += 1
+
     cars_list = list_of_cars(request.user)
     return render(request, 'cars/refuel_history.html', {'car_detail': car_detail,
                                                         'cars_list': cars_list,
@@ -93,7 +94,7 @@ def refuel_history(request, car_id):
 def car_details(request, car_id):
     car_detail = get_object_or_404(Car, pk=car_id, user_id=request.user)
     refuel_count = Refuel.objects.filter(car_id=car_id).count()
-    latest_refuel = {}  # is this necessary???
+    latest_refuel = {}
     if refuel_count > 0:
         latest_refuel = Refuel.objects.filter(car_id=car_id).latest('date')
         latest_refuel.odometer = "{:,}".format(int(latest_refuel.odometer))

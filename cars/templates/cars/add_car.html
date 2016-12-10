@@ -1,14 +1,29 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-    <hr><hr><hr><hr><hr><hr>
-    <div class="container">
-        <div class="">
-            <h4 class="">Enter your registration to add a new car</h4>
+    <div class="container add-car">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="">
+                <h4 class="">Enter your registration to add a new car</h4>
+            </div>
+            <form action="/cars/add_car/" method="POST">
+            {% csrf_token %}
+                 {{ form }}
+                <input id="add-car-submit-button"
+                       onclick="document.getElementById('add-car-wait-message').removeAttribute('hidden');"
+                       class="btn btn-primary"
+                       type="submit"
+                       value="Submit">
+            </form>
+            <p>Your registration is used only to obtain correct vehicle information from a third
+                party.</p>
+            <p>It is not retained on our system.</p>
+            <div id="add-car-wait-api">
+                <div id="add-car-wait-message" hidden>
+                    <img src="{% static "img/spiffygif_64x64.gif" %}" alt="Quayside warning sign"/>
+                    <h2>Fetching details...</h2>
+                </div>
+            </div>
         </div>
-        <form action="/cars/add_car/" method="POST">
-        {% csrf_token %}
-             {{ form }}
-            <input class="btn btn-primary" type="submit" value="Submit">
-        </form>
     </div>
 {% endblock %}

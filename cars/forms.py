@@ -57,7 +57,7 @@ class RefuelForm(forms.Form):
 
     def clean_odometer(self):
         odometer = self.cleaned_data['odometer']
-        if odometer < self.odometer_validation:
+        if odometer <= self.odometer_validation:
             raise ValidationError(
                 "That mileage is no higher than your last reading (" + str(self.odometer_validation) + ")"
             )

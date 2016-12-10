@@ -1,5 +1,6 @@
 {% extends 'cars/car_base.html' %}
 {% block car_content %}
+    <a href="#refueling-advice">See below for details about what's included</a>
     <h4 class="">Refueling history</h4>
     <table class="table refueling-history">
         <tr class="active">
@@ -13,16 +14,21 @@
         {% for refuel in refuels %}
             {% if not forloop.last %}
 
-                {% if refuel.missed_refuels %}
+                {% if refuel.full_tank and refuel.missed_refuels %}
                     <tr>
                         <td>{{ refuel.date_time_added }}</td>
                         <td>{{ refuel.odometer }}</td>
-                        <td><span class="text-muted">{{ refuel.litres }} litres</span></td>
-                        <td><span class="text-muted">£{{ refuel.price }}</span></td>
-                        <td><span class="text-muted">{{ refuel.litre_price }}p</span></td>
-                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                        <td><strike>{{ refuel.litres }} litres</strike></td>
+                        <td><strike>£{{ refuel.price }}</strike></td>
+                        <td><strike>{{ refuel.litre_price }}p</strike></td>
+                        {% if refuel.full_tank %}
+                            <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                        {% else %}
+                            <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                        {% endif %}
                     </tr>
-                {% elif refuel.full_tank %}
+
+                {% elif refuel.full_tank and refuel.full_tank_include %}
                     <tr class="success">
                         <td>{{ refuel.date_time_added }}</td>
                         <td>{{ refuel.odometer }}</td>
@@ -31,7 +37,26 @@
                         <td>{{ refuel.litre_price }}p</td>
                         <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
                     </tr>
-                {% else %}
+
+                {% elif refuel.full_tank %}
+                    <tr>
+                        <td>{{ refuel.date_time_added }}</td>
+                        <td>{{ refuel.odometer }}</td>
+                        <td><strike>{{ refuel.litres }} litres</strike></td>
+                        <td><strike>£{{ refuel.price }}</strike></td>
+                        <td><strike>{{ refuel.litre_price }}p</strike></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    </tr>
+                {% elif refuel.part_tank_status == 'exclude' %}
+                    <tr>
+                        <td>{{ refuel.date_time_added }}</td>
+                        <td>{{ refuel.odometer }}</td>
+                        <td><strike>{{ refuel.litres }} litres</strike></td>
+                        <td><strike>£{{ refuel.price }}</strike></td>
+                        <td><strike>{{ refuel.litre_price }}p</strike></td>
+                        <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                    </tr>
+                {% elif refuel.part_tank_status == 'include' %}
                     <tr class="warning">
                         <td>{{ refuel.date_time_added }}</td>
                         <td>{{ refuel.odometer }}</td>
@@ -40,9 +65,18 @@
                         <td>{{ refuel.litre_price }}p</td>
                         <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                     </tr>
+                {% elif refuel.part_tank_status == 'unknown' %}
+                    <tr>
+                        <td>{{ refuel.date_time_added }}</td>
+                        <td>{{ refuel.odometer }}</td>
+                        <td><span class="text-muted">{{ refuel.litres }} litres</span></td>
+                        <td><span class="text-muted">£{{ refuel.price }}</span></td>
+                        <td><span class="text-muted">{{ refuel.litre_price }}p</span></td>
+                        <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                    </tr>
                 {% endif %}
 
-            {% else %}
+            {% else %}<!-- first tank -->
                 <tr>
                     <td>{{ refuel.date_time_added }}</td>
                     <td>{{ refuel.odometer }}</td>
@@ -60,8 +94,7 @@
                 {% if not forloop.last %}
                     <tr class="danger"> <!--Add extra row for any missed refuels-->
                         <td class="missed-refuel" colspan="6">
-                            Missed refuel(s) reported. These are excluded from your tracking. The above fuel, cost
-                            and price per litre are also excluded. <a href="#refueling-advice">See notes below.</a>
+                            MISSED REFUEL(S) REPORTED</a>
                         </td>
                     </tr>
                 {%  endif %}

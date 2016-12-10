@@ -1,4 +1,32 @@
 <h4>Economy calculations</h4>
 <p>
-   <span class="embedded-logo">EasyFuelTracker</span> calculates your vehicle's fuel economy using the brim-to-brim method (one full tank to the next full tank). One or more partial tanks can be included in the calculations, so long as they are preceded by and followed by a full tank.  If you miss logging any refuels, all preceding refuels to the previous full tank must be excluded. The following tank becomes a valid start point for the next brim-to-brim calculation, but cannot be included in the previous brim-to-brim calculation.
+    <span class="embedded-logo">EasyFuelTracker</span> calculates your vehicle's fuel economy using the brim-to-brim method (one full tank to the next full tank).
+<p>
+    Partial tanks are included in the calculations if they meet the following conditions:
 </p>
+<ul>
+    <li>
+        <p>
+            Single partial tanks must be preceded by and followed by a full tank, with no missed refuels reported.
+        </p>
+    </li>
+    <li>
+        <p>
+            Sequential partial tanks must be preceded by a full tank and must end with a full tank, with no missed refuels anywhere in the sequence.
+        </p>
+    </li>
+</ul>
+<p>
+    If you miss logging any refuels, your latest refuel and all preceding refuels to the previous full tank are excluded. However, the latest full tank becomes a valid start point for the next brim-to-brim calculation, but cannot be included in the previous brim-to-brim calculation.
+</p>
+<p>
+    <strong>Don't worry if all this sounds complicated; we work everything out for you! All you need to do to get good results is:</strong>
+</p>
+<ul>
+    <li>
+        <p><strong>Always try to fill your tank.</strong></p>
+    </li>
+    <li>
+        <p><strong>Record all refueling events.</strong></p>
+    </li>
+</ul>

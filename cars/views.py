@@ -36,9 +36,53 @@ def refuel_history(request, car_id):
     refuels = {}  # is this necessary???
     if refuel_count > 0:
         refuels = Refuel.objects.filter(car_id=car_id).order_by('-date')
+        i = 0
         for refuel in refuels:
             if refuel.litres > 0:
                 refuel.litre_price = round((refuel.price * 100 / refuel.litres), 1)
+
+            # full tanks need to be flagged if they are included in results so this can be show to user
+            if refuel.full_tank:
+                for l in range(i, refuel_count - 1):
+                    if l == refuel_count:  # shouldn't be able to get here if database good
+                        refuel.full_tank_include = False
+                        break
+                    # if a full tank was preceded by a part tank with missed preceding missed refuels, exclude
+                    elif not refuels[l + 1].full_tank and refuels[l + 1].missed_refuels:
+                        refuel.full_tank_include = False
+                        break
+                    elif refuels[l + 1].full_tank:
+                        refuel.full_tank_include = True
+                        break
+
+            # part tanks need to know the status of what precedes and follows to show the user if they're included
+            elif not refuel.full_tank:
+                for j in range(i, -1, -1):
+                    if refuel.missed_refuels:
+                        refuel.part_tank_status = "exclude"
+                        break
+                    elif j == 0:
+                        refuel.part_tank_status = "unknown"  # most recent tank - don't know what will follow
+                        break
+                    elif refuels[j - 1].missed_refuels:
+                        refuel.part_tank_status = "exclude"
+                        break
+                    elif refuels[j - 1].full_tank:  # Good going forwards. Also need to check what preceded.
+                        for k in range(i, refuel_count - 1):
+                            # any full tank for an include
+                            # a part tank with itself marked as previous miss for an exclude
+                            # skip others
+                            if k == refuel_count: # shouldn't be able to get here if database is right
+                                refuel.part_tank_status = "exclude"
+                                break
+                            elif refuels[k + 1].missed_refuels and not refuels[k + 1].full_tank:
+                                refuel.part_tank_status = "exclude"
+                                break
+                            elif refuels[k + 1].full_tank:
+                                refuel.part_tank_status = "include"
+                                break
+                        break
+            i += 1
     cars_list = list_of_cars(request.user)
     return render(request, 'cars/refuel_history.html', {'car_detail': car_detail,
                                                         'cars_list': cars_list,

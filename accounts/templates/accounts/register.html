@@ -14,18 +14,19 @@
 
 {% block accounts_content %}
     <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-        <form role="form" method="post" id="register-form" action="{% url 'register' %}">
-            <div id="credit-card-errors" style="display:none">
-                <div class="alert-message block-message error" id="stripe-error-message"></div>
-            </div>
-
-            <legend>Create a new account</legend>
-            {% csrf_token %}
-            {{ form|as_bootstrap }}
-            <div class="form-group">
-                <input class="btn btn-primary" id="validate_card_btn" name="commit" type="submit"
-                       value="Validate Credit Card">
-            </div>
-        </form>
+        <div class="dialog">
+            <form role="form" method="post" id="register-form" action="{% url 'register' %}">
+                <div id="credit-card-errors" style="display:none">
+                    <div class="alert-message block-message error" id="stripe-error-message"></div>
+                </div>
+                <legend>Create a new account</legend>
+                {% csrf_token %}
+                {{ form|as_bootstrap }}
+                <div class="dialog-buttons">
+                    <input class="btn btn-primary" id="validate_card_btn" name="commit" type="submit"
+                           value="Validate Credit Card">
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

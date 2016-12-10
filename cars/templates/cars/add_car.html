@@ -1,27 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="container add-car">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="">
-                <h4 class="">Enter your registration to add a new car</h4>
-            </div>
-            <form action="/cars/add_car/" method="POST">
-            {% csrf_token %}
-                 {{ form }}
-                <input id="add-car-submit-button"
-                       onclick="document.getElementById('add-car-wait-message').removeAttribute('hidden');"
-                       class="btn btn-primary"
-                       type="submit"
-                       value="Submit">
-            </form>
-            <p>Your registration is used only to obtain correct vehicle information from a third
-                party.</p>
-            <p>It is not retained on our system.</p>
-            <div id="add-car-wait-api">
-                <div id="add-car-wait-message" hidden>
-                    <img src="{% static "img/spiffygif_64x64.gif" %}" alt="Quayside warning sign"/>
-                    <h2>Fetching details...</h2>
+    <div class="row">
+        <div class="container add-car">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="dialog">
+                    <form role="form" action="/cars/add_car/" method="POST">
+                        <legend>Add your car</legend>
+                        <h3 class="">Enter your registration</h3>
+                        {% csrf_token %}
+                             {{ form }}
+                            <input id="add-car-submit-button"
+                                   onclick="document.getElementById('add-car-wait-message').removeAttribute('hidden');"
+                                   class="btn btn-primary"
+                                   type="submit"
+                                   value="Submit">
+                    </form>
+                    <p>Your registration is used only to obtain correct vehicle information from a third
+                        party.</p>
+                    <p>It is not retained on our system.</p>
+                </div>
+                <div id="add-car-wait-api">
+                    <div id="add-car-wait-message" hidden>
+                        <img src="{% static "img/spiffygif_64x64.gif" %}" alt="Quayside warning sign"/>
+                        <h2>Fetching details...</h2>
+                    </div>
                 </div>
             </div>
         </div>

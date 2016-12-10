@@ -1,16 +1,33 @@
 {% extends "accounts/accounts_base.html" %}
 {% block accounts_content %}
-    <h2>Success!</h2>
-    <p>You are logged in as {{ user.email }} </p>
-    <p>Your stripe id is {{ user.stripe_id }} </p>
-    <h2>Subscription Details</h2>
-    <p>You have {{ user.subscription_end|timeuntil}} left on your subscription</p>
-    <p>To cancel your subscription click 'Cancel Subscription' below</p>
-    <p>
-        <a href="{% url "cancel_subscription" %}"
-           onclick="return cancelSubscriptionCheck();"
-           class="btn btn-danger">Cancel Subscription</a>
-    </p>
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="profile-card">
+                <h3>User details</h3>
+                <p>You are logged in as {{ user.email }}</p>
+                <p>Your stripe id is {{ user.stripe_id }} (remove this)</p>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="profile-card">
+                <h3>Forum details</h3>
+                <p>Public name: {{ user.public_name }}</p>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="profile-card">
+                <h3>Subscription details</h3>
+                <p>You have {{ user.subscription_end|timeuntil}} left on your subscription</p>
+                <p>
+                    <a href="{% url "cancel_subscription" %}"
+                       onclick="return cancelSubscriptionCheck();"
+                       class="btn btn-danger">Cancel Subscription</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
     <script type="text/javascript">
         function cancelSubscriptionCheck() {
             if (confirm('Are you sure you want to cancel?')) {

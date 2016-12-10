@@ -1,20 +1,25 @@
 {% extends 'cars/car_base.html' %}
 {% block car_content %}
 {% load bootstrap_tags %}
+    <div class="row">
     {% if car_detail.image %}
         <div class="col-lg-10 col-lg-offset-1 upload-photo">
+            <div class="dialog">
                 <img src="{{ car_detail.image.large.url}}" alt="{{ car_detail.make }} {{ car_detail.model }}">
-            {% else %}
+    {% else %}
         <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 upload-photo">
-                <h3 class="">Upload an image of your car</h3>
-            {% endif %}
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form }}
-                <div class="car-dialog-buttons">
-                    <a class="btn btn-default" href="/cars/{{ car_detail.id }}/">Cancel</a>
-                    <input class="btn btn-primary" type="submit" value="Save">
-                </div>
-            </form>
+            <div class="dialog">
+    {% endif %}
+                <form method="POST" enctype="multipart/form-data">
+                    <legend>Upload a photo of your car</legend>
+                    {% csrf_token %}
+                    {{ form }}
+                    <div class="dialog-buttons">
+                        <a class="btn btn-default" href="/cars/{{ car_detail.id }}/">Cancel</a>
+                        <input class="btn btn-primary" type="submit" value="Save">
+                    </div>
+                </form>
+            </div>
         </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,7 @@
+.profile-card {
+    border: 1px solid #555555;
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: 6px 6px 5px #888888;
+    margin-bottom: 20px;
+}

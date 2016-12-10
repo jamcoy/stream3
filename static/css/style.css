@@ -5,6 +5,24 @@ p, div {
     font-family: 'Roboto', sans-serif;
 }
 
+.dialog {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #bbbbbb;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.dialog-buttons {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.dialog-buttons .btn {
+    margin: 0 4px 0 4px;
+}
+
+
 /* footer start */
 
 footer {
@@ -97,7 +115,7 @@ footer a{
 }
 
 .add-car{
-    margin-top: 80px;
+    margin-top: 70px;
 }
 
 .uk-rear-plate{
@@ -233,12 +251,30 @@ footer a{
     .intro img{
         width: 420px;
     }
+    .dialog {
+        margin-top: 16px;
+        margin-bottom: 24px;
+        border: 1px solid #bbbbbb;
+        border-radius: 5px;
+        padding: 12px;
+    }
 }
 
 /* Extra Small Devices, Phones */
 @media screen and (max-width : 480px) {
     .intro img{
         width: 280px;
+    }
+    .dialog {
+        margin-top: 10px;
+        margin-bottom: px;
+        border: none;
+        padding: 0;
+    }
+    #add-car-wait-api {
+        margin-top: 20px;
+        height: 140px;
+        text-align: center;
     }
 }
 

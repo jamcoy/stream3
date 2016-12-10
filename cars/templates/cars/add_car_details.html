@@ -1,58 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container add-car">
-        <div class="col-md-6 col-md-offset-3">
-            <p class="uk-rear-plate">{{ car_details.yourReg }}</p>
-            <div class="">
-                <p>Your registration is used only to obtain correct vehicle information from a third party.
-                <p>It is not retained on our system.</p>
-            </div>
-            <div>
-                <h4 class="">Please confirm this is your car:</h4>
-                <table class="table table-striped">
-                    <tbody>
-                    <tr>
-                        <td>Manufacturer</td>
-                        <td>{{ car_details.make }}</td>
-                    </tr>
-                    <tr>
-                        <td>Model</td>
-                        <td>{{ car_details.model }} {{ car_details.sub_model }}</td>
-                    </tr>
-                    <tr>
-                        <td>Colour</td>
-                        <td>{{ car_details.colour }}</td>
-                    </tr>
-                    <tr>
-                        <td>Manufactured</td>
-                        <td>{{ car_details.yearOfManufacture }}</td>
-                    </tr>
-                    <tr>
-                        <td>Engine size</td>
-                        <td>{{ car_details.cylinderCapacity }}</td>
-                    </tr>
-                    <tr>
-                        <td>Transmission</td>
-                        <td>{{ car_details.transmission }}</td>
-                    </tr>
-                    <tr>
-                        <td>Fuel type</td>
-                        <td>{{ car_details.fuelType }}</td>
-                    </tr>
-                    <tr>
-                        <td>Doors</td>
-                        <td>{{ car_details.numberOfDoors }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <form action="/cars/add_car_details/" method="POST">
-                    {% csrf_token %}
-                    <div class="add-car-details-form-buttons">
-                        <a class="btn btn-default" href="/cars/add_car/">Cancel</a>
-                        <input class="btn btn-primary" type="submit" value="Yes, this is my car!">
-                    </div>
-                </form>
+    <div class="row">
+        <div class="container add-car">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="dialog">
+                    <form action="/cars/add_car_details/" method="POST">
+                        <legend>Confirm car</legend>
+                        <p class="uk-rear-plate">{{ car_details.yourReg }}</p>
+                        <div class="">
+                            <p>Your registration is used only to obtain correct vehicle information from a third party.
+                            <p>It is not retained on our system.</p>
+                        </div>
+                        <div>
+                            <h3 class="">Please confirm this is your car:</h3>
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Manufacturer</td>
+                                    <td>{{ car_details.make }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Model</td>
+                                    <td>{{ car_details.model }} {{ car_details.sub_model }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Colour</td>
+                                    <td>{{ car_details.colour }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Manufactured</td>
+                                    <td>{{ car_details.yearOfManufacture }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Engine size</td>
+                                    <td>{{ car_details.cylinderCapacity }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Transmission</td>
+                                    <td>{{ car_details.transmission }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fuel type</td>
+                                    <td>{{ car_details.fuelType }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Doors</td>
+                                    <td>{{ car_details.numberOfDoors }}</td>
+                                </tr>
+                            </table>
+                            {% csrf_token %}
+                            <div class="dialog-buttons">
+                                <a class="btn btn-default" href="/cars/add_car/">Cancel</a>
+                                <input class="btn btn-primary" type="submit" value="Yes, this is my car!">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -22,31 +22,13 @@
 }
 
 .upload-photo img {
-    margin: 20px 0;
+    margin-bottom: 20px;
     width: 100%;
-    border: 1px solid #444444
+    border: 1px solid #bbbbbb
 }
 
 #id_image {
     margin-top: 10px;
-}
-
-.delete-car img{
-    margin-top: 20px;
-}
-
-.car-dialog-buttons {
-    text-align: right;
-    margin: 20px 0 40px 0;
-}
-
-.car-dialog-buttons .btn {
-    margin: 0 4px 0 4px;
-}
-
-.delete-car form{
-    display: inline;
-    margin: 4px;
 }
 
 .refueling-history .missed-refuel {

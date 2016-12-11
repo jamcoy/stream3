@@ -3,7 +3,7 @@
 
     <div class="row car-stats">
 
-        <div class="col-md-5">
+        <div class="col-md-6">
 
             {% if car_detail.image %}
                 <img src="{{ car_detail.image.medium.url}}" alt="{{ car_detail.make }} {{ car_detail.model }}">
@@ -30,7 +30,7 @@
                 <tr>
                     <td class="statHeadings">Fuel used</td>
                     <td class="tableSpacer"></td>
-                    <td class="statHeadings">Ave. mileage cost</td>
+                    <td class="statHeadings">Ave. fuel cost per mile</td>
                 </tr>
                 <tr>
                     <td>
@@ -46,7 +46,7 @@
                 <tr>
                     <td class="statHeadings">Expenditure</td>
                     <td class="tableSpacer"></td>
-                    <td class="statHeadings">Ave. fuel cost</td>
+                    <td class="statHeadings">Ave. cost per litre</td>
                 </tr>
                 <tr>
                     <td>
@@ -62,7 +62,7 @@
             </table>
         </div>
 
-        <div class="col-md-7">
+        <div class="col-md-6">
             <div class="chart-container">
                 <canvas id="chart"></canvas>
             </div>

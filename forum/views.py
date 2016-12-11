@@ -14,7 +14,7 @@ def forum(request):
 
 def threads(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
-    return render(request, 'forum/threads.html', {'subject': subject})
+    return render(request, 'forum/topics.html', {'subject': subject})
 
 
 @login_required
@@ -56,7 +56,7 @@ def new_thread(request, subject_id, poll):
                     subject.poll = poll
                     subject.save()
 
-                messages.success(request, "You have created a new poll!")
+                messages.success(request, "You have created a new poll")
 
         else:
             if thread_form.is_valid() and post_form.is_valid():
@@ -71,7 +71,7 @@ def new_thread(request, subject_id, poll):
                 post.thread = thread
                 post.save()
 
-                messages.success(request, "You have created a new topic!")
+                messages.success(request, "You have created a new topic")
 
         return redirect(reverse('forum_thread', args={thread.pk}))
 
@@ -92,9 +92,9 @@ def new_thread(request, subject_id, poll):
         # poll_subject_formset = poll_subject_formset()
         args['poll_form'] = poll_form
         args['poll_subject_formset'] = poll_subject_formset
-        return render(request, 'forum/thread_poll_form.html', args)
+        return render(request, 'forum/topic_poll_form.html', args)
     else:
-        return render(request, 'forum/thread_form.html', args)
+        return render(request, 'forum/topic_form.html', args)
 
 
 def thread(request, thread_id):
@@ -102,7 +102,7 @@ def thread(request, thread_id):
     subject = get_object_or_404(Subject, pk=thread_.subject_id)
     args = {'thread': thread_, 'thread_subject': subject}
     args.update(csrf(request))
-    return render(request, 'forum/thread.html', args)
+    return render(request, 'forum/topic.html', args)
 
 
 @login_required
@@ -117,7 +117,7 @@ def new_post(request, thread_id):
             post.user = request.user
             post.save()
 
-            messages.success(request, "Your post has been added to the thread!")
+            messages.success(request, "Your post has been added to the topic")
 
             return redirect(reverse('forum_thread', args={thread.pk}))
     else:
@@ -126,7 +126,7 @@ def new_post(request, thread_id):
     args = {
         'form': form,
         'form_action': reverse('forum_new_post', args={thread.id}),
-        'button_text': 'Update Post'
+        'button_text': 'Update post'
     }
     args.update(csrf(request))
 
@@ -142,7 +142,7 @@ def edit_post(request, thread_id, post_id):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            messages.success(request, "You have updated your thread!")
+            messages.success(request, "You have updated your post")
 
             return redirect(reverse('forum_thread', args={thread.pk}))
     else:
@@ -164,7 +164,7 @@ def delete_post(request, post_id):
     thread_id = post.thread.id
     post.delete()
 
-    messages.success(request, "Your post was deleted!")
+    messages.success(request, "Your post was deleted")
 
     return redirect(reverse('forum_thread', args={thread_id}))
 
@@ -176,13 +176,13 @@ def thread_vote(request, thread_id, subject_id):
     subject = thread.poll.votes.filter(user=request.user)
 
     if subject:
-        messages.error(request, "You already voted on this... You're not trying to cheat are you?")
+        messages.error(request, "You've already voted on this... You're not trying to cheat are you?")
         return redirect(reverse('forum_thread', args={thread_id}))
 
     subject = PollSubject.objects.get(id=subject_id)
 
     subject.votes.create(poll=subject.poll, user=request.user)
 
-    messages.success(request, "We've registered your vote!")
+    messages.success(request, "We've registered your vote")
 
     return redirect(reverse('forum_thread', args={thread_id}))

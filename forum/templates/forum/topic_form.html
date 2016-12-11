@@ -1,4 +1,4 @@
-{% extends "forum/thread_form_base.html" %}
+{% extends "forum/topic_form_base.html" %}
 {% load bootstrap_tags %}
 {% block thread_form_content %}
     <form method="post" action="{% url 'forum_new_thread' subject.id 'no_poll' %}">

@@ -151,7 +151,7 @@ def edit_post(request, thread_id, post_id):
     args = {
         'form': form,
         'form_action': reverse('forum_edit_post', kwargs={"thread_id": thread.id, "post_id": post.id}),
-        'button_text': 'Update Post'
+        'button_text': 'Update post'
     }
     args.update(csrf(request))
 

@@ -6,7 +6,6 @@
 
     <div class="container">
         <div class="carDetailButtons">
-            <!--http://glyphicons.com/ for more glyphicons-->
             <div class="btn-group">
                 <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                    data-placement="bottom" title="Select vehicle">
@@ -47,8 +46,28 @@
                 </button>
             </a>
         </div>
-        <div class="carHeading">
-            <h2>{{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}</h2>
+        <div class="car-title-container">
+            <table>
+                <tr>
+                    <td>
+                        {% if car_detail.image %}
+                            <img src="{{ car_detail.image.thumbnail.url}}"
+                                 alt="{{ car_detail.make }} {{ car_detail.model }}">
+                        {% endif %}
+                    </td>
+                    <td class="car-title visible-sm visible-md visible-lg">
+                        <h2>
+                            {{ car_detail.make }} {{ car_detail.model }}<br>
+                            {{ car_detail.sub_model }}
+                        </h2>
+                    </td>
+                </tr>
+            </table>
+            <div class="car-title-small-screens visible-xs">
+                <h2>
+                    {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}
+                </h2>
+            </div>
         </div>
         <div>
             {% block car_content %}

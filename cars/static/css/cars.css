@@ -23,12 +23,6 @@
     border: 1px solid #bbbbbb
 }
 
-.car-stats img {
-    width: 50%;
-    margin: 0px 0 30px 0;
-    border: 1px solid #cccccc;
-}
-
 .car-stats .chart-container {
     height: 450px
 }
@@ -45,18 +39,17 @@
     margin-bottom: 30px;
 }
 
-/* BS medium */
-@media screen and (max-width: 992px){
-    .car-details table {
-        font-size: 18px;
-    }
-}
+
 
 /* --------------------------- */
 
 /* Cars start */
 
-.bigStatsTable{
+.big-stats {
+    margin-bottom: 20px;
+}
+
+.big-stats table {
     width: 100%;
 }
 
@@ -64,6 +57,7 @@
     border-bottom: solid thin;
     padding-top: 16px;
     padding-bottom: 6px;
+    font-size: 14px;
 }
 
 .statDetails{
@@ -83,14 +77,35 @@
     float: right;
     min-width: 210px;
     text-align: right;
+    margin-bottom: 10px;
 }
 
 .carDetailButtons span{
     font-size: x-large;
 }
 
-.carHeading h2{
+.car-title-container {
     margin: 0 0 10px 0;
+}
+
+.car-title {
+    white-space: nowrap;
+}
+
+.car-title-container img {
+    margin-right: 10px;
+}
+
+.car-title h2 {
+    margin-top: 0;
+}
+
+.car-title-small-screens h2 {
+    font-size: 24px;
+}
+
+.car-stats .short-calculation-details {
+    margin: 30px 0 30px 0;
 }
 
 .tableSpacer{
@@ -129,10 +144,6 @@
     text-align: center;
 }
 
-#add-car-wait-api img{
-
-}
-
 .add-car-details-form-buttons{
     text-align: right;
     margin: 20px 0 40px 0;
@@ -142,11 +153,32 @@
     margin: 0 4px 0 4px;
 }
 
+.chart .menu {
+    width: 100%;
+    text-align: center;
+}
+
+.car-stats {
+    margin-bottom: 30px;
+}
+
 /* Cars end */
 
 
-
-/* ---------------------------- */
+/* BS medium */
+@media screen and (max-width: 992px){
+    .car-details table {
+        font-size: 18px;
+    }
+    .big-stats table {
+        width: 550px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .car-title h2 {
+       font-size: 24px;
+    }
+}
 
 /* BS small */
 @media screen and (max-width: 768px){
@@ -162,19 +194,68 @@
         font-size: 16px;
         margin-top: 20px;
     }
+    .statHeadings {
+        font-size: 14px;
+    }
+
+    .statDetails {
+        font-size: 50px;
+    }
+
+    .statUnits {
+        font-size: 16px;
+    }
+    .big-stats table {
+        width: 100%;
+    }
+
 }
 
 /* Extra Small Devices, Phones */
 @media screen and (max-width : 480px) {
+    .statHeadings {
+        font-size: 12px;
+    }
+
+    .statDetails {
+        font-size: 32px;
+    }
+
+    .statUnits {
+        font-size: 12px;
+    }
+    .big-stats table {
+        width: 100%
+    }
 
 }
 
 
 @media screen and (max-width : 360px) {
+    .statHeadings {
+        font-size: 12px;
+    }
 
+    .statDetails {
+        font-size: 30px;
+    }
+
+    .statUnits {
+        font-size: 12px;
+    }
 }
 
 /* Custom, iPhone Retina */
 @media screen and (max-width : 320px) {
+    .statHeadings {
+        font-size: 10px;
+    }
 
+    .statDetails {
+        font-size: 24px;
+    }
+
+    .statUnits {
+        font-size: 10px;
+    }
 }

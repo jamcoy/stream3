@@ -49,7 +49,7 @@ def user_vote_button(thread, subject, user):
 
     if not vote:
         if user.is_authenticated():
-            link = '<div class="btn-vote"><a href="%s" class="btn btn-default btn-sm">Add my vote!</a></div>' \
+            link = '<div class="btn-vote"><a href="%s" class="btn btn-primary">Vote</a></div>' \
                    % reverse('forum_cast_vote', kwargs={'thread_id': thread.id, 'subject_id': subject.id})
             return link
 

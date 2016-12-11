@@ -45,8 +45,26 @@ html {
     text-align: right;
 }
 
-.submit{
+.submit {
     text-align: right;
+}
+
+.voting {
+    margin: 24px 24px 0 24px;
+
+}
+
+.voting table {
+    width: 100%
+}
+
+.voting .vote-results {
+    width: 100%
+}
+
+.voting .btn {
+    margin-left: 24px;
+    margin-bottom: 15px;
 }
 
 /* BS large */

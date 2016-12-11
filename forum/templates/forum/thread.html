@@ -14,40 +14,53 @@
         <li class="active">{{ thread.name | truncatechars:35 }}</li>
     </ol>
 
-    <h2>{{ thread.name }}</h2>
+    <h2>{{ thread.name }} <span class="badge">POLL</span></h2>
 
     {% if thread.poll %}
-        <h2>Poll</h2>
-        <strong>{{ thread.poll.question }}</strong><br><br>
 
-        <div class="container">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                    <div class="dialog">
+                        <legend>{{ thread.poll.question }}</legend>
+                        <h4>Voting so far:</h4>
 
-            <div class="col-md-2">
-                <p>Voting so far:</p>
-            </div>
+                        <div class="voting">
 
-            <div class="col-md-8">
+                            <table>
 
-                {% for subject in thread.poll.subjects.all %}
+                                {% for subject in thread.poll.subjects.all %}
+                                    <tr>
 
-                    <span class="pull-left"><strong>{{ subject.name }}</strong></span>
-                    {% autoescape off %}
-                        {% user_vote_button thread subject user %}
-                    {% endautoescape %}
-                    <span class="pull-right">{{ subject|vote_percentage }}%</span>
 
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-info" role="progressbar"
-                             aria-value="{{ subject|vote_percentage }}" aria-valuemin="0" aria-valuemax="100"
-                             style="width:{{ subject|vote_percentage }}%;">
+
+                                        <td class="vote-results">
+                                            <span><strong>{{ subject.name }}</strong></span>
+                                            <span class="pull-right">{{ subject|vote_percentage }}%</span>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-info" role="progressbar"
+                                                     aria-value="{{ subject|vote_percentage }}" aria-valuemin="0"
+                                                     aria-valuemax="100" style="width:{{ subject|vote_percentage }}%;">
+                                                </div>
+                                            </div>
+                                        </td>
+
+
+                                        <td class="vote-button">
+                                            {% autoescape off %}
+                                                {% user_vote_button thread subject user %}
+                                            {% endautoescape %}
+                                        </td>
+
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </table>
                         </div>
                     </div>
-
-                {% endfor %}
-
+                </div>
             </div>
-
-        </div>
 
     {% endif %}
 

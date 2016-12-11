@@ -3,7 +3,6 @@
 {% block forum_content %}
 
     <div class="row">
-
         {% if user.is_authenticated %}
             <div class="col-xs-7 col-sm-8 col-md-9">
         {% else %}
@@ -16,7 +15,7 @@
                             Forums
                         </a>
                     </li>
-                    <li class="active">{{ subject.name | truncatechars:35 }}</li>
+                    <li class="active">{{ subject.name | truncatechars:50 }}</li>
                 </ol>
             </div>
 
@@ -45,10 +44,10 @@
                 <td>
                     <a href="{% url 'forum_thread' thread.id %}">
                         {% if thread.poll %}
-                            {{ thread.name | truncatechars:30 }}
+                            {{ thread.name | truncatechars:45 }}
                             <span class="badge">POLL</span>
                         {% else %}
-                            {{ thread.name | truncatechars:35 }}
+                            {{ thread.name | truncatechars:50 }}
                         {% endif %}
                     </a>
                     <p>By {{ thread.user.public_name }}, {{ thread.created_at }}</p>

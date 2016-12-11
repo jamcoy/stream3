@@ -1,26 +1,31 @@
 {% load staticfiles %}
 {% load emoticons_tags %}
 
-    <td class="user-details">
-        <p class="forum-name">{{ post.user.public_name }}</p>
-        <p>
-            {% if post.user.image %}
-                <img src="{% static 'images/user.png' %}" alt="{{ post.user.public_name }}" width="96" height="96"/>
-            {% else %}
-                <img src="{% static 'img/user_placeholder.png' %}" alt="User placeholder" width="96" height="96"/>
-            {% endif %}
-        </p>
-        <p class="text-muted">{{ post.user.posts.count }} posts</p>
-    </td>
+    <div class="col-sm-3 col-lg-2 user-details">
 
-    <td>
-        <div class="comment-content">
-            {% autoescape off %}
-                {{ post.comment|emoticons }}
-            {% endautoescape %}
-        </div>
-        <hr>
+            <p class="forum-name">{{ post.user.public_name }}</p>
+
+            <p>
+                {% if post.user.image %}
+                    <img src="{% static 'images/user.png' %}" alt="{{ post.user.public_name }}" width="96" height="96"/>
+                {% else %}
+                    <img src="{% static 'img/user_placeholder.png' %}" alt="User placeholder" width="96" height="96"/>
+                {% endif %}
+            </p>
+
+            <p class="text-muted user-post-count">{{ post.user.posts.count }} posts</p>
+
+    </div>
+
+    <div class="col-sm-9 col-lg-10 comment-content">
         <div class="comment-details">
             {% include "forum/comment_details.html" %}
         </div>
-    </td>
+        <hr>
+        {% autoescape off %}
+            {{ post.comment|emoticons }}
+        {% endautoescape %}
+    </div>
+
+
+

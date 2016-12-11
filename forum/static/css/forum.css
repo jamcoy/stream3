@@ -1,31 +1,139 @@
-.comment-content img {
-    max-width: 500px;
-    max-height: 500px;
+html {
+    word-wrap: break-word;
 }
 
-.comment-content {
-    min-height: 32px;
+.forum-container {
+    margin-bottom: 20px;
 }
 
-#forum-thread {
-    border: 2px solid #555555
+.thread-container {
+    background-color: #f5f5f5;
+    margin-bottom: 16px;
+    padding: 1px 0;
 }
 
-#forum-thread td {
-    border: 1px solid #555555
+.thread-container .row {
+    background-color: white;
+    margin: 16px;
 }
 
-.user-details {
-    width: 120px;
-    min-width: 120px;
+.thread-container .user-details {
     text-align: center;
+    padding: 12px;
 }
 
-.user-details .forum-name {
+.thread-container .user-details .forum-name {
     font-size: 16px;
     font-weight: 600;
 }
 
-#threads-header {
-    margin-top: 0;
+.thread-container .comment-content {
+    padding: 12px;
+}
+
+.thread-container .comment-content hr {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.thread-container .comment-content img {
+    max-width: 890px;
+    max-height: 890px;
+}
+
+.thread-reply-button {
+    text-align: right;
+}
+
+.submit{
+    text-align: right;
+}
+
+/* BS large */
+@media screen and (max-width: 1200px){
+    .thread-container .comment-content img {
+        max-width: 650px;
+        max-height: 650px;
+    }
+}
+
+/* BS medium */
+@media screen and (max-width: 992px){
+    .thread-container .comment-content img {
+        max-width: 486px;
+        max-height: 486px;
+    }
+}
+
+/* BS small */
+@media screen and (max-width: 768px){
+    .thread-container {
+        background-color: #dddddd;
+    }
+
+    .thread-container .row {
+        background-color: white;
+        margin: 6px 0;
+    }
+
+    .thread-container .user-details {
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    .thread-container .forum-name {
+        position: absolute;
+        top: 12px;
+        left: 48px;
+    }
+
+    .thread-container .user-post-count {
+        position: absolute;
+        top: 34px;
+        left: 48px;
+        font-size: 12px
+    }
+
+    .thread-container .user-details img {
+        height: 40px;
+        width: 40px;
+        position: absolute;
+        top: 12px;
+        left: 0;
+    }
+
+    .thread-container .comment-content {
+        padding: 12px 0;
+    }
+
+    .thread-container .comment-content img {
+        max-width: 440px;
+        max-height: 440px;
+    }
+
+
+}
+
+/* Extra Small Devices, Phones */
+@media screen and (max-width : 480px) {
+    .thread-container .comment-content img {
+        max-width: 320px;
+        max-height: 320px;
+    }
+}
+
+
+@media screen and (max-width : 360px) {
+    .thread-container .comment-content img {
+        max-width: 280px;
+        max-height: 280px;
+    }
+}
+
+/* Custom, iPhone Retina */
+@media screen and (max-width : 320px) {
+    .thread-container .comment-content img {
+        max-width: 250px;
+        max-height: 250px;
+    }
 }

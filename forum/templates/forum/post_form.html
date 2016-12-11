@@ -13,7 +13,7 @@
             <form method="post" action="{{ form_action }}">
                 {% csrf_token %}
                 {{ form|as_bootstrap }}
-                <div class="form-group">
+                <div class="form-group submit">
                     <button type="submit" class="btn btn-primary">{{ button_text }}</button>
                 </div>
             </form>

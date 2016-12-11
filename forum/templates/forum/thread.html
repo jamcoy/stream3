@@ -51,16 +51,20 @@
 
     {% endif %}
 
-    <table id="forum-thread" class="table table-striped">
+    <div class="thread-container">
         {% for post in thread.posts.all %}
-            <tr>
+            <div class="row">
                 {% include "forum/post.html" %}
-            </tr>
+            </div>
         {% endfor %}
-    </table>
-    {% if user.is_authenticated %}
-        <p><a href="{% url 'forum_new_post' thread.id %}" class="btn btn-primary">Post a reply</a></p>
-    {% else %}
-        <p><a href="{% url 'login' %}" class="btn btn-primary">Login to post a reply</a></p>
-    {% endif %}
+    </div>
+
+    <div class="thread-reply-button">
+        {% if user.is_authenticated %}
+            <p><a href="{% url 'forum_new_post' thread.id %}" class="btn btn-primary">Post a reply</a></p>
+        {% else %}
+            <p><a href="{% url 'login' %}" class="btn btn-primary">Login to post a reply</a></p>
+        {% endif %}
+    </div>
+
 {% endblock %}

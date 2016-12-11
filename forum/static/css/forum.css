@@ -15,9 +15,15 @@
     border: 1px solid #555555
 }
 
-#forum-thread .user-datails {
+.user-details {
     width: 120px;
     min-width: 120px;
+    text-align: center;
+}
+
+.user-details .forum-name {
+    font-size: 16px;
+    font-weight: 600;
 }
 
 #threads-header {

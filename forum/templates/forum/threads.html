@@ -50,7 +50,7 @@
                             {{ thread.name | truncatechars:50 }}
                         {% endif %}
                     </a>
-                    <p>By {{ thread.user.public_name }}, {{ thread.created_at }}</p>
+                    <p>By {{ thread.user.public_name }}, {{ thread.created_at | date:"d F Y, H:m" }}</p>
                 </td>
                 <td>
                     {% get_distinct_thread_voices thread %} voices<br>

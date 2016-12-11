@@ -1,10 +1,15 @@
 {% extends 'cars/car_base.html' %}
 {% block car_content %}
 
-    <div class="row">
+    <div class="row car-stats">
 
-        <div class="col-md-4">
-            <h4>Economy stats</h4>
+        <div class="col-md-5">
+
+            {% if car_detail.image %}
+                <img src="{{ car_detail.image.medium.url}}" alt="{{ car_detail.make }} {{ car_detail.model }}">
+            {% endif %}
+
+
             <table class="bigStatsTable">
                 <tr>
                     <td class="statHeadings">Economy</td>
@@ -55,13 +60,12 @@
                     </td>
                 </tr>
             </table>
-            {% if car_detail.image %}
-                <img src="{{ car_detail.image.medium.url}}">
-            {% endif %}
         </div>
 
-        <div class="col-md-8">
-            <canvas id="chart" width="400" height="400"></canvas>
+        <div class="col-md-7">
+            <div class="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
             <div class="btn-group">
                 <select id="chart-range" data-id="{{ car_detail.id }}" class="selectpicker chart-select">
                     <option value="7">1 week</option>

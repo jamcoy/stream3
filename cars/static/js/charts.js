@@ -1,5 +1,7 @@
+var Chart;
 Chart.defaults.global.responsive = true;
 Chart.defaults.global.animation = true;
+Chart.defaults.global.maintainAspectRatio = false;
 var genericChart;
 
 window.addEventListener('load', function () {
@@ -61,7 +63,7 @@ drawGenericChart = function (data, units, unitsPosition) {
     canvas.css('height', $(window).innerHeight());
     var ctx3 = canvas[0].getContext('2d');
     var chartOptions = {
-        bezierCurve: true,
+        bezierCurve: false,
         showTooltips: true,
         scaleShowHorizontalLines: true,
         scaleShowLabels: true,

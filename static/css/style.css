@@ -2,7 +2,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Exo 2', sans-serif;
     color: #044f98;
 }
-p, div {
+body, p, div {
     font-family: 'Roboto', sans-serif;
 }
 

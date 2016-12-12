@@ -18,13 +18,13 @@
 .blog-card {
     display: inline-block;
     position: relative;
-    border: 1px solid #dddddd;
+    border: 1px solid #bbbbbb;
     border-radius: 10px;
     box-shadow: 3px 3px 2px #888888;
     width: 20%;
-    min-width: 262px;
+    min-width: 258px;
     vertical-align: top;
-    margin: 10px;
+    margin: 12px;
     overflow: hidden;
 }
 

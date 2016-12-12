@@ -14,7 +14,11 @@
         <li class="active">{{ thread.name | truncatechars:35 }}</li>
     </ol>
 
-    <h2>{{ thread.name }} <span class="badge">POLL</span></h2>
+    <h2>{{ thread.name }}
+        {% if thread.poll %}
+            <span class="badge">POLL</span>
+        {% endif %}
+    </h2>
 
     {% if thread.poll %}
             <div class="row">

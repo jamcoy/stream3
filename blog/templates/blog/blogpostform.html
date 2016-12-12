@@ -19,8 +19,8 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %} <!-- security measure to prevent Cross Site Request Forgery. -->
             {{ form | as_bootstrap }}
-            <div class="form-group submit">
-                <button type="submit" class=" btn btn-primary">Post blog entry</button>
+            <div class="dialog-buttons">
+                <button type="submit" class=" btn btn-info">Post blog entry</button>
             </div>
         </form>
     </div>

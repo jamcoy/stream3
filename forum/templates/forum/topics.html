@@ -22,8 +22,8 @@
         {% if user.is_authenticated %}
             <div class="col-xs-5 col-sm-4 col-md-3">
                 <p class="pull-right">
-                    <a href="{% url 'forum_new_thread' subject.id 'no_poll' %}" class="btn btn-primary">New topic</a>
-                    <a href="{% url 'forum_new_thread' subject.id 'poll' %}" class="btn btn-primary">New poll</a>
+                    <a href="{% url 'forum_new_thread' subject.id 'no_poll' %}" class="btn btn-info">New topic</a>
+                    <a href="{% url 'forum_new_thread' subject.id 'poll' %}" class="btn btn-info">New poll</a>
                 </p>
             </div>
         {% endif %}

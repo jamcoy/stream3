@@ -6,14 +6,21 @@
             <p class="forum-name">{{ post.user.public_name }}</p>
 
             <p>
-                {% if post.user.image %}
-                    <img src="{% static 'images/user.png' %}" alt="{{ post.user.public_name }}" width="96" height="96"/>
+                {% if post.user.profile_image %}
+                    <img src="{{ post.user.profile_image.small.url }}" alt="{{ post.user.public_name }}"
+                         width="96" height="96"/>
                 {% else %}
                     <img src="{% static 'img/user_placeholder.png' %}" alt="User placeholder" width="96" height="96"/>
                 {% endif %}
             </p>
 
-            <p class="text-muted user-post-count">{{ post.user.posts.count }} posts</p>
+            <p class="text-muted user-location">
+                {{ post.user.location }}
+            </p>
+
+            <p class="text-muted user-post-count">
+                {{ post.user.posts.count }} posts
+            </p>
 
     </div>
 
@@ -26,6 +33,3 @@
             {{ post.comment|emoticons }}
         {% endautoescape %}
     </div>
-
-
-

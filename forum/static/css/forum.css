@@ -27,6 +27,14 @@ html {
     font-weight: 600;
 }
 
+.thread-container .user-details p {
+    margin-bottom: 6px;
+}
+
+.thread-container .user-details .user-location {
+    margin-bottom: 2px;
+}
+
 .thread-container .comment-content {
     padding: 12px;
 }
@@ -101,27 +109,34 @@ html {
 
     .thread-container .forum-name {
         position: absolute;
-        top: 12px;
-        left: 48px;
+        top: 8px;
+        left: 56px;
+    }
+
+    .thread-container .user-location {
+        position: absolute;
+        top: 28px;
+        left: 56px;
+        font-size: 12px
     }
 
     .thread-container .user-post-count {
         position: absolute;
-        top: 34px;
-        left: 48px;
+        top: 45px;
+        left: 56px;
         font-size: 12px
     }
 
     .thread-container .user-details img {
-        height: 40px;
-        width: 40px;
+        height: 48px;
+        width: 48px;
         position: absolute;
         top: 12px;
         left: 0;
     }
 
     .thread-container .comment-content {
-        padding: 12px 0;
+        padding: 20px 0 16px 0;
     }
 
     .thread-container .comment-content img {

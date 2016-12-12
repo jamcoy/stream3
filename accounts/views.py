@@ -12,7 +12,7 @@ from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 
-from accounts.forms import UserRegistrationForm, UserLoginForm
+from accounts.forms import UserRegistrationForm, UserLoginForm, UserProfile
 from models import User
 
 stripe.api_key = settings.STRIPE_SECRET
@@ -68,7 +68,15 @@ def register(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    if request.method == 'POST':
+        form = UserProfile(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            return redirect(profile)
+    else:
+        form = UserProfile(instance=request.user)
+        return render(request, 'accounts/profile.html', {'form': form})
 
 
 @login_required(login_url='/accounts/login/')

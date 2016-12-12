@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from accounts.models import User
 from django.core.exceptions import ValidationError
+from stdimage.models import StdImageField
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -61,3 +62,14 @@ class UserRegistrationForm(UserCreationForm):
 class UserLoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class UserProfile(forms.ModelForm):
+    public_name = forms.CharField()
+    location = forms.CharField()
+    image = StdImageField()
+
+    class Meta:
+        model = User
+        fields = ['profile_image', 'public_name', 'location']
+

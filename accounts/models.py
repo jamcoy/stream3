@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils import timezone
+from stdimage.models import StdImageField
 
 
 class AccountUserManager(UserManager):
@@ -32,6 +33,12 @@ class User(AbstractUser):
     stripe_id = models.CharField(max_length=40, default='')
     subscription_end = models.DateTimeField(default=timezone.now)
     public_name = models.CharField(max_length=20)
+    location = models.CharField(max_length=20, blank=True, null=True)
+    profile_image = StdImageField(upload_to="images/user_profiles",
+                          variations={
+                              'small': {'width': 96, 'height': 96, "crop": True}
+                          },
+                          blank=True, null=True)
 
     def is_subscribed(self, magazine):
         try:

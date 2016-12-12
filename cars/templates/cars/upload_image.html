@@ -13,7 +13,7 @@
                 <form method="POST" enctype="multipart/form-data">
                     <legend>Upload a photo of your car</legend>
                     {% csrf_token %}
-                    {{ form }}
+                    {{ form|as_bootstrap}}
                     <div class="dialog-buttons">
                         <a class="btn btn-default" href="/cars/{{ car_detail.id }}/">Cancel</a>
                         <input class="btn btn-primary" type="submit" value="Save">

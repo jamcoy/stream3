@@ -1,5 +1,6 @@
 {% extends "accounts/accounts_base.html" %}
 {% load staticfiles %}
+{% load bootstrap_tags %}
 {% block accounts_content %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
@@ -11,16 +12,22 @@
                 <hr>
                 <div>
                     <h3>Forums</h3>
-                    <p>Public name: {{ user.public_name }}</p>
-                    <p>Location: {{ user.location }}</p>
                     <p>
-                        <img src="{% static 'img/user_placeholder.png' %}" alt="User profile image">
+                        {% if user.profile_image %}
+                            <img src="{{ user.profile_image.small.url }}" alt="{{ user.public_name }}"
+                                 width="96" height="96"/>
+                        {% else %}
+                            <img src="{% static 'img/user_placeholder.png' %}" alt="User placeholder"
+                                 width="96" height="96"/>
+                        {% endif %}
                     </p>
-                    <div class="dialog-buttons">
-                        <p>
-                            <a href="" onclick="" class="btn btn-primary">Update profile</a>
-                        </p>
-                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|as_bootstrap }}
+                        <div class="dialog-buttons">
+                            <input class="btn btn-primary" type="submit" value="Save profile">
+                        </div>
+                    </form>
                 </div>
                 <hr>
                 <div>

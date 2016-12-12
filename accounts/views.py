@@ -73,10 +73,12 @@ def profile(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
+            messages.success(request, "You have successfully updated your profile")
             return redirect(profile)
     else:
         form = UserProfile(instance=request.user)
-        return render(request, 'accounts/profile.html', {'form': form})
+
+    return render(request, 'accounts/profile.html', {'form': form})
 
 
 @login_required(login_url='/accounts/login/')
@@ -102,7 +104,7 @@ def login(request):
                     form.add_error(None, "Your subscription has expired")
                 else:
                     auth.login(request, user)
-                    messages.error(request, "You have successfully logged in")
+                    messages.success(request, "You have successfully logged in")
                     return redirect(reverse('profile'))
             else:
                 form.add_error(None, "Your email or password was not recognised")

@@ -1,28 +1,37 @@
 {% extends "accounts/accounts_base.html" %}
+{% load staticfiles %}
 {% block accounts_content %}
     <div class="row">
-        <div class="col-md-4 col-sm-6">
-            <div class="profile-card">
-                <h3>User details</h3>
+        <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+            <div class="dialog">
+                <legend>Login profile</legend>
+                <h3>User</h3>
                 <p>You are logged in as {{ user.email }}</p>
                 <p>Your stripe id is {{ user.stripe_id }} (remove this)</p>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="profile-card">
-                <h3>Forum details</h3>
-                <p>Public name: {{ user.public_name }}</p>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="profile-card">
-                <h3>Subscription details</h3>
-                <p>You have {{ user.subscription_end|timeuntil}} left on your subscription</p>
-                <p>
-                    <a href="{% url "cancel_subscription" %}"
-                       onclick="return cancelSubscriptionCheck();"
-                       class="btn btn-danger">Cancel Subscription</a>
-                </p>
+                <hr>
+                <div>
+                    <h3>Forums</h3>
+                    <p>Public name: {{ user.public_name }}</p>
+                    <p>Location: {{ user.location }}</p>
+                    <p>
+                        <img src="{% static 'img/user_placeholder.png' %}" alt="User profile image">
+                    </p>
+                    <div class="dialog-buttons">
+                        <p>
+                            <a href="" onclick="" class="btn btn-primary">Update profile</a>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <h3>Subscription</h3>
+                    <p>You have {{ user.subscription_end|timeuntil}} left on your subscription</p>
+                    <div class="dialog-buttons">
+                        <a href="{% url "cancel_subscription" %}"
+                           onclick="return cancelSubscriptionCheck();"
+                           class="btn btn-danger">Cancel Subscription</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

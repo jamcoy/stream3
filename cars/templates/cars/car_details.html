@@ -5,6 +5,9 @@
         {% if car_detail.image %}
             <img src="{{ car_detail.image.large.url}}" alt="{{ car_detail.make }} {{ car_detail.model }}">
         {% endif %}
+        <h2 class="visible-sm visible-md visible-lg">
+            {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}
+        </h2>
         <table class="table table-striped">
             <tr>
                 <td>Manufacturer</td>

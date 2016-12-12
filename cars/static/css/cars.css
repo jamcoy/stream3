@@ -166,7 +166,7 @@
 
 
 /* BS medium */
-@media screen and (max-width: 992px){
+@media screen and (max-width: 980px){
     .car-details table {
         font-size: 18px;
     }

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from tinymce.models import HTMLField
+from stdimage.models import StdImageField
 
 
 class Post(models.Model):
@@ -18,7 +19,11 @@ class Post(models.Model):
     published_date = models.DateTimeField(blank=True, null=True)
     views = models.IntegerField(default=0)  # Record how often a post is seen
     category = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField(upload_to="images/blog", blank=True, null=True)
+    image = StdImageField(upload_to="images/user_profiles",
+                          variations={
+                              'medium': {'width': 400, 'height': 400},
+                          },
+                          blank=True, null=True)
 
     def publish(self):
         self.published_date = timezone.now()

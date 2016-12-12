@@ -1,44 +1,46 @@
 {% extends "blog/blog_base.html" %}
 {% block blog_content %}
-    <div class="row blog-post-detail">
-        <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-            <div class="image">
-                {% if post.image %}
-                    <img src="/media/{{ post.image}}"
-                         alt="EasyFuelTracker blog image {{ post.published_date | date:"d F Y" }}">
-                {% endif %}
-            </div>
-            <h2 class="heading">{{ post.title }}</h2>
-            <div class="details">
-                <p><strong>{{ post.author.public_name }}, {{ post.published_date | date:"d F Y" }}</strong></p>
-                <p>
-                    {% if post.category %}
-                        Category: {{ post.category|truncatechars:30 }}
-                    {% else %}
-                        Category: General
+    <div class="row">
+        <div class="blog-post-detail">
+            <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                <div class="image">
+                    {% if post.image %}
+                        <img src="{{ post.image.medium.url}}"
+                             alt="EasyFuelTracker blog image {{ post.published_date | date:"d F Y" }}">
                     {% endif %}
-                    &nbsp;|&nbsp;
-                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                    &nbsp;{{ post.views }}
-                </p>
-            </div>
-            <div class="content">
-                {% autoescape off %}
-                    {{ post.content|linebreaks }}
-                {% endautoescape %}
-            </div>
-            <div class="clearfix"></div>
-            <div class="dialog-buttons">
-                <button class="btn btn-info" onclick="location.href='/blog'">Back to blog</button>
-                {% if staff %}
-                    <button class="btn btn-warning" onclick="location.href='edit'">Edit</button>
-                {% endif %}
-            </div>
+                </div>
+                <h2 class="heading">{{ post.title }}</h2>
+                <div class="details">
+                    <p><strong>{{ post.author.public_name }}, {{ post.published_date | date:"d F Y" }}</strong></p>
+                    <p>
+                        {% if post.category %}
+                            Category: {{ post.category|truncatechars:30 }}
+                        {% else %}
+                            Category: General
+                        {% endif %}
+                        &nbsp;|&nbsp;
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                        &nbsp;{{ post.views }}
+                    </p>
+                </div>
+                <div class="content">
+                    {% autoescape off %}
+                        {{ post.content|linebreaks }}
+                    {% endautoescape %}
+                </div>
+                <div class="clearfix"></div>
+                <div class="dialog-buttons">
+                    <button class="btn btn-info" onclick="location.href='/blog'">Back to blog</button>
+                    {% if staff %}
+                        <button class="btn btn-warning" onclick="location.href='edit'">Edit</button>
+                    {% endif %}
+                </div>
 
-            <hr>
-            {% load disqus_tags %}
-            {% set_disqus_title post.title %}
-            {% disqus_show_comments %}
+                <hr>
+                {% load disqus_tags %}
+                {% set_disqus_title post.title %}
+                {% disqus_show_comments %}
+            </div>
         </div>
     </div>
 {% endblock %}

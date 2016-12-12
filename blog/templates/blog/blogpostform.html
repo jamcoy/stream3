@@ -8,17 +8,20 @@
         tinyMCE.init({
             mode: "textareas",
             theme: "modern",
-            plugins: "paste",
+            plugins: "paste"
         });
     </script>
 {% endblock %}
 
 {% block blog_content %}
     {% load bootstrap_tags %}
-    <h1>Add / edit a post</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %} <!-- security measure to prevent Cross Site Request Forgery. -->
-        {{ form | as_bootstrap }}
-        <button type="submit" class=" btn btn- btn-info">Save</button>
-    </form>
+    <div class="col-lg-10 col-lg-offset-1">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %} <!-- security measure to prevent Cross Site Request Forgery. -->
+            {{ form | as_bootstrap }}
+            <div class="form-group submit">
+                <button type="submit" class=" btn btn-primary">Post blog entry</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

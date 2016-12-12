@@ -17,7 +17,7 @@ class Post(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     published_date = models.DateTimeField(blank=True, null=True)
     views = models.IntegerField(default=0)  # Record how often a post is seen
-    tag = models.CharField(max_length=100, blank=True, null=True)
+    category = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField(upload_to="images/blog", blank=True, null=True)
 
     def publish(self):

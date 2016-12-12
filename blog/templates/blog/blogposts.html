@@ -5,28 +5,22 @@
             &nbsp;(This button is only visible to staff members)
         <hr>
     {% endif %}
-
         <div class="blog-set">
             {% for post in posts %}
-
                 <div class="blog-card" onclick="location.href='{{ post.id }}';">
-
                     {% if post.image %}
                         <div class="image">
                             <img src="/media/{{ post.image}}">
                         </div>
                     {% endif %}
-
                     <div class="text-content">
-
                         <div class="details">
                             <h4>{{ post.title|truncatechars_html:60 }}</h4>
                             <p>
-                                <strong>{{ user.public_name }}</strong><br>
+                                <strong>{{ post.author.public_name }}</strong><br>
                                 <span class="text-muted">{{ post.published_date | date:"d F Y, H:m" }}</span>
                             </p>
                         </div>
-
                         <div class="snippet">
                             {% autoescape off %}
                                 {% if post.image %}
@@ -39,7 +33,11 @@
                         <hr>
                         <table class="text-muted">
                             <tr>
-                                <td>Posted in: {{ post.category }}</td>
+                                {% if post.category %}
+                                    <td>{{ post.category|truncatechars:30 }}</td>
+                                {% else %}
+                                    <td>General</td>
+                                {% endif %}
                                 <td class="views">
                                     <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                                     &nbsp;{{ post.views }}
@@ -47,9 +45,7 @@
                             </tr>
                         </table>
                     </div>
-
                 </div>
-
             {% endfor %}
         </div>
 {% endblock %}

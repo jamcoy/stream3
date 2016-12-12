@@ -58,6 +58,21 @@
     border-bottom: 1px solid #bbbbbb;
 }
 
+.blog-post-detail img {
+    margin: 0 0 20px 20px;
+    float: right;
+    max-width: 300px;
+}
+
+.blog-post-detail .heading {
+    margin-top: 0;
+}
+
+.blog-post-detail{
+    margin: 30px 0 0 0;
+    font-size: 1.2em;
+    line-height: 1.6em;
+}
 
 a, a:hover {
     color: #223344;
@@ -76,17 +91,68 @@ a, a:hover {
 
 /* BS small */
 @media screen and (max-width: 768px){
+    .blog-post-detail img {
+        width: 50%;
+    }
+    .blog-post-detail .heading {
+        font-size: 24px;
+    }
 
+    .blog-post-detail .details{
+        font-size: 16px;
+    }
+}
+
+/* Card switch single column */
+@media screen and (max-width: 640px){
+    .blog-card {
+        min-width: 350px;
+        font-size: 1.1em;
+        margin-bottom: 30px;
+    }
+    .blog-card .image img {
+        max-height: 267px;
+    }
 }
 
 /* Extra Small Devices, Phones */
 @media screen and (max-width : 480px) {
-
+    .blog-post-detail {
+        margin: 0;
+        font-size: 1em;
+    }
+    .blog-post-detail .heading {
+        font-size: 22px;
+    }
+    .blog-post-detail .image{
+        width: 100%;
+    }
+    .blog-post-detail img {
+        margin: 0 0 20px 0;
+        width: 100%;
+        float: none;
+        max-width: none;
+    }
+    .blog-card {
+        min-width: 300px;
+        font-size: 1.0em;
+        margin-bottom: 20px;
+    }
+    .blog-card .image img {
+        max-height: 229px;
+    }
 }
 
 
 @media screen and (max-width : 360px) {
-
+    .blog-card {
+        min-width: 240px;
+        font-size: 0.95em;
+        margin-bottom: 16px;
+    }
+    .blog-card .image img {
+        max-height: 183px;
+    }
 }
 
 /* Custom, iPhone Retina */

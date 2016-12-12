@@ -10,7 +10,7 @@ def post_detail(request, db_id):
     """
     Create a view that return a single
     Post object based on the post ID and
-    and render it to the 'postdetail.html'
+    and render it to the 'blogpostdetail.html'
     template. Or return a 404 error if the
     post is not found
     """
@@ -18,7 +18,7 @@ def post_detail(request, db_id):
     post.views += 1  # clock up the number of post views
     post.save()
     staff = request.user.is_staff
-    return render(request, "blog/postdetail.html", {'post': post,
+    return render(request, "blog/blogpostdetail.html", {'post': post,
                                                    'staff': staff})
 
 

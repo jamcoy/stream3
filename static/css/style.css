@@ -227,7 +227,7 @@ footer a{
     }
     .dialog {
         margin-top: 10px;
-        margin-bottom: px;
+        margin-bottom: 0;
         border: none;
         padding: 0;
     }

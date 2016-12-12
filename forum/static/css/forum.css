@@ -6,6 +6,10 @@ html {
     margin-bottom: 20px;
 }
 
+#threads-header {
+    margin-top: 0;
+}
+
 .thread-container {
     background-color: #f5f5f5;
     margin-bottom: 16px;

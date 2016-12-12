@@ -32,15 +32,19 @@ def started_time(created_at):
 
 @register.simple_tag
 def last_posted_user_name(thread):
-    posts = thread.posts.all().order_by('-created_at')
-    return posts[posts.count() - 1].user.public_name
+    if thread.posts.exists():
+        return thread.posts.latest('created_at').user.public_name
+    else:
+        return "Deleted"
 
 
 @register.simple_tag
 def last_post_time(thread):
-    posts = thread.posts.all().order_by('created_at')
-    latest_post_time = posts[posts.count() - 1].created_at
-    return arrow.get(latest_post_time).humanize()
+    if thread.posts.exists():
+        latest_post_time = thread.posts.latest('created_at').created_at
+        return arrow.get(latest_post_time).humanize()
+    else:
+        return ""
 
 
 @register.simple_tag

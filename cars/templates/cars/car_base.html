@@ -52,7 +52,8 @@
                     <td>
                         {% if car_detail.image %}
                             <img src="{{ car_detail.image.thumbnail.url}}"
-                                 alt="{{ car_detail.make }} {{ car_detail.model }}">
+                                 alt="{{ car_detail.make }} {{ car_detail.model }}"
+                                 width="120" height="80">
                         {% endif %}
                     </td>
                     <td class="car-title visible-sm visible-md visible-lg">

@@ -7,10 +7,9 @@
     <div class="container">
         <div class="carDetailButtons">
             <div class="btn-group">
-                <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                   data-placement="bottom" title="Select vehicle">
-                    <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
-                    <span class="caret"></span>
+                <a id="cars-menu" aria-expanded="false" href="#" class="btn btn-default dropdown-toggle"
+                   data-toggle="dropdown" data-placement="bottom" title="Select vehicle">
+                    <img src="{% static "img/cars_icon.png" %}" width="40" height="34">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     {% for car in cars_list %}
@@ -24,9 +23,8 @@
             </div>
             <div class="btn-group">
                 <a aria-expanded="false" href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                   data-placement="bottom" title="Edit vehicle">
-                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                    <span class="caret"></span>
+                   data-placement="bottom" title="More details">
+                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="/cars/{{ car_detail.id }}">Statistics</a></li>
@@ -40,9 +38,9 @@
                 </ul>
             </div>
             <a href="/cars/refuel_car/{{ car_detail.id }}">
-                <button type="button" class="btn btn-info refuelCarModal" data-toggle="tooltip"
+                <button id="refuel-button" type="button" class="btn btn-info refuelCarModal" data-toggle="tooltip"
                         data-placement="bottom" title="Refuel vehicle">
-                    <span class="glyphicon glyphicon-tint" aria-hidden="true"></span>
+                    <img src="{% static "img/pump_icon.png" %}" width="25" height="28">
                 </button>
             </a>
         </div>

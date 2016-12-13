@@ -239,6 +239,11 @@ footer a:hover {
     padding-right: 10px;
 }
 
+.contact {
+    margin-top: 70px;
+    margin-bottom: 10px;
+}
+
 /* home page background image end */
 
 @media screen and (max-width: 768px){

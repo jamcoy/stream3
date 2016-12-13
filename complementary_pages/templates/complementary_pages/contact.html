@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
+{% load bootstrap_tags %}
+{% load static %}
+
 {% block content %}
-    <div class="container">
-        <h1>contact.html Placeholder</h1>
+    <div class="container contact">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <div class="dialog">
+                <form role="form" method="post" id="register-form" action="{% url 'register' %}">
+                    <legend>Contact</legend>
+                    {% csrf_token %}
+
+                    <div class="dialog-buttons">
+                        <input class="btn btn-info" id="validate_card_btn" name="commit" type="submit"
+                               value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}

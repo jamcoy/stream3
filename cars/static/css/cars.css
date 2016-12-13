@@ -1,7 +1,7 @@
 .car-details {
     margin-top: 20px;
     margin-bottom: 40px;
-    box-shadow: 10px 10px 5px #888888;
+    box-shadow: 6px 6px 3px #888888;
     border: 1px solid #bbbbbb;
     padding: 24px;
     border-radius: 16px;
@@ -86,6 +86,14 @@
 
 .carDetailButtons span{
     font-size: x-large;
+}
+
+#cars-menu {
+    padding: 4px 6px 5px 5px;
+}
+
+#refuel-button {
+    padding: 6px 14px 9px 10px;
 }
 
 .car-title-container {

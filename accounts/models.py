@@ -7,9 +7,7 @@ from stdimage.models import StdImageField
 
 class AccountUserManager(UserManager):
     def _create_user(self, username, email, password, is_staff, is_superuser, **extra_fields):
-        """
-       Creates and saves a User with the given username, email and password.
-       """
+
         now = timezone.now()
         if not email:
             raise ValueError('The given username must be set')
@@ -35,10 +33,10 @@ class User(AbstractUser):
     public_name = models.CharField(max_length=20)
     location = models.CharField(max_length=20, blank=True, null=True)
     profile_image = StdImageField(upload_to="images/user_profiles",
-                          variations={
-                              'small': {'width': 96, 'height': 96, "crop": True}
-                          },
-                          blank=True, null=True)
+                                  variations={
+                                      'small': {'width': 96, 'height': 96, "crop": True}
+                                  },
+                                  blank=True, null=True)
 
     def is_subscribed(self, magazine):
         try:

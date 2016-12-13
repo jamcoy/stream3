@@ -27,7 +27,7 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['email', 'public_name', 'password1', 'password2', 'stripe_id']
+        fields = ['public_name', 'email', 'password1', 'password2', 'stripe_id']
         exclude = ['username']
 
     def clean_password2(self):
@@ -46,6 +46,8 @@ class UserRegistrationForm(UserCreationForm):
         if not email:
             message = "Please enter your email address"
             raise forms.ValidationError(message)
+
+        return email
 
     def save(self, commit=True):
         instance = super(UserRegistrationForm, self).save(commit=False)

@@ -1,6 +1,5 @@
 import datetime
 import json
-
 import arrow
 import stripe
 from django.conf import settings
@@ -23,14 +22,6 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             try:
-                """
-                customer = stripe.Charge.create(
-                    amount=499,
-                    currency="GBP",
-                    description=form.cleaned_data['email'],
-                    card=form.cleaned_data['stripe_id'],
-                )
-                """
                 customer = stripe.Customer.create(
                     email=form.cleaned_data['email'],
                     card=form.cleaned_data['stripe_id'],  # this is currently the card token/id
@@ -45,17 +36,17 @@ def register(request):
                 user.subscription_end = arrow.now().replace(weeks=+4).datetime
                 user.save()
 
-            user = auth.authenticate(email=request.POST.get('email'),
-                                     password=request.POST.get('password1'))
+                user = auth.authenticate(email=request.POST.get('email'),
+                                         password=request.POST.get('password1'))
             if user:
                 auth.login(request, user)
                 print(customer)  # challenge B
                 messages.success(request, "You have successfully registered")
                 return redirect(reverse('profile'))
             else:
-                messages.error(request, "unable to log you in at this time!")
+                messages.error(request, "Unable to log you in at this time")
         else:
-            messages.error(request, "We were unable to take a payment with that card!")
+            messages.error(request, "We were unable to take a payment with the card you provided")
     else:
         today = datetime.date.today()
         form = UserRegistrationForm()

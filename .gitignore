@@ -4,3 +4,6 @@
 *.ods#
 *.ods
 media/
+settings/dev.py
+settings/staging.py
+settings/production.py

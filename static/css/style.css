@@ -157,7 +157,6 @@ footer a{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    background: url("../../static/img/home_background.jpg") center no-repeat;
     height: 530px;
     max-width: 1400px;
     background-size: cover;

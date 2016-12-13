@@ -270,6 +270,14 @@ def add_car(request):
                     return render(request, "cars/add_car_error.html", {'plate': form.cleaned_data['your_reg'],
                                                                        'error': "Unknown error"})
             else:
+                if car_details['yearOfManufacture'] == "" or car_details['cylinderCapacity'] == "" \
+                        or car_details['transmission'] == "" or car_details['fuelType'] == "" \
+                        or car_details['model'] == "" or car_details['make'] == "":
+                    car_details['exclude_from_collation'] = True
+                    car_details['exclude_from_collation_reason'] = "incomplete details"
+                else:
+                    car_details['exclude_from_collation'] = False
+                    car_details['exclude_from_collation_reason'] = ""
                 return render(request, "cars/add_car_details.html", {'car_details': car_details})
 
     else:  # if a GET (or any other method) we'll create a blank form
@@ -303,6 +311,8 @@ def add_car_details(request):
                 transmission=new_car_details['transmission'],
                 fuel_type=new_car_details['fuelType'],
                 co2=new_car_details['co2Emissions'],
+                exclude_from_collation=new_car_details['exclude_from_collation'],
+                exclude_from_collation_reason=new_car_details['exclude_from_collation_reason'],
                 doors=new_car_details['numberOfDoors'])
         c.save()
 

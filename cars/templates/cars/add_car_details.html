@@ -47,6 +47,14 @@
                                     <td>{{ car_details.numberOfDoors }}</td>
                                 </tr>
                             </table>
+                            {% if car_details.exclude_from_collation %}
+                                <p>
+                                    Due to incomplete details being available for your vehicle, your fuel economy
+                                    data cannot be contributed to the community.  All other features are available.
+                                </p>
+                            {% endif %}
+
+
                             {% csrf_token %}
                             <div class="dialog-buttons">
                                 <a class="btn btn-default" href="/cars/add_car/">Cancel</a>

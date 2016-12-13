@@ -483,7 +483,7 @@ def select_chart(request):
     elif chart_type == "price":
         data_model = [{
                 'date_time': refuel.formatted_date,
-                'data_value': str(round((refuel.end_point_price / refuel.end_point_litres), 1)),
+                'data_value': str(round(((refuel.end_point_price * 100) / refuel.end_point_litres), 1)),
                 'includes_partial_refuels': str(refuel.contains_part_refuels)
             } for refuel in refuels if refuel.valid_end_point]
         data_model.append({'label': "Pump price"})

@@ -1,0 +1,18 @@
+{% extends 'cars/car_base.html' %}
+{% load static %}
+{% block car_content %}
+    <div class="row">
+        <div class="delete-car col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="dialog">
+                <form action="/cars/delete_car/{{ car_detail.id }}/" method="POST">
+                    <legend>Registration not found</legend>
+                    <p class="uk-rear-plate">{{ plate }}</p>
+                    <p><strong>{{ error }}</strong>
+                    <div class="dialog-buttons">
+                        <a class="btn btn-info" href="{% url 'car_add' %}">Try again</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

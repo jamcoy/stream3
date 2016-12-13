@@ -11,6 +11,7 @@ from django.db.models import Value as V
 from django.db.models.functions import Concat
 from django.http import HttpResponse
 import datetime
+import re
 
 
 def list_of_cars(user):  # not a view
@@ -247,16 +248,30 @@ def add_car(request):
         # check whether it's valid:
         if form.is_valid():
             url = "https://dvlasearch.appspot.com/DvlaSearch?apikey=DvlaSearchDemoAccount&licencePlate="
-            page = urlopen(url + form.cleaned_data['your_reg'])
+            plate = re.sub('[\W_]+', '', form.cleaned_data['your_reg'])
+            page = urlopen(url + plate)
             car_details = json.loads(page.read())
             car_details['yourReg'] = form.cleaned_data['your_reg']
             request.session['full_car_details'] = car_details
-            check = True  # expand upon this (checking what comes back from API)
-            if check:
-                return render(request, "cars/add_car_details.html", {'car_details': car_details})
+            if 'error' in car_details:
+                if car_details['error'] == 1 and car_details['message'] == "Demo account can only be used for VRMs" \
+                                                                           " beginning with MT09 or FH51":
+                    error_message = "EasyFuelTracker is currently operating on a demo API account that can only" \
+                                    " be used for plates beginning with MT09 or FH51"
+                    return render(request, "cars/add_car_error.html", {'plate': form.cleaned_data['your_reg'],
+                                                                       'error': error_message})
+                elif car_details['error'] == 1:
+                    return render(request, "cars/add_car_error.html", {'plate': form.cleaned_data['your_reg'],
+                                                                       'error': "Invalid plate"})
+                elif car_details['error'] == 0:
+                    return render(request, "cars/add_car_error.html", {'plate': form.cleaned_data['your_reg'],
+                                                                       'error': "Plate not found"})
+                else:
+                    return render(request, "cars/add_car_error.html", {'plate': form.cleaned_data['your_reg'],
+                                                                       'error': "Unknown error"})
             else:
-                # generate an error
-                pass
+                return render(request, "cars/add_car_details.html", {'car_details': car_details})
+
     else:  # if a GET (or any other method) we'll create a blank form
         form = PlateForm()
         return render(request, 'cars/add_car.html', {'form': form})  # maybe shouldn't be indented
@@ -267,7 +282,7 @@ def add_car_details(request):
     # validation not required here - user cannot edit anything - just confirming right vehicle
     if request.method == 'POST':
         new_car_details = request.session['full_car_details']  # pass to confirmation page using session variable
-        request.session['full_car_details'] = ""  # necessary to clear??
+        request.session['full_car_details'] = ""
 
         # check if the new car has a sub_model
         model_components_count = len(new_car_details['model'].split(' '))

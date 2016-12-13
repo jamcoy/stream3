@@ -8,7 +8,7 @@ from stdimage.models import StdImageField
 
 class PlateForm(forms.Form):
     your_reg = forms.CharField(label='',
-                               max_length=20,
+                               max_length=8,
                                widget=forms.TextInput(attrs={'class': 'uk-rear-plate'}))
 
 

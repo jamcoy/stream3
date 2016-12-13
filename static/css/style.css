@@ -78,8 +78,12 @@ footer table img {
     padding-left: 15px;
 }
 
-footer a{
+footer a {
     color: #dddddd;
+}
+
+footer a:hover {
+    color: #46bcff;
 }
 
 /* footer end */
@@ -221,6 +225,18 @@ footer a{
 
 .intro-browse-data{
     background-color: #eeeeee;
+}
+
+.general-info {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.general-info p {
+    font-size: 1.2em;
+    line-height: 1.6em;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* home page background image end */

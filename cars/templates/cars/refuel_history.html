@@ -17,9 +17,9 @@
 
                 {% if refuel.full_tank and refuel.missed_refuels %}
                     <tr>
-                        <td>{{ refuel.date_time_added | date:"d M Y, H:m" }}</td>
+                        <td>{{ refuel.date | date:"d M y, H:m" }}</td>
                         <td>{{ refuel.odometer|intcomma }}</td>
-                        <td><strike>{{ refuel.litres }} litres</strike></td>
+                        <td><strike>{{ refuel.litres }} L</strike></td>
                         <td><strike>£{{ refuel.price }}</strike></td>
                         <td><strike>{{ refuel.litre_price }}p</strike></td>
                         {% if refuel.full_tank %}
@@ -31,9 +31,9 @@
 
                 {% elif refuel.full_tank and refuel.full_tank_include %}
                     <tr class="success">
-                        <td>{{ refuel.date_time_added | date:"d M Y, H:m" }}</td>
+                        <td>{{ refuel.date| date:"d M y, H:m" }}</td>
                         <td>{{ refuel.odometer|intcomma }}</td>
-                        <td>{{ refuel.litres }} litres</td>
+                        <td>{{ refuel.litres }} L</td>
                         <td>£{{ refuel.price }}</td>
                         <td>{{ refuel.litre_price }}p</td>
                         <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
@@ -41,36 +41,36 @@
 
                 {% elif refuel.full_tank %}
                     <tr>
-                        <td>{{ refuel.date_time_added | date:"d M Y, H:m" }}</td>
+                        <td>{{ refuel.date | date:"d M y, H:m" }}</td>
                         <td>{{ refuel.odometer|intcomma }}</td>
-                        <td><strike>{{ refuel.litres }} litres</strike></td>
+                        <td><strike>{{ refuel.litres }} L</strike></td>
                         <td><strike>£{{ refuel.price }}</strike></td>
                         <td><strike>{{ refuel.litre_price }}p</strike></td>
                         <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
                     </tr>
                 {% elif refuel.part_tank_status == 'exclude' %}
                     <tr>
-                        <td>{{ refuel.date_time_added | date:"d M Y, H:m" }}</td>
+                        <td>{{ refuel.date | date:"d M y, H:m" }}</td>
                         <td>{{ refuel.odometer|intcomma }}</td>
-                        <td><strike>{{ refuel.litres }} litres</strike></td>
+                        <td><strike>{{ refuel.litres }} L</strike></td>
                         <td><strike>£{{ refuel.price }}</strike></td>
                         <td><strike>{{ refuel.litre_price }}p</strike></td>
                         <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                     </tr>
                 {% elif refuel.part_tank_status == 'include' %}
                     <tr class="warning">
-                        <td>{{ refuel.date_time_added | date:"d M Y, H:m" }}</td>
+                        <td>{{ refuel.date | date:"d M y, H:m" }}</td>
                         <td>{{ refuel.odometer|intcomma }}</td>
-                        <td>{{ refuel.litres }} litres</td>
+                        <td>{{ refuel.litres }} L</td>
                         <td>£{{ refuel.price }}</td>
                         <td>{{ refuel.litre_price }}p</td>
                         <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                     </tr>
                 {% elif refuel.part_tank_status == 'unknown' %}
                     <tr>
-                        <td>{{ refuel.date_time_added | date:"d M Y, H:m" }}</td>
+                        <td>{{ refuel.date | date:"d M y, H:m" }}</td>
                         <td>{{ refuel.odometer|intcomma }}</td>
-                        <td><span class="text-muted">{{ refuel.litres }} litres</span></td>
+                        <td><span class="text-muted">{{ refuel.litres }} L</span></td>
                         <td><span class="text-muted">£{{ refuel.price }}</span></td>
                         <td><span class="text-muted">{{ refuel.litre_price }}p</span></td>
                         <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
@@ -79,7 +79,7 @@
 
             {% else %}<!-- first tank -->
                 <tr>
-                    <td>{{ refuel.date_time_added | date:"d M Y, H:m" }}</td>
+                    <td>{{ refuel.date | date:"d M y, H:m" }}</td>
                     <td>{{ refuel.odometer|intcomma }}</td>
                     <td><span class="text-muted">N/A</span></td>
                     <td><span class="text-muted">N/A</span></td>

@@ -89,10 +89,17 @@
 }
 
 #cars-menu {
+    height: 45px;
     padding: 4px 6px 5px 5px;
+    overflow: hidden;
+}
+
+#car-menu {
+    height: 45px;
 }
 
 #refuel-button {
+    height: 45px;
     padding: 6px 14px 9px 10px;
 }
 
@@ -231,3 +238,4 @@
         font-size: 10px;
     }
 }
+

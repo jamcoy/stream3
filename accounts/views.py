@@ -40,7 +40,6 @@ def register(request):
                                          password=request.POST.get('password1'))
             if user:
                 auth.login(request, user)
-                print(customer)  # challenge B
                 messages.success(request, "You have successfully registered")
                 return redirect(reverse('profile'))
             else:

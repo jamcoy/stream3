@@ -110,3 +110,6 @@ DISQUS_WEBSITE_SHORTNAME = 'mybootcampblog'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+STRIPE_SECRET = os.getenv('STRIPE_SECRET', 'sk_test_u3IaGTOUVnthKigkoacCEL2K')
+STRIPE_PUBLISHABLE = os.getenv('STRIPE_PUBLISHABLE', 'pk_test_PmeM2046JUV7vFouLnfEzqjV')

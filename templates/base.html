@@ -85,15 +85,21 @@
                 <table>
                     <tr>
                         <td>
-                            <a href="/terms/">Terms</a>&nbsp;|
-                            <a href="/contact/">Contact</a>&nbsp;|
-                            <a href="/about/">About</a><br>
+                            <a href="{% url 'terms' %}">Terms</a>&nbsp;|
+                            <a href="{% url 'contact' %}">Contact</a>&nbsp;|
+                            <a href="{% url 'about' %}">About</a><br>
                             <a href="https://jamcoy.com">Site by jamcoy &copy; 2016</a>
                         </td>
                         <td>
-                            <img src="{% static "img/FB-f-Logo__blue_29.png" %}" alt="Facebook"/>
-                            <img src="{% static "img/Instagram-logo_29.png" %}" alt="Instagram"/>
-                            <img src="{% static "img/Twitter_logo_blue_32.png" %}" alt="Twitter"/>
+                            <a href="{% url 'about' %}">
+                                <img src="{% static "img/FB-f-Logo__blue_29.png" %}" alt="Facebook"/>
+                            </a>
+                            <a href="{% url 'about' %}">
+                                <img src="{% static "img/Instagram-logo_29.png" %}" alt="Instagram"/>
+                            </a>
+                            <a href="{% url 'about' %}">
+                                <img src="{% static "img/Twitter_logo_blue_32.png" %}" alt="Twitter"/>
+                            </a>
                         </td>
                     </tr>
                 </table>

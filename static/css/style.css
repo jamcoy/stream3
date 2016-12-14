@@ -84,6 +84,7 @@ footer a {
 
 footer a:hover {
     color: #46bcff;
+    text-decoration: none;
 }
 
 /* footer end */

@@ -18,5 +18,15 @@ DATABASES = {
     }
 }
 
-STRIPE_PUBLISHABLE = os.getenv('STRIPE_PUBLISHABLE', 'publishable key')
-STRIPE_SECRET = os.getenv('STRIPE_SECRET', 'secret key')
+STRIPE_SECRET = os.getenv('STRIPE_SECRET', 'sk_test_NQbrilT8lvYivrEJiDLrU8El')
+STRIPE_PUBLISHABLE = os.getenv('STRIPE_PUBLISHABLE', 'pk_test_1pT0Ki5W4blEr9hnrqxnjpb9')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'james@mtb.space'
+EMAIL_HOST = 'mail.privateemail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'james@mtb.space'
+EMAIL_HOST_PASSWORD = 'E?V48+h397bz'
+EMAIL_USE_SSL = True
+
+EMAIL_TO = 'james@mtb.space'

@@ -5,10 +5,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# REGENERATE BEFORE GOING LIVE
-SECRET_KEY = 'k)u&5ez6%=r@+!o43=r%un4knrr!x)*75he31yif)w^t0=!9*r'
-
 ALLOWED_HOSTS = []
 
 SITE_ID = 1

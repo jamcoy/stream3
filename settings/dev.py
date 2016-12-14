@@ -1,5 +1,9 @@
 from base import *
 
+# SECURITY WARNING: keep the secret key used in production secret!
+# REGENERATE BEFORE GOING LIVE
+SECRET_KEY = '_pc!4wzqt3@keowtpm_r#6(qiuw9#+)-7dwnx8hl#jg*e0mu10'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -28,5 +32,4 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'james@mtb.space'
 EMAIL_HOST_PASSWORD = 'E?V48+h397bz'
 EMAIL_USE_SSL = True
-
 EMAIL_TO = 'james@mtb.space'

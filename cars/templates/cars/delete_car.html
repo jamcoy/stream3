@@ -10,8 +10,7 @@
                         <img src="{% static "img/deleteCar.png" %}" alt="Quayside warning sign"/>
                     </p>
                     <h3>
-                        {{ car_detail.colour }} {{ car_detail.year_of_manufacture }}
-                        {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}
+                        {{ car_detail.colour }} {{ car_detail.year_of_manufacture }} {{ car_detail.make }} {{ car_detail.model }} {{ car_detail.sub_model }}
                     </h3>
                     {% if not car_detail.exclude_from_collation %}
                         <p>This will also delete any fuel economy data that has been contributed to the community.</p>

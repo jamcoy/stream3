@@ -30,11 +30,17 @@ Once a vehicle has been added, the user can start logging their refueling events
  * Fuel price per litre
  * Expenditure
  
+![Economy chart](https://jamcoy.com/img/readme_images/Confirm_car.png "Chart")
+ 
 Additionally, the user can:
  * Add additional cars
  * View each car's details
  * View each car's refueling history
  * Delete a car
+
+![Adding a car (on a mobile device)](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Refueling history")
+ 
+![Refueling history](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Refueling history")
  
 ###Car economy statistics 'Economy stats'
 All the anonymous, collated data from all the users' vehicles can be explored by any other user.  By using a series of ajax-enabled select menus, the user can progressively drill down to a specific vehicle type to see its average fuel economy.  Once the three key fields (manufacturer, model and year) have been entered, results will be displayed.  The user can continue to drill down further using sub-model, engine size, transmission and fuel type.  

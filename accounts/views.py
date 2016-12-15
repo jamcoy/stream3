@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
-
+from django.core.mail import send_mail
 from accounts.forms import UserRegistrationForm, UserLoginForm, UserProfile
 from models import User
 
@@ -41,6 +41,13 @@ def register(request):
             if user:
                 auth.login(request, user)
                 messages.success(request, "You have successfully registered")
+
+                # send an email to notify admin when anyone registers (though fail silently if there's a problem)
+                subject = "EFT - New registration by: " + user.username
+                message = "Public name: " + user.public_name + "\n" \
+                        + "Username: " + user.username + "\n" \
+                        + "Sign-up time: " + str(user.date_joined)
+                send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [settings.EMAIL_TO], fail_silently=True)
                 return redirect(reverse('profile'))
             else:
                 messages.error(request, "Unable to log you in at this time")

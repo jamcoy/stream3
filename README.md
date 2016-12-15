@@ -30,7 +30,7 @@ Users can add their cars to their account by entering their registration number.
  
  Once a vehicle has been added, the user can start logging their refueling events.  The data is processed to show various statistics to the user:
  
- Insert picture with graph.
+[[https://raw.githubusercontent.com/jamcoy/stream3/master/README_images/chart.png|alt=chart]]
  
  The interactive charts show the following data over time:
  * Fuel economy
@@ -47,7 +47,8 @@ Users can add their cars to their account by entering their registration number.
  * View each car's refueling history
  * Delete a car
  
- Insert two pictures.
+ [[https://raw.githubusercontent.com/jamcoy/stream3/master/README_images/Confirm_car.png|alt=add_car]]
+ [[https://raw.githubusercontent.com/jamcoy/stream3/master/README_images/Refuel_history.png|alt=Refuel_history]]
 
 ###Car economy statistics 'Economy stats'
 All the collated data from all the users vehicles can be explored by a user.  By using a series of ajax-enabled select

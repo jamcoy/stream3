@@ -47,7 +47,7 @@ Users can add their cars to their account by entering their registration number.
  * View each car's refueling history
  * Delete a car
  
- ![Add_car](https://github.com/jamcoy/stream3/master/README_images/Confirm_car.png|alt=add_car)
+ ![Add_car](https://github.com/jamcoy/stream3/master/README_images/Confirm_car.png)
  [[https://github.com/jamcoy/stream3/master/README_images/Refuel_history.png|alt=Refuel_history]]
 
 ###Car economy statistics 'Economy stats'

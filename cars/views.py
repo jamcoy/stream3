@@ -48,7 +48,7 @@ def refuel_history(request, car_id):
             # full tanks need to be flagged if they are included in results so this can be show to user
             if refuel.full_tank:
                 for l in range(i, refuel_count - 1):
-                    if l == refuel_count:  # shouldn't be able to get here if database good
+                    if l == refuel_count:  # shouldn't be able to get here if database good, but best to be safe!
                         refuel.full_tank_include = False
                         break
                     # if a full tank was preceded by a part tank with missed preceding missed refuels, exclude
@@ -66,7 +66,7 @@ def refuel_history(request, car_id):
                         refuel.part_tank_status = "exclude"
                         break
                     elif j == 0:
-                        refuel.part_tank_status = "unknown"  # most recent tank - don't know what will follow
+                        refuel.part_tank_status = "unknown"  # most recent tank - don't yet know what will follow
                         break
                     elif refuels[j - 1].missed_refuels:
                         refuel.part_tank_status = "exclude"
@@ -74,7 +74,7 @@ def refuel_history(request, car_id):
 
                     elif refuels[j - 1].full_tank:  # Also need to check what preceded.
                         for k in range(i, refuel_count - 1):
-                            if k == refuel_count: # shouldn't be able to get here if database is right
+                            if k == refuel_count:  # shouldn't be able to get here if database good, but best be safe!
                                 refuel.part_tank_status = "exclude"
                                 break
                             elif refuels[k + 1].missed_refuels and not refuels[k + 1].full_tank:
@@ -196,7 +196,8 @@ def car_stats(request, car_id):
         # prepare the figures
         if total_litres > 0 and total_mileage > 0 and total_price > 0:
             car_statistic['economy'] = round(total_mileage / (total_litres / Decimal(4.545454)), 1)
-            car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'), rounding=ROUND_HALF_EVEN))
+            car_statistic['miles'] = "{:,}".format(Decimal(total_mileage).quantize(Decimal('1'),
+                                                                                   rounding=ROUND_HALF_EVEN))
             car_statistic['fuel'] = "{:,}".format(Decimal(total_litres).quantize(Decimal('1'),
                                                                                  rounding=ROUND_HALF_EVEN))
             car_statistic['ppm'] = round((total_price / total_mileage) * 100, 1)
@@ -409,7 +410,7 @@ def delete_car(request, car_id):
     if request.method == 'POST':  # user has confirmed deleting car
         car.delete()
         messages.success(request, "Your car was deleted!")
-        return redirect(list_cars)  # would be better to return to list instead once available
+        return redirect(list_cars)
     else:  # ask user to confirm deleting car
         cars_list = list_of_cars(request.user)
         return render(request, 'cars/delete_car.html', {'cars_list': cars_list,
@@ -418,7 +419,7 @@ def delete_car(request, car_id):
 
 @login_required()
 def select_chart(request):
-    chart_type = request.GET.get('chart_type', None)  # may be unnecessary
+    chart_type = request.GET.get('chart_type', None)
     chart_range = request.GET.get('chart_range', None)
     car_id = request.GET.get('car_id', None)
     today = timezone.now()

@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from . import views  # can probably shorten to import views
+from . import views
 
 urlpatterns = [
     url(r'^$', views.post_list, name="blog_post_list"),

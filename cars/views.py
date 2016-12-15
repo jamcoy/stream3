@@ -357,7 +357,6 @@ def refuel_car(request, car_id):
                 form.cleaned_data['price'] = 0
 
             # record refuel data with calculated mileage
-            print form.cleaned_data['date']
             r = Refuel(user=request.user,
                        car=car,
                        odometer=form.cleaned_data['odometer'],

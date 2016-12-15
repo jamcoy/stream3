@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import ContactForm
 from django.core.mail import send_mail
-from settings.dev import EMAIL_TO, DEFAULT_FROM_EMAIL
+from django.conf import settings
 from django.contrib import messages
 
 
@@ -35,7 +35,7 @@ def contact(request):
                       + "User's email: " + from_email + "\n" + "\n" \
                       + message
 
-            send_mail(subject, message, DEFAULT_FROM_EMAIL, [EMAIL_TO], fail_silently=False)
+            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [settings.EMAIL_TO], fail_silently=False)
 
             messages.success(request, "Your message has been sent. We'll be in touch soon.")
 

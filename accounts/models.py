@@ -38,13 +38,3 @@ class User(AbstractUser):
                                   },
                                   blank=True, null=True)
 
-    def is_subscribed(self, magazine):
-        try:
-            purchase = self.purchases.get(magazine__pk=magazine.pk)
-        except Exception:
-            return False
-
-        if purchase.subscription_end > timezone.now():
-            return False
-
-        return True

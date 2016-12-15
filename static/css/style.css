@@ -291,6 +291,18 @@ footer a:hover {
     .intro_driver p{
         font-size: 18px;
     }
+    #index_background {
+        height: 415px;
+    }
+    #black_background {
+        height: 415px;
+    }
+    .intro_driver{
+        bottom: -400px;
+    }
+    .intro h1{
+        font-size: 40px;
+    }
 }
 
 @media screen and (max-width : 360px) {

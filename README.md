@@ -30,6 +30,7 @@ Users can add their cars to their account by entering their registration number.
  * Expenditure
  * Quantity of fuel
  
+ 
  Additionally, the user can:
  * Add additional cars
  * View each car's details

@@ -29,7 +29,8 @@ Once a vehicle has been added, the user can start logging their refueling events
  * Quantity of fuel
  * Fuel price per litre
  * Expenditure
- Additionally, the user can:
+ 
+Additionally, the user can:
  * Add additional cars
  * View each car's details
  * View each car's refueling history

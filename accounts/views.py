@@ -25,7 +25,7 @@ def register(request):
                 customer = stripe.Customer.create(
                     email=form.cleaned_data['email'],
                     card=form.cleaned_data['stripe_id'],  # this is currently the card token/id
-                    plan='REG_MONTHLY',
+                    plan='UK_Monthly',
                 )
             except stripe.error.CardError, e:
                 messages.error(request, "Your card was declined!")
@@ -76,6 +76,8 @@ def cancel_subscription(request):
     try:
         customer = stripe.Customer.retrieve(request.user.stripe_id)
         customer.cancel_subscription(at_period_end=True)
+        messages.success(request, "Your subscription has been cancelled. You can keep using EasyFuelTracker until the"
+                                  " end of the billing period.")
     except Exception, e:
         messages.error(request, e)
     return redirect('/accounts/profile')

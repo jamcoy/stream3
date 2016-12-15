@@ -20,6 +20,15 @@
                     <div class="alert-message block-message error" id="stripe-error-message"></div>
                 </div>
                 <legend>Create a new account</legend>
+                <h4>
+                    Membership is currently by subscription at £1.99 GBP/month
+                </h4>
+                <p>
+                    If you'd like to explore <span class="embedded-logo">EasyFuelTracker</span> with a fully active
+                    account that has been pre-populated with demonstration cars and data, please make your request using
+                    the <a href="{% url 'contact' %}">contact form.</a>
+                </p>
+                <hr>
                 {% csrf_token %}
                 {{ form|as_bootstrap }}
                 <div class="dialog-buttons">

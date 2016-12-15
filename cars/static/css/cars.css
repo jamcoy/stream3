@@ -121,6 +121,7 @@
 
 .car-title-small-screens h2 {
     font-size: 24px;
+    margin-top: 0;
 }
 
 .car-stats .short-calculation-details {

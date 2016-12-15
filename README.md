@@ -8,7 +8,7 @@ View here:
 ##About
 EasyFuelTracker has two primary goals:
 * To enable people to calculate and track their car’s true fuel economy.
-* To enable potential purchasers of cars to browse collated data from all the users to ascertain true fuel economy performance (rather than manufacturers' figures).
+* To enable potential purchasers of cars to browse collated data from all the users to ascertain true fuel economy performance (rather than relying upon manufacturers' figures).
  
 ##Main features
 
@@ -27,8 +27,8 @@ Users can add their cars to their account by entering their registration number.
  * Fuel economy
  * Mileage
  * Fuel price per litre
- * Cost to refuel the vehicle
- * Mileage
+ * Expenditure
+ * Quantity of fuel
  
  Additionally, the user can:
  * Add additional cars
@@ -37,15 +37,15 @@ Users can add their cars to their account by entering their registration number.
  * Delete a car
  
 ###Car economy statistics 'Economy stats'
-All the anonymous, collated data from all the users vehicles can be explored by any other user.  By using a series of ajax-enabled select menus, the user can progressively drill down to a specific vehicle type to see it's average fuel economy.  Once the three key fields (manufacturer, model and year) have been entered, results will be displayed.  The user can continue to drill down further using sub-modal, engine size, transmission and fuel type.  
+All the anonymous, collated data from all the users' vehicles can be explored by any other user.  By using a series of ajax-enabled select menus, the user can progressively drill down to a specific vehicle type to see its average fuel economy.  Once the three key fields (manufacturer, model and year) have been entered, results will be displayed.  The user can continue to drill down further using sub-model, engine size, transmission and fuel type.  
 
 For this to be truly useful, a large number of users will need to log their refueling activities over a period of time.
  
 ###Forum (with poll feature)
-Anyone can view the forum.  Only logged in members can post.  The forum is fully responsive and supports posting of remotely hosted images and emoticons.
+Anyone can view the forum.  Only logged in, members can post.  The forum is fully responsive and supports posting of remotely hosted images and emoticons.
 
 ###Blog with commenting via Disqus
-The list of blog entries are displayed to the user as a series of cards.  Clicking any of the cards will take the user to the blog. Users can  leave comments using the Disqus commenting platform.
+The list of blog entries is displayed to the user as a series of cards.  Clicking any of the cards will take the user to the blog entry. Users can  leave comments using the Disqus commenting platform.
 
 ###Complementary pages
 Standard 'about' and 'terms' pages are provided with 'Lorem Ipsum' content.  A contact form is provided which will send an email to admin staff. 
@@ -54,7 +54,7 @@ Standard 'about' and 'terms' pages are provided with 'Lorem Ipsum' content.  A c
 EasyFuelTracker has been developed to be fully responsive and has been tested across a range of devices.  This has been achieved by using bootstrap and media queries.
 
 ##Technology stack and third party libraries and packages
-**[Django](http://flask.pocoo.org/)** - Web application framework.
+**[Django](https://www.djangoproject.com/)** - Web application framework.
 * Python for the backend
 * HTML and CSS for the frontend
 * JavaScript and jQuery for ajax functionality between server and client
@@ -72,7 +72,7 @@ EasyFuelTracker has been developed to be fully responsive and has been tested ac
 For the full list of python packages, please refer to the requirements in the repository.
 
 ##Third party libraries
-**[Bootstrap](http://getbootstrap.com/)** provides a responsive framework to the application.  This was enhanced with media queries and additional code to resize some of the dc.js charts, which are not natively responsive.
+**[Bootstrap](http://getbootstrap.com/)** provides a responsive framework to the application.
 
 **[TinyMCE](https://www.tinymce.com/)** - JavaScript HTML WYSIWYG editor used in the blog and forum applications.  In the forums, it's configured to enable users to include emoticons and externally hosted images.
  
@@ -98,7 +98,7 @@ Partial tanks are included in the calculations if they meet the following condit
 * Single partial tanks must be preceded by and followed by a full tank, with no missed refuels reported.
 * Sequential partial tanks must be preceded by a full tank and must end with a full tank, with no missed refuels anywhere in the sequence.
 
-If a uses misses logging any refuels, their latest refuel and all preceding refuels to the previous full tank are excluded. However, the latest full tank becomes a valid start point for the next brim-to-brim calculation, but cannot be included in the previous brim-to-brim calculation.
+If a user misses logging any refuels, their latest refuel and all preceding refuels to the previous full tank are excluded. However, the latest full tank becomes a valid start point for the next brim-to-brim calculation, but cannot be included in the previous brim-to-brim calculation.
 
 Users are encouraged in several places to fill their tank when refueling and not to miss logging anything.  Messages are shown when tracking is suspended or resumed when they report that they have missed logging something.
 

@@ -30,7 +30,7 @@ Users can add their cars to their account by entering their registration number.
  
  Once a vehicle has been added, the user can start logging their refueling events.  The data is processed to show various statistics to the user:
  
-[[https://github.com/jamcoy/stream3/master/README_images/chart.png|alt=chart]]
+[[https://stream3.jamcoy.com/static/img/home_background.jpg|alt=chart]]
  
  The interactive charts show the following data over time:
  * Fuel economy

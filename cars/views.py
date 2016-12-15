@@ -10,11 +10,12 @@ from decimal import *
 from django.db.models import Value as V
 from django.db.models.functions import Concat
 from django.http import HttpResponse
-import datetime
+from datetime import timedelta
+from django.utils import timezone
 import re
 
 
-def list_of_cars(user):  # not a view
+def list_of_cars(user):
     return Car.objects.filter(user_id=user)\
                       .annotate(car=Concat('make', V(' '), 'model', V(' '), 'sub_model'))\
                       .order_by('car')
@@ -24,10 +25,10 @@ def list_of_cars(user):  # not a view
 def list_cars(request):
     if Car.objects.filter(user_id=request.user):
         first_car = Car.objects.filter(user_id=request.user)[:1].get()
-        return redirect(car_stats, first_car.pk)  # for the moment it redirects to user's 1st car
+        return redirect(car_stats, first_car.pk)  # redirects to user's 1st car
     else:  # if user has no cars, send them to the add car form
         form = PlateForm()
-        return render(request, 'cars/add_car.html', {'form': form})  # maybe shouldn't be indented
+        return render(request, 'cars/add_car.html', {'form': form})
 
 
 @login_required()
@@ -105,7 +106,7 @@ def car_details(request, car_id):
                                                      'refuel': latest_refuel})
 
 
-def car_stats_totals(car_id):  # not a view
+def car_stats_totals(car_id):
     all_refuels = Refuel.objects.filter(car_id=car_id).order_by('date')
 
     # Economy algorithm, accounting for user missing refuels, or partial tank refuels
@@ -282,7 +283,7 @@ def add_car(request):
 
     else:  # if a GET (or any other method) we'll create a blank form
         form = PlateForm()
-        return render(request, 'cars/add_car.html', {'form': form})  # maybe shouldn't be indented
+        return render(request, 'cars/add_car.html', {'form': form})
 
 
 @login_required()
@@ -321,7 +322,7 @@ def add_car_details(request):
 
     else:
         form = PlateForm()
-        return render(request, 'cars/add_car.html', {'form': form})  # maybe shouldn't be indented
+        return render(request, 'cars/add_car.html', {'form': form})
 
 
 @login_required()
@@ -397,7 +398,7 @@ def upload_image(request, car_id):
     else:  # if a GET (or any other method) we'll create a blank form
         form = ImageForm(instance=car)
         cars_list = list_of_cars(request.user)
-        return render(request, 'cars/upload_image.html', {'form': form,  # maybe shouldn't be indented
+        return render(request, 'cars/upload_image.html', {'form': form,
                                                           'cars_list': cars_list,
                                                           'car_detail': car})
 
@@ -411,7 +412,7 @@ def delete_car(request, car_id):
         return redirect(list_cars)  # would be better to return to list instead once available
     else:  # ask user to confirm deleting car
         cars_list = list_of_cars(request.user)
-        return render(request, 'cars/delete_car.html', {'cars_list': cars_list,  # maybe shouldn't be indented
+        return render(request, 'cars/delete_car.html', {'cars_list': cars_list,
                                                         'car_detail': car})
 
 
@@ -420,8 +421,8 @@ def select_chart(request):
     chart_type = request.GET.get('chart_type', None)  # may be unnecessary
     chart_range = request.GET.get('chart_range', None)
     car_id = request.GET.get('car_id', None)
-    today = datetime.date.today()
-    start_date = today-datetime.timedelta(days=int(chart_range))
+    today = timezone.now()
+    start_date = today-timedelta(days=int(chart_range))
     refuels = Refuel.objects.filter(car_id=car_id, date__gte=start_date).order_by('date')
     total_litres = 0
     total_price = 0

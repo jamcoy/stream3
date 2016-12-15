@@ -10,7 +10,7 @@
                 <div class="blog-card" onclick="location.href='{{ post.id }}';">
                     {% if post.image %}
                         <div class="image">
-                            <img src="/media/{{ post.image}}">
+                            <img src="/media/{{ post.image}}" alt="Blog image for {{ post.title}}">
                         </div>
                     {% endif %}
                     <div class="text-content">

@@ -26,12 +26,11 @@ Users can add their cars to their account by entering their registration number.
  Once a vehicle has been added, the user can start logging their refueling events.  The data is processed to show various statistics to the user, including interactive charts showing the following data over time:
  * Fuel economy
  * Mileage
+ * Quantity of fuel
  * Fuel price per litre
  * Expenditure
- * Quantity of fuel
  
- 
- Additionally, the user can:
+  Additionally, the user can:
  * Add additional cars
  * View each car's details
  * View each car's refueling history

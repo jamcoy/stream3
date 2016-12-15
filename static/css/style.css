@@ -291,12 +291,6 @@ footer a:hover {
     .intro_driver p{
         font-size: 18px;
     }
-    #index_background {
-        height: 490px;
-    }
-    #black_background {
-        height: 490px;
-    }
     .intro_driver{
         bottom: -460px;
     }
@@ -319,16 +313,13 @@ footer a:hover {
     .intro h1{
         font-size: 36px;
     }
+    .intro_driver{
+        bottom: -460px;
+    }
 }
 
-/* Custom, iPhone 4 Retina */
+/* Custom, iPhone 4, 5 Retina */
 @media screen and (max-width : 320px) {
-    #index_background {
-        height: 440px;
-    }
-    #black_background {
-        height: 440px;
-    }
     .intro_driver{
         bottom: -410px;
     }

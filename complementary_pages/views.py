@@ -39,8 +39,12 @@ def contact(request):
 
             messages.success(request, "Your message has been sent. We'll be in touch soon.")
 
-            return redirect('contact')
+            return render(request, 'complementary_pages/contact.html', {'form': form})
 
+        else:
+            messages.error(request, "Your message could not be sent. Please try again, ensuring you enter your correct "
+                                    "email address.")
+            return redirect('contact')
     else:
         form = ContactForm()
 

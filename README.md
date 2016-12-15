@@ -23,14 +23,13 @@ This is the main component of EasyFuelTracker.  Demo account details have been p
 
 Users can add their cars to their account by entering their registration number. This is posted to an API which responds with all the details about the car.  The user must confirm it's the correct vehicle, which enables any collected fuel economy data to be collated and contributed to the community.
  
- Once a vehicle has been added, the user can start logging their refueling events.  The data is processed to show various statistics to the user, including interactive charts showing the following data over time:
+Once a vehicle has been added, the user can start logging their refueling events.  The data is processed to show various statistics to the user, including interactive charts showing the following data over time:
  * Fuel economy
  * Mileage
  * Quantity of fuel
  * Fuel price per litre
  * Expenditure
- 
-  Additionally, the user can:
+ Additionally, the user can:
  * Add additional cars
  * View each car's details
  * View each car's refueling history

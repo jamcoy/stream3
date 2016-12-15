@@ -1,7 +1,7 @@
 
 from django.conf.urls import include, url
 from django.contrib import admin
-from settings.base import MEDIA_ROOT, DEBUG
+from django.conf import settings
 from django.views.static import serve
 
 urlpatterns = [  # don't terminate with a $ when using includes
@@ -12,10 +12,10 @@ urlpatterns = [  # don't terminate with a $ when using includes
     url(r'^forum/', include('forum.urls')),
     url(r'^cars/', include('cars.urls')),
     url(r'^stats/', include('stats.urls')),
-    url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 
-if DEBUG:
+if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
         url(r'^__debug__/', include(debug_toolbar.urls)),

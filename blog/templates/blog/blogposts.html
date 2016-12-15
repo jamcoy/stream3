@@ -10,7 +10,7 @@
                 <div class="blog-card" onclick="location.href='{{ post.id }}';">
                     {% if post.image %}
                         <div class="image">
-                            <img src="/media/{{ post.image}}" alt="Blog image for {{ post.title}}">
+                            <img src="{{ post.image.medium.url}}" alt="Blog image for {{ post.title}}">
                         </div>
                     {% endif %}
                     <div class="text-content">
@@ -18,7 +18,7 @@
                             <h4><strong>{{ post.title|truncatechars_html:60 }}</strong></h4>
                             <p>
                                 <strong>{{ post.author.public_name }}</strong><br>
-                                <span class="text-muted">{{ post.published_date | date:"d F Y, H:m" }}</span>
+                                <span class="text-muted">{{ post.published_date | date:"d F Y" }}</span>
                             </p>
                         </div>
                         <div class="snippet">
